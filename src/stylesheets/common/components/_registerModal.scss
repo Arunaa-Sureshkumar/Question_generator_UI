@@ -1,0 +1,158 @@
+@use '../themes/_default' as globalTheme;
+@use '../base/mixins' as globalMix;
+
+#form {
+  transition: opacity 0.15s linear;
+  z-index: 9999;
+
+  .modal-content {
+    // height: 100vh;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #f7f9fa;
+    max-width: 22.5625rem;
+    z-index: 9999;
+  }
+
+  .modal-dialog {
+    margin: 0 !important;
+    position: unset !important;
+  }
+
+  .modal-body {
+    // overflow-y: auto !important;
+    background-color: #f7f9fa !important;
+  }
+
+  form .form-group {
+    width: 100% !important;
+  }
+
+  label {
+    color: #707070 !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  #form {
+    .modal-content {
+      width: 100% !important;
+    }
+  }
+}
+
+.btn-custom {
+  background: #0dba4b !important;
+  color: #fff !important;
+  padding: 0.4125rem 0.9375rem;
+  width: 311px;
+}
+
+.btn-custom-outline {
+  border: 1px solid #0dba4b;
+  box-shadow: 0 0 8px rgba(13, 186, 75, 0.24);
+  border-radius: 4px;
+  background: #fff;
+  color: #0dba4b !important;
+  padding: 0.4125rem 0.9375rem;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.btn-custom-outline:hover {
+  box-shadow: unset !important;
+}
+
+.btn-shadow {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25) !important;
+}
+
+.btn-shadow:hover {
+  box-shadow: unset !important;
+}
+
+.sticky-bottom,
+.mobile-buy {
+  position: fixed;
+  bottom: 0;
+
+  @include globalMix.box(100%, auto);
+}
+
+.flowChange {
+  color: #4285f4 !important;
+  text-decoration: underline !important;
+}
+
+hr {
+  margin: 16px 0 16px 0;
+}
+
+.close {
+  // position: fixed;
+  color: #000;
+  opacity: 0.7;
+  top: 60px;
+  right: 25px;
+}
+
+body.modal-open {
+  overflow: hidden !important;
+}
+
+.text-grey {
+  color: #4c5a74;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.fixed-div {
+  top: 120px;
+  margin: 0 20px 0 20px;
+}
+
+.hide {
+  display: none !important;
+}
+
+.passToggle {
+  margin-right: 15px;
+  float: right;
+  margin-top: -26px;
+  position: relative;
+  color: gray;
+  z-index: 1;
+  cursor: pointer;
+}
+
+#password.form-control.is-invalid,
+.was-validated .form-control:invalid {
+  border-color: #ff4136;
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: none;
+}
+
+li.valid {
+  color: #08bc63 !important;
+}
+
+li.invalid {
+  color: #ff4136 !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.abcRioButton {
+  width: 100% !important;
+}
+
+#formhead {
+  font-size: 1.5rem;
+}

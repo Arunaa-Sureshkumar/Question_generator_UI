@@ -1,0 +1,34 @@
+//toast
+.toast {
+  z-index: 2001;
+  background-color: #04a65b;
+  color: #fff;
+  border-radius: 7px;
+  position: fixed;
+  bottom: 2rem;
+  left: 40%;
+  right: 40%;
+  width: 330px !important;
+}
+
+.toast-danger {
+  background-color: #b60229;
+}
+
+.toast-success {
+  background-color: #04a65b;
+}
+
+@media only screen and (max-width: 1200px) {
+  .toast {
+    left: 35%;
+    right: 35%;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .toast {
+    left: 6%;
+    right: 10%;
+  }
+}

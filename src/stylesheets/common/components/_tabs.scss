@@ -1,0 +1,14 @@
+@use '../themes/_default' as globalTheme;
+@use '../base/_mixins' as globalMix;
+
+.nav-tabs {
+  .nav-item {
+    .nav-link {
+      border: 0;
+
+      &.active {
+        border-bottom: 3px solid globalTheme.$primary-color;
+      }
+    }
+  }
+}

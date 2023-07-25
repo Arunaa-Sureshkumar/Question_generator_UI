@@ -1,0 +1,85 @@
+// subscription expired modal
+.body-of-modal {
+  text-align: center;
+  padding: 3rem 3rem 1rem 3rem;
+}
+
+.modal-heading {
+  font-size: 26px;
+  padding-bottom: 2rem;
+}
+
+.modal-img {
+  height: 12rem;
+  padding-bottom: 2.2rem;
+}
+
+.text-in-modal {
+  color: #707070;
+  padding-bottom: 1rem;
+  font-size: 16px;
+}
+
+.sub-pro-btn {
+  display: block;
+  width: 180px;
+  margin: auto;
+}
+
+.no-thanks-btn {
+  color: #099f4e;
+}
+
+// subscription ends notification
+
+.notification-body {
+  background-color: #025943;
+  padding: 0.7rem 2rem;
+}
+
+.notification-head {
+  margin: 0;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.days-left {
+  background-color: #fcbf07;
+  color: #000;
+}
+
+.upgrade-btn {
+  padding: 0.25rem 2rem;
+  color: #fff;
+  margin-left: 1rem;
+}
+
+.upgrade-btn:hover {
+  background-color: #cdfbcc;
+}
+
+.stop-watch-img {
+  height: 52px;
+  margin-right: 1.5rem;
+}
+
+@media (max-width: 510px) {
+  .upgrade-btn {
+    padding: 0 0.5rem;
+    font-size: 13px;
+    margin-left: 0.25rem;
+  }
+
+  .notification-head {
+    font-size: 14px;
+  }
+
+  .notification-body {
+    padding: 1rem 0.5rem;
+  }
+
+  .stop-watch-img {
+    height: 44px;
+    margin-right: 0.75rem;
+  }
+}

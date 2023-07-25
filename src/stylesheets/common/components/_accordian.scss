@@ -1,0 +1,17 @@
+@use '../base/_functions' as globalfun;
+
+@import '../base/_placeholders';
+
+.accordian-trigger {
+  @extend %font-fas;
+
+  &:after {
+    content: globalfun.unicode('f139');
+  }
+
+  &.collapsed {
+    &:after {
+      content: globalfun.unicode('f13a');
+    }
+  }
+}

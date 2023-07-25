@@ -1,0 +1,163 @@
+@use '../base/_mixins' as globalMix;
+
+[class*=" icon-"],
+[class^=icon-] {
+  background: url('../../images/common/sprite-icons.png');
+  display: inline-block;
+  vertical-align: middle;
+  text-indent: -9999px;
+
+  @include globalMix.box(23px, 21px);
+}
+
+.icon-code-kata {
+  background-position: -50px -50px;
+}
+
+.icon-micro-arc {
+  background-position: -50px -100px;
+}
+
+.icon-project-board {
+  background-position: -150px 0;
+}
+
+.icon-leader-board {
+  background-position: -150px -50px;
+}
+
+.icon-reward {
+  background-position: -150px -100px;
+}
+
+.icon-ck-questions {
+  background-position: -50px -150px;
+  height: 28px;
+}
+
+.icon-ck-instructions {
+  background-position: -150px -150px;
+
+  @include globalMix.box(25px, 28px);
+}
+
+.icon-ck-github {
+  background-position: -50px -200px;
+
+  @include globalMix.box(25px, 25px);
+}
+
+.icon-ck-peer-submission {
+  background-position: -150px -200px;
+  width: 27px;
+}
+
+.icon-ck-path {
+  background-position: -50px -250px;
+  height: 23px;
+}
+
+.icon-level {
+  background-position: -200px 0;
+
+  @include globalMix.box(36px, 36px);
+}
+
+.icon-geekoin {
+  background-position: 0 0;
+  height: 24px;
+}
+
+.icon-award-none {
+  background-position: -200px -300px;
+  width: 50px;
+  height: 51px;
+}
+
+.active {
+  .icon-code-kata,
+  .icon-micro-arc,
+  .icon-ck-github,
+  .icon-ck-path,
+  .icon-ck-questions {
+    background-position-x: 0;
+  }
+
+  .icon-project-board,
+  .icon-ck-instructions,
+  .icon-ck-peer-submission,
+  .icon-reward,
+  .icon-leader-board {
+    background-position-x: -100px;
+  }
+}
+
+.icons-courses:before,
+.icons-code-kata:before,
+.icons-Webkata:before,
+.icons-ide:before,
+.icons-Leaderboard:before,
+.icons-rewards:before,
+.icons-referral:before,
+.icons-forum:before,
+[class*=" icons-"],
+[class^=icons-] {
+  background: url('../../images/common/sprite2-icons.svg');
+  display: inline-block;
+  height: 21px;
+  width: 23px;
+  vertical-align: middle;
+  text-indent: -9999px;
+}
+
+.icons-courses {
+  background-position: 0 -4px;
+}
+
+.icons-code-kata {
+  background-position: 0 -46px;
+}
+
+.icons-micro-arc {
+  background-position: 1px 30px;
+}
+
+.icons-project-board {
+  background-position: -183px -142px;
+}
+
+.icons-webkata {
+  background-position: 0 -94px;
+}
+
+.icons-debugging {
+  background-position: 0 -188px;
+}
+
+.icons-leader-board {
+  background-position: 0 -245px;
+}
+
+.icons-reward {
+  background-position: 0 -293px;
+}
+
+.icons-ide {
+  background-position: 0 -144px;
+}
+
+.icons-Referral {
+  background-position: 0 69px;
+}
+
+.icons-forum {
+  background-position: 0 22px;
+  margin-left: 0.2rem;
+}
+
+.border-sidebar {
+  border-top: 1px solid #e3e3e3;
+  width: 90%;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}

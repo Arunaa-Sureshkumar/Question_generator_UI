@@ -1,0 +1,27 @@
+@use '../themes/_default' as globalTheme;
+
+.quizCard {
+  .quizQuestion {
+    font-size: 1.125rem;
+  }
+
+  .quizOptions {
+    background-color: globalTheme.$dim-color;
+    border-color: transparent;
+    text-align: left;
+    min-width: 40%;
+    max-width: 70%;
+
+    input[type=radio] {
+      position: absolute;
+      clip: rect(0, 0, 0, 0);
+      pointer-events: none;
+    }
+
+    &.active {
+      outline: none;
+      box-shadow: none;
+      background-color: globalTheme.$primary-color;
+    }
+  }
+}

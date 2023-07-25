@@ -1,0 +1,17 @@
+@use '../themes/_default' as globalTheme;
+
+.whatsapp-color {
+  color: globalTheme.$whatsapp-color;
+}
+
+.facebook-color {
+  color: globalTheme.$facebook-color;
+}
+
+.twitter-color {
+  color: globalTheme.$twitter-color;
+}
+
+.telegram-color {
+  color: globalTheme.$telegram-color;
+}

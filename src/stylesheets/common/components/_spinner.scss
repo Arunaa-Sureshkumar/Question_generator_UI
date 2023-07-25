@@ -1,0 +1,10 @@
+@use '../themes/_default' as globalTheme;
+@use '../base/_mixins' as globalMix;
+
+.spinner {
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  color: globalTheme.$primary-color;
+  z-index: 10000 !important;
+}

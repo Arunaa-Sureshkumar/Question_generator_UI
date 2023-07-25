@@ -1,0 +1,214 @@
+@use "../themes/_default" as globalTheme;
+@use "../base/_mixins" as globalMix;
+@use "_icon.scss";
+@use "../base/placeholders";
+
+.sidebar-container {
+  position: relative;
+
+  .code-kata-menu {
+    display: none;
+  }
+
+  .sidebar-sticky {
+    @extend %z-5;
+
+    position: absolute;
+    top: 68px;
+    left: 0;
+    height: 100vh;
+    min-width: 44px;
+    background-color: globalTheme.$white;
+    white-space: nowrap;
+    overflow: hidden;
+
+    @include globalMix.media-breakpoint-up(md) {
+      position: fixed;
+      left: 0;
+    }
+
+    &.collapse {
+      display: none;
+
+      &.show {
+        display: block;
+      }
+    }
+
+    &.collapse,
+    &.collapse:not(.show) {
+      @include globalMix.media-breakpoint-up(md) {
+        display: block;
+      }
+    }
+
+    &.sidebar-collapse {
+      @include globalMix.media-breakpoint-up(md) {
+        width: 5rem;
+      }
+
+      .nav-link {
+        span {
+          @include globalMix.media-breakpoint-up(md) {
+            position: absolute;
+            opacity: 0;
+            transition-duration: 0.3s;
+            transform: translateX(-200%);
+          }
+        }
+      }
+
+      .navbar-brand {
+        @include globalMix.media-breakpoint-up(md) {
+          width: 4rem;
+          background: transparent url("../../images/index/guvi-icon-new.png") no-repeat 18px 11px;
+          background-size: 33px 33px;
+        }
+      }
+    }
+
+    .navbar-brand {
+      display: none;
+
+      @include globalMix.media-breakpoint-up(md) {
+        display: block;
+        height: 58px;
+        text-indent: -9999px;
+        background: transparent url("../../images/index/foot-guvi-logo.png") no-repeat 14px 6px;
+        border-bottom: 1px solid globalTheme.$dim-color;
+        padding: 0;
+        margin: 0 0.5rem 0;
+        box-sizing: border-box;
+        background-size: 77px;
+        background-position: center;
+      }
+    }
+
+    .nav-item {
+      border-left: 4px solid globalTheme.$white;
+
+      &.active {
+        border-left-color: globalTheme.$primary-color;
+
+        i {
+          background-position-x: -160px;
+        }
+
+        span {
+          color: #099f4e;
+          font-weight: 500;
+        }
+      }
+
+      .nav-link {
+        &:hover {
+          &,
+          & > .icons-courses,
+          & > .icons-code-kata,
+          & > .icons-webkata,
+          & > .icons-debugging,
+          & > .icons-ide,
+          & > .icons-leader-board,
+          & > .icons-reward,
+          & > .icons-Referral,
+          & > .icons-forum {
+            background-position-x: -160px !important;
+          }
+
+          & > span {
+            color: #099f4e;
+          }
+
+          & > .icon-project-board,
+          & > .icon-ck-instructions,
+          & > .icon-ck-peer-submission {
+            color: globalTheme.$black;
+            background-position-x: -100px;
+          }
+
+          & > .icon-code-kata,
+          & > .icon-micro-arc,
+          & > .icon-ck-github,
+          & > .icon-ck-path,
+          & > .icon-ck-questions {
+            color: globalTheme.$black;
+            background-position-x: 0;
+          }
+        }
+      }
+    }
+
+    .nav-link {
+      padding: 1rem 1rem 1rem 1.5rem !important;
+      color: #707070 !important;
+
+      &.active {
+        i {
+          color: globalTheme.$dark-color;
+        }
+      }
+
+      span {
+        padding-left: 1.5rem;
+        font-weight: 400;
+      }
+
+      .material-icons {
+        vertical-align: middle;
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .debugging-link {
+    .nav-link {
+      padding-left: 1.2rem;
+    }
+
+    .fa-stack {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.zen-logo {
+  content: url("../../images/nav/zen2.svg");
+  height: 1.5rem;
+}
+
+.navbar {
+  z-index: 999;
+}
+
+.Debugging-link {
+  position: relative;
+
+  .debuggingcircle {
+    position: absolute;
+    top: 23px;
+    left: 41px;
+    font-size: 8px;
+    color: #ff354d;
+    background: #fff;
+  }
+}
+
+.scrollupdown {
+  top: 0 !important;
+  position: fixed;
+  background: #fff;
+  width: 100%;
+}
+
+.darkmode--activated {
+  .navbar-light .navbar-toggler {
+    color: #fff;
+    border-color: #fff;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .sidebar-container {
+    position: inherit;
+  }
+}

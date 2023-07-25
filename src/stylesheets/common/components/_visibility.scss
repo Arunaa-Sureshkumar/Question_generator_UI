@@ -1,0 +1,7 @@
+@use '../base/_mixins' as globalMix;
+
+.visible-md {
+  @include globalMix.media-breakpoint-up(md) {
+    display: none;
+  }
+}

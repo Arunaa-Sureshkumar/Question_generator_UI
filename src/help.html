@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Question Generator</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../src/images/favicon.png" rel="icon">
+  <link href="../src/images/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <!-- <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  Vendor CSS Files
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
+  Template Main CSS File
+  <link href="{{ url_for('static', filename='stylesheets/style.css')}}" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css"> -->
+
+
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <include src="./partials/common/zen-class-header.html"/>
+  <!-- !-- End Header --> 
+
+
+  <section id="about" class="about">
+    <div class="container mt-lg-5">
+      <div class="row">
+        
+        <div class="col-lg-6 pt-4 pt-lg-0 content ">
+          <h3>The Question Generator</h3>
+          <p class="fst-italic">
+            How to Generate New Question
+          </p>
+
+          <span>With this new question can be created with respect to ranges and multiples provided</span>
+
+          <ul>
+            <li><i class="fa-solid fa-circle-check"></i> Firstly , Enter the question with varying variables representing with keyword called <strong>var</strong></li>
+            <li><i class="fa-solid fa-circle-check"></i> Secondly , Enter Formulas to solve the above question</li>
+            <li><i class="fa-solid fa-circle-check"></i> Thirdly , You will be having options which denote the 4 MCQ options among the answers, where formulas can be provided to make valid options</li>
+            <li><i class="fa-solid fa-circle-check"></i> Fourth denotes variable which denotes how many variables in the question</li>
+            <li><i class="fa-solid fa-circle-check"></i> Maximum or array and minimum denotes ranges of values where you provide maximum and minimum value , sometimes for fraction question sets of values can be used to variable in the question , in those cases maximum can be used by leaving <strong> and minimum value can be leave empty</strong></li>
+            <li><i class="fa-solid fa-circle-check"></i> Then, click enter , the download popup will be opened and you can download the excel sheets </li>
+          </ul>
+
+
+        </div>
+
+        <div class="col-lg-6 pt-lg-0">
+            <video width="520" height="440" controls>
+              <source src="./images/questiongen.mp4" type="video/mp4">
+            </video>
+          </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <section id="video" class="about">
+    <div class="container">
+      <div class="row">
+        
+        <div class="col-lg-6 pt-lg-0">
+          <video width="520" height="440" controls>
+            <source src="./images/paraphrase.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="col-lg-6 pt-4 pt-lg-0 content">
+          <h3>The Paraphrase Generator</h3>
+          <p class="fst-italic">
+            How To Generate Paraphrase of the Question 
+          </p>
+          <span>It paraphrases the question you provided below, the maximum number of questions can be paraphrased is 50.</span>
+          <ul style="justify-content: center; align-items: center;">
+            <li><i class="fa-solid fa-circle-check"></i>From dropdown , select paraphrase option</li>
+            <li><i class="fa-solid fa-circle-check"></i> Then , enter the question in the input box in the left side</li>
+            <li><i class="fa-solid fa-circle-check"></i>Click send button after you entered the question</li>
+            <li><i class="fa-solid fa-circle-check"></i>Wait until the response received , Voila you will get the response in the right side and you can download the csv file.</li>
+
+          </ul>
+
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="video2" class="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 pt-4 pt-lg-0 content">
+          <h3>The Paraphrase Generator</h3>
+          <p class="fst-italic">
+            How To Generate Paraphrase of the Question 
+          </p>
+          <span>It generates similar type of question,provided below</span>
+          <ul>
+            <li><i class="fa-solid fa-circle-check"></i>From dropdown , select combo option</li>
+            <li><i class="fa-solid fa-circle-check"></i> Then , enter the question in the input box in the left side</li>
+            <li><i class="fa-solid fa-circle-check"></i>Click send button after you entered the question</li>
+            <li><i class="fa-solid fa-circle-check"></i>Wait until the response received , Voila you will get the response in the right side and you can download the csv file.</li>
+          </ul>
+        </div>
+
+        <div class="col-lg-6 pt-4 pt-lg-0">
+          <video width="520" height="440" controls>
+            <source src="./images/combo.mp4" type="video/mp4">
+        </div>
+        
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======= Footer ======= -->
+  <a href="#" class="back-to-top d-flex align-items-center
+      justify-content-center"><i class="fa-solid fa-arrow-up"></i></a>
+
+
+
+  <!-- Vendor JS Files -->
+  <!-- <script src="{{ url_for('static', filename='vendor/purecounter/purecounter_vanilla.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js')}}"></script>
+
+  Template Main JS File
+  <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/paraphrasegenerator/index.js')}}"></script>
+
+  hls
+  <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
+  <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script> -->
+</body>
+
+</html>

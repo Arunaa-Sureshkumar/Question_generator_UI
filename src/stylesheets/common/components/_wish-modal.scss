@@ -1,0 +1,105 @@
+@use '../base/_mixins' as globalMix;
+
+%sprite-bg {
+  background: transparent url('../../images/common/sprite-modal.png') no-repeat 0 0;
+}
+
+.wishes-modal {
+  .modal-content {
+    .modal-header {
+      border: none;
+      position: relative;
+      margin-top: 2rem;
+
+      &:before {
+        @extend %sprite-bg;
+
+        content: '';
+        position: absolute;
+        right: 10px;
+        top: -31px;
+        width: 70px;
+        height: 170px;
+        background-position: -278px -621px;
+      }
+
+      &:after {
+        @extend %sprite-bg;
+
+        content: '';
+        position: absolute;
+        left: 30%;
+        top: 0;
+        width: 140px;
+        height: 70px;
+        background-position: -217px -150px;
+
+        @include globalMix.media-breakpoint-up(sm) {
+          left: 178px;
+        }
+
+        @include globalMix.media-breakpoint-up(lg) {
+          left: 325px;
+        }
+      }
+
+      h5 {
+        margin: 0 auto;
+        color: #000;
+        text-align: center;
+        font-size: 2rem;
+        margin-top: 2rem;
+        position: relative;
+
+        strong {
+          display: block;
+          margin-top: 1rem;
+          font-size: 2.5rem;
+          font-weight: 900;
+          margin-bottom: 9rem;
+        }
+
+        &:after {
+          @extend %sprite-bg;
+
+          content: '';
+          position: absolute;
+          left: 62px;
+          top: 75px;
+          width: 115px;
+          height: 115px;
+          background-position: -234px -284px;
+        }
+      }
+    }
+
+    .modal-body {
+      position: relative;
+      padding: 0 1rem 1.5rem;
+
+      &:after {
+        @extend %sprite-bg;
+
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 92px;
+        height: 92px;
+        background-position: -256px -465px;
+      }
+
+      .message {
+        text-align: center;
+        color: #000;
+        font-size: 1rem;
+        margin: 0;
+
+        strong {
+          display: block;
+          margin-bottom: 2rem;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,106 @@
+@use '../themes/_default' as globalTheme;
+@use '../base/mixins' as globalMix;
+
+.progress-bar {
+  border-radius: 1rem !important;
+  background-color: #a9ffa9;
+  background-image: linear-gradient(90deg, #a9ffa9 0, #11ffbd);
+  background-repeat: repeat-x;
+  color: #444;
+}
+
+#profileForm .fa-check-circle,
+#profileFormPage .fa-check-circle {
+  font-size: 0.75rem;
+}
+
+#profileForm .checkIcon,
+#profileFormPage .checkIcon {
+  top: 0.1rem;
+  right: 0.1rem;
+}
+
+#profileForm .fa-check-circle:before,
+#profileFormPage .fa-check-circle:before {
+  visibility: hidden;
+}
+
+#profileForm .fa-check-circle:after,
+#profileFormPage .fa-check-circle:after {
+  content: '\00B0';
+  font-size: xx-large;
+  top: 0.75rem;
+  right: 0.1rem;
+  position: absolute;
+  color: #3d4a63;
+}
+
+#profileForm .form-check-input,
+#profileFormPage .form-check-input {
+  opacity: 0;
+}
+
+#profileForm .form-check-input:checked + .checkIcon .fa-check-circle:after,
+#profileFormPage .form-check-input:checked + .checkIcon .fa-check-circle:after {
+  visibility: hidden;
+}
+
+#profileForm .form-check-input:checked + .checkIcon .fa-check-circle:before,
+#profileFormPage .form-check-input:checked + .checkIcon .fa-check-circle:before {
+  visibility: visible;
+}
+
+#profileForm.modal,
+#profileFormPage.modal {
+  font-family: 'Poppins', sans-serif;
+}
+
+#profileForm .cord-mod,
+#profileFormPage .card-mod {
+  border-radius: 10px;
+}
+
+#profileForm p,
+#profileFormPage p {
+  font-size: 1rem;
+}
+
+#profileForm .ltr-sp,
+#profileFormPage .ltr-sp {
+  letter-spacing: 1.5px;
+}
+
+#systemSkills-selectized,
+#interestedArea-selectized {
+  border: 0;
+  outline: none;
+}
+
+.skillsetTag {
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  .selectize-input {
+    display: table;
+    width: 100%;
+
+    .item {
+      float: left;
+      background: #e5e5e5;
+      padding: 0.2rem 0.7rem;
+      border-radius: 36px;
+      font-size: 0.9rem;
+      margin-right: 0.6rem;
+      margin-bottom: 0.3rem;
+    }
+  }
+}
+
+.selectize-control.form-control.multi {
+  border: none;
+}
+
+.headTitle {
+  font-weight: 400;
+}

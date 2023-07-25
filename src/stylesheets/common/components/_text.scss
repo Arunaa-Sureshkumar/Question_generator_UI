@@ -1,0 +1,6 @@
+@use '../themes/_default' as globalTheme;
+
+.text-highlight {
+  font-weight: 700;
+  color: globalTheme.$purple !important;
+}

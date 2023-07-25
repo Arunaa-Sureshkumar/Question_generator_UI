@@ -1,0 +1,47 @@
+@use '../themes/_default' as globalTheme;
+@use '../base/_mixins' as globalMix;
+@use '../base/_functions' as globalfun;
+
+@import '../base/_placeholders';
+
+.stepper {
+  li {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 0 1.5rem 2.5rem;
+    color: globalTheme.$black;
+
+    &:before {
+      @extend %font-fas;
+
+      content: globalfun.unicode('f058');
+      color: globalTheme.$list-color;
+      position: absolute;
+      top: -0.3rem;
+      left: 0;
+    }
+
+    &:after {
+      content: "";
+      background-color: globalTheme.$list-color;
+      position: absolute;
+      top: 1.4rem;
+      left: 0.5rem;
+      width: 1px;
+      height: 45%;
+    }
+
+    &:last-of-type {
+      padding-top: 0;
+
+      &:after {
+        @include globalMix.box(0, 0);
+      }
+    }
+  }
+}

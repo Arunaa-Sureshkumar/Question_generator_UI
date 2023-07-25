@@ -1,0 +1,174 @@
+
+//course navbar...
+
+li {
+  list-style: none;
+}
+
+.roundedBtn {
+  border-radius: 8px;
+}
+
+.roundedBtn:focus,
+.roundedBtn:hover {
+  background-color: #fff;
+  color: #0dba4b;
+  border-color: #0dba4b;
+}
+
+.btn-outline-secondary:focus,
+.btn-outline-secondary.focus {
+  box-shadow: unset !important;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled):active,
+.btn-outline-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-secondary.dropdown-toggle {
+  color: #0dba4b;
+  background-color: #fff;
+  border-color: #0dba4b;
+}
+
+.roundedInput {
+  border-radius: 8px;
+  min-width: 360px;
+  max-width: 416px;
+  border-color: #707070;
+}
+
+.alignCenter {
+  margin-left: 10rem;
+}
+
+@media (max-width: 768px) {
+  .hidden-md {
+    display: none;
+  }
+
+  .navbar-toggler {
+    padding: 0.1rem 0.4rem;
+  }
+
+  .navbar {
+    justify-content: inherit;
+  }
+
+  .navbar-brand {
+    margin: auto;
+  }
+
+  #searchIconMob {
+    height: 1.3rem !important;
+    width: 1.3rem !important;
+    margin-right: auto;
+  }
+
+  .python-signup-btn {
+    .nav-link {
+      padding: 0.275rem 0.55rem !important;
+    }
+  }
+
+  .python-login-btn {
+    .nav-link {
+      padding: 0.275rem 0.55rem !important;
+      margin-right: 0.4rem;
+    }
+  }
+}
+
+.customDropdownMenu {
+  min-width: 550px;
+  height: 378px !important;
+  border-color: #0dba4b;
+}
+
+.customDropdownItem {
+  height: 42px !important;
+  padding-right: 0 !important;
+}
+
+.customDropdownItem:hover {
+  background-color: rgba(230, 247, 233, 1);
+  color: rgba(42, 42, 42, 1);
+}
+
+.categoryText {
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+.premiumContainer {
+  background-image: linear-gradient(to bottom, rgba(230, 247, 233, 1), rgba(247, 249, 250, 1));
+  height: 200px;
+  width: 376px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px #88888852;
+}
+
+.premiumTag {
+  text-decoration: none;
+}
+
+.premiumText {
+  color: #0dba4b;
+  padding-left: 45px;
+  padding-top: 35px;
+  padding-bottom: 20px;
+  background: url(/images/nav/premiumbg.png);
+  background-repeat: no-repeat;
+  background-size: 58px 58px;
+  background-position: 25px 25px;
+}
+
+.searchIcon {
+  color: rgba(112, 112, 112, 1);
+  font-size: 24px;
+}
+
+.premiumSubText {
+  font-size: 12px;
+  color: rgba(112, 112, 112, 1);
+  padding-left: 24px;
+}
+
+.navBox {
+  height: 40px;
+  width: 40px;
+}
+
+.subText {
+  font-size: 12px;
+  color: rgba(112, 112, 112, 1);
+}
+
+.input-icon {
+  position: relative;
+}
+
+.input-icon > i {
+  position: absolute;
+  display: block;
+  transform: translate(0, -50%);
+  top: 50%;
+  left: 8px;
+  pointer-events: none;
+  width: 25px;
+  text-align: center;
+  font-style: normal;
+  color: rgba(112, 112, 112, 1);
+}
+
+.input-icon > input {
+  padding-left: 40px;
+  padding-right: 0;
+}
+
+.premiumImg {
+  max-width: 376px;
+  max-height: 200px;
+}
+
+#exploreDropdown {
+  border-right: 1px solid rgba(0, 0, 0, 0.267);
+}
