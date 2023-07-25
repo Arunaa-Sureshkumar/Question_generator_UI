@@ -1,4 +1,4 @@
-# Classify-UI
+# QuestionGenerator-UI
 
 ## Installation
 ```
