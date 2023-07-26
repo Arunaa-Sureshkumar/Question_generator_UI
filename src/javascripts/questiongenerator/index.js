@@ -752,8 +752,7 @@ let action;
 const checkedvalues = [];
 function lcmcalculation(e) {
   const element = e.target;
-  element.style.backgroundColor = '#16df7e';
-
+  changeButtonColor(element);
   action = e.currentTarget.myParam;
   if (butnum === 0) {
     createbutton();
@@ -781,6 +780,18 @@ function lcmcalculation(e) {
   selectvar.addEventListener('click', selectvariables);
   selectvar.myParam = element.id;
 }
+
+let activeButton = null;
+let originalColor = null;
+function changeButtonColor(button) {
+  if (activeButton) {
+    activeButton.style.backgroundColor = originalColor;
+  }
+  activeButton = button;
+  originalColor = button.style.backgroundColor;
+  button.style.backgroundColor = "#16df7e";
+}
+
 var lcmcheckedvariable = [];
 var addcheckedvariable = [];
 var subcheckedvariable = [];
@@ -796,7 +807,7 @@ var percheckedvariable = [];
 var logcheckedvariable = [];
 function selectvariables(e) {
   const element = document.getElementById(e.currentTarget.myParam);
-  element.style.backgroundColor = '#198754';
+  element.style.backgroundColor = '#0dba4b';
   const checkboxes = document.querySelectorAll('input[name="allvariables"]:checked');
   checkboxes.forEach((checkbox) => {
     checkbox.checked = false;
@@ -1429,11 +1440,6 @@ function otheroptions(e) {
       $('#alloptionvar1').toggle('slide');
       console.log('optionvalues', optionvalues);
     }
-    // const opinput = document.getElementById("option1");
-    // const keys = Object.keys(cvariables);
-    // opinput.value = cvariables[keys[keys.length-1]];
-    // console.log("value",cvariables[keys[keys.length-1]])
-    // optionvariables[e.target.myParam] = keys[keys.length-1]
   }
   $('#optionfunc').toggle('slide');
   const optadd = document.getElementById('optadd');
@@ -1526,7 +1532,7 @@ function updateoptinputsq(e) {
   const opinput = document.getElementById(e.currentTarget.myParam);
   console.log('updatsquare', e.currentTarget.myParam);
   console.log('opinput', opinput);
-  opinput.value = Number(option1value) * 2;
+  opinput.value = Number(option1value) * Number(option1value);
   optionvalues[opinput.id] = opinput.value;
   console.log('optionvalues', optionvalues);
   const keys = Object.keys(cvariables);
