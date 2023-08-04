@@ -1,13 +1,15 @@
+
 @use "../common/base/_typography";
 @use "../common/base/_mixins" as globalMix;
 @use "../common/themes/_default" as globalTheme;
 @use "../common/components/_navbar";
 @use "../common/components/header-new";
+
 @import "@fortawesome/fontawesome-free";
 
 body {
   font-family: "Open Sans", sans-serif;
-  color: #444444;
+  color: #444;
   background-color: white !important;
 }
 
@@ -38,8 +40,8 @@ h6 {
   padding: 20px 0;
 }
 
-#header.header-scrolled {
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+#header .header-scrolled {
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   padding: 12px 0;
 }
 
@@ -66,19 +68,19 @@ h6 {
   }
 }
 
-
 section {
   padding: 100px 0;
   overflow: hidden;
 }
-.cardouterdiv{
+
+.cardouterdiv {
   padding-left: 50px;
   padding-right: 50px;
   margin-bottom: 20px;
 }
 
-.card-body .btn{
-  width:100px;
-  height:40px;
+.card-body .btn {
+  width: 100px;
+  height: 40px;
   margin-right: 20px;
 }

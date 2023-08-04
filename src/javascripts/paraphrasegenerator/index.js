@@ -6,7 +6,7 @@ import '../../stylesheets/common/importers/_fontawesome.scss';
 import '../common/steroid';
 
 // chat gpt
-// const OPENAI_API_KEY = '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';
+// const OPENAI_API_KEY = process.env.OPENAI_API;
 // const bTextToSpeechSupported = false;
 // const bSpeechInProgress = false;
 // const oSpeechRecognizer = null;

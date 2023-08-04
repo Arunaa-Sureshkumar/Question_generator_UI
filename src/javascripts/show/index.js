@@ -14,6 +14,7 @@ const api_path = process.env.API_PATH;
 function show() {
   const cardContainer = document.getElementById('card-container');
 
+  // fetch(`${api_path}/get_variables`)
   fetch(`${api_path}/get_variables`)
     .then((response) => response.json())
     .then((data) => {

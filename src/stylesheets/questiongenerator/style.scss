@@ -1,8 +1,10 @@
+
 @use "../common/base/_typography";
 @use "../common/base/_mixins" as globalMix;
 @use "../common/themes/_default" as globalTheme;
 @use "../common/components/_navbar";
 @use "../common/components/header-new";
+
 @import "@fortawesome/fontawesome-free";
 
 // body {
@@ -48,14 +50,9 @@
 //   }
 // }
 
-
-
-
-
-
 body {
   font-family: "Open Sans", sans-serif;
-  color: #444444;
+  color: #444;
   background-color: white !important;
 }
 
@@ -87,7 +84,7 @@ h6 {
 }
 
 #header.header-scrolled {
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   padding: 12px 0;
 }
 
@@ -114,10 +111,10 @@ h6 {
   }
 }
 
-
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Back to top button
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .back-to-top {
   position: fixed;
   visibility: hidden;
@@ -148,12 +145,9 @@ h6 {
   opacity: 1;
 }
 
-
-
-
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Hero Section
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
 
 .topnav {
   overflow: hidden;
@@ -161,9 +155,10 @@ h6 {
 }
 
 .guviicon {
-  width:auto;
-  height:40px;
+  width: auto;
+  height: 40px;
 }
+
 .topnav a {
   float: left;
   display: block;
@@ -180,7 +175,7 @@ h6 {
 }
 
 .topnav a.active {
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: black;
 }
 
@@ -189,7 +184,10 @@ h6 {
 }
 
 @media screen and (max-width: 600px) {
-  .topnav a:not(:first-child) {display: none;}
+  .topnav a:not(:first-child) {
+    display: none;
+  }
+
   .topnav a.icon {
     float: right;
     display: block;
@@ -197,12 +195,16 @@ h6 {
 }
 
 @media screen and (max-width: 600px) {
-  .topnav.responsive {position: relative;}
+  .topnav.responsive {
+    position: relative;
+  }
+
   .topnav.responsive .icon {
     position: absolute;
     right: 0;
     top: 0;
   }
+
   .topnav.responsive a {
     float: none;
     display: block;
@@ -210,8 +212,6 @@ h6 {
   }
 }
 
-
-// HEro section
 #hero {
   width: 100%;
   height: 80vh;
@@ -254,11 +254,10 @@ h6 {
 
 #hero .btn-watch-video {
   font-size: 16px;
-  display: inline-block;
   transition: 0.5s;
   margin-left: 25px;
   color: #5f687b;
-  display: inline-flex;
+  display: inline-flex, inline-block;
   align-items: center;
   justify-content: center;
 }
@@ -344,9 +343,10 @@ h6 {
   }
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Sections General
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 section {
   padding: 60px 0;
   overflow: hidden;
@@ -403,9 +403,10 @@ section {
   }
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Featured Services
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .featured-services {
   padding: 0;
 }
@@ -453,9 +454,10 @@ section {
   font-size: 14px;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # About
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .about .content h3 {
   font-weight: 700;
   font-size: 32px;
@@ -481,9 +483,10 @@ section {
   margin-bottom: 0;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Counts
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .counts {
   padding-top: 0;
 }
@@ -503,9 +506,10 @@ section {
   font-weight: 600;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Services
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .services .icon-box {
   text-align: center;
   border: 1px solid #fff;
@@ -554,9 +558,10 @@ section {
   color: #16df7e;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Portfolio
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .portfolio #portfolio-flters {
   padding: 0;
   margin: 0 auto 25px auto;
@@ -573,7 +578,7 @@ section {
   font-weight: 600;
   line-height: 1;
   text-transform: uppercase;
-  color: #444444;
+  color: #444;
   transition: all 0.3s ease-in-out;
 }
 
@@ -606,7 +611,8 @@ section {
   font-size: 18px;
   color: #fff;
   font-weight: 600;
-  color: #5f687b;
+
+  // color: #5f687b;
 }
 
 .portfolio .portfolio-item .portfolio-info p {
@@ -639,9 +645,10 @@ section {
   bottom: 20px;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Portfolio Details
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .portfolio-details {
   padding-top: 40px;
 }
@@ -669,7 +676,7 @@ section {
 
 .portfolio-details .portfolio-info {
   padding: 30px;
-  box-shadow: 0px 0 30px rgba(95, 104, 123, 0.08);
+  box-shadow: 0 0 30px rgba(95, 104, 123, 0.08);
 }
 
 .portfolio-details .portfolio-info h3 {
@@ -686,7 +693,7 @@ section {
   font-size: 15px;
 }
 
-.portfolio-details .portfolio-info ul li+li {
+.portfolio-details .portfolio-info ul li + li {
   margin-top: 10px;
 }
 
@@ -704,9 +711,10 @@ section {
   padding: 0;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Testimonials
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .testimonials .testimonials-carousel,
 .testimonials .testimonials-slider {
   overflow: hidden;
@@ -765,7 +773,6 @@ section {
   background: white;
   position: relative;
   border-radius: 6px;
-  position: relative;
   z-index: 1;
 }
 
@@ -786,9 +793,10 @@ section {
   background-color: #16df7e;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Cta
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .cta {
   background: #16df7e;
   background-size: cover;
@@ -825,9 +833,10 @@ section {
   border-color: #206bfb;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Team
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .team .member {
   text-align: center;
   margin-bottom: 20px;
@@ -856,7 +865,7 @@ section {
   padding-top: 10px;
   font-size: 14px;
   font-style: italic;
-  color: #aaaaaa;
+  color: #aaa;
 }
 
 .team .member .social {
@@ -877,9 +886,10 @@ section {
   margin: 0 2px;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Contact
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .contact .info {
   border-top: 3px solid #16df7e;
   border-bottom: 3px solid #16df7e;
@@ -969,7 +979,7 @@ section {
   font-weight: 600;
 }
 
-.contact .php-email-form .error-message br+br {
+.contact .php-email-form .error-message br + br {
   margin-top: 25px;
 }
 
@@ -1004,7 +1014,6 @@ section {
 
 .contact .php-email-form input,
 .contact .php-email-form textarea {
-  border-radius: 0;
   box-shadow: none;
   font-size: 14px;
   border-radius: 4px;
@@ -1043,16 +1052,14 @@ button[type=submit] {
 
 button[type=submit]:hover {
   background: #206bfb;
- 
 }
 
 .contact .php-email-form button[type=submit]:hover {
   background: #206bfb;
 }
 
-table{
+table {
   padding: auto;
-  
 }
 
 @-webkit-keyframes animate-loading {
@@ -1075,9 +1082,10 @@ table{
   }
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Breadcrumbs
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 .breadcrumbs {
   padding: 15px 0;
   background: #f9f9fa;
@@ -1098,11 +1106,11 @@ table{
   margin: 0;
 }
 
-.breadcrumbs ol li+li {
+.breadcrumbs ol li + li {
   padding-left: 10px;
 }
 
-.breadcrumbs ol li+li::before {
+.breadcrumbs ol li + li:before {
   display: inline-block;
   padding-right: 10px;
   color: #778196;
@@ -1127,9 +1135,10 @@ table{
   }
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Footer
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
+
 #footer {
   background-color: #f3f4f6;
   color: #5f687b;
@@ -1188,14 +1197,16 @@ table{
   right: -1px;
   bottom: -1px;
   border: 0;
-  background: none;
+
+  // background: none;
+
   font-size: 16px;
   padding: 0 20px;
   background: #16df7e;
   color: #fff;
   transition: 0.3s;
   border-radius: 0 4px 4px 0;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
 #footer .footer-top .footer-newsletter form input[type=submit]:hover {
@@ -1245,7 +1256,6 @@ table{
 }
 
 @media (max-width: 992px) {
-
   #footer .copyright,
   #footer .credits {
     float: none;
@@ -1254,9 +1264,7 @@ table{
   }
 }
 
-
-/* ##################### */ 
-/* NEW CSS */
+/* ##################### */
 
 .open-button {
   background-color: #555;
@@ -1289,7 +1297,8 @@ table{
 }
 
 /* Full-width input fields */
-.form-container input[type=text], .form-container input[type=password] {
+.form-container input[type=text],
+.form-container input[type=password] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -1298,20 +1307,21 @@ table{
 }
 
 /* When the inputs get focus, do something */
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+.form-container input[type=text]:focus,
+.form-container input[type=password]:focus {
   background-color: #ddd;
   outline: none;
 }
 
 /* Set a style for the submit/login button */
 .form-container .btn {
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: white;
   padding: 16px 20px;
   border: none;
   cursor: pointer;
   width: 100%;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   opacity: 0.8;
 }
 
@@ -1321,12 +1331,13 @@ table{
 }
 
 /* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
+.form-container .btn:hover,
+.open-button:hover {
   opacity: 1;
 }
 
 .dropbtn {
-  background-color: #3498DB;
+  background-color: #3498db;
   color: white;
   padding: 16px;
   font-size: 16px;
@@ -1334,8 +1345,9 @@ table{
   cursor: pointer;
 }
 
-.dropbtn:hover, .dropbtn:focus {
-  background-color: #2980B9;
+.dropbtn:hover,
+.dropbtn:focus {
+  background-color: #2980b9;
 }
 
 .dropdown {
@@ -1345,9 +1357,7 @@ table{
 
 .dropdown-content {
   display: none;
-  /* position: absolute; */
   width: 800px;
-  /* height: 100px; */
   overflow-y: scroll;
   overflow-x: hidden;
   margin-bottom: 10px;
@@ -1355,117 +1365,131 @@ table{
   z-index: 1;
 }
 
-
-
-.show {display: block;}
-/* .checkboxes{
+.show {
   display: block;
-} */
-
-.omni-calculator{
-  display:none
 }
 
-.vardispinput,.chvarinp,.constvarin{
-  width:60px;
-  margin-bottom:10px;
+.omni-calculator {
+  display: none;
 }
 
-.optinp,.optactions{
-  width:90px;
-  margin-top:10px;
-  margin-bottom:10px;
+.vardispinput,
+.chvarinp,
+.constvarin {
+  width: 60px;
+  margin-bottom: 10px;
 }
-.inpspandiv{
+
+.optinp,
+.optactions {
+  width: 90px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.inpspandiv {
   margin-right: 20px;
 }
 
-.changevarbutton{
-  width:auto;
+.changevarbutton {
+  width: auto;
   border: none;
   padding: 0;
   background: none;
-  margin-right:10px;
-  color:rgb(22, 223, 126);
+  margin-right: 10px;
+  color: rgb(22, 223, 126);
 }
 
-.dropdownbut{
-  width:100px;
+.dropdownbut {
+  width: 100px;
   border: none;
   padding: 3px;
-  margin:3px;
-  /* background-color: white; */
+  margin: 3px;
 }
-/* .dropdownbut:hover{
-background-color: #b7b7b7;
+
+.dropdown-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* .dropdown-content{
+  display: grid;
+  grid-template-columns: auto auto;
 } */
-.dropdown-content::-webkit-scrollbar{
-    display: none;
-  }
-  /* .dropdown-content{
-    display: grid;
-    grid-template-columns: auto auto;
-  } */
-  #changevardiv{
-    margin-right: 20px;
-  }
-  .selectbut,.valuechinp,.genbtn,.loopinp,.downloadbtn{
-    width:200px;
-    margin:4px;
-  }
-  .coverdiv{
-    box-shadow: #555;
-  }
-  .generatebut{
-    margin:30px;
-    margin-left:0px;
-  }
-  .options{
-    margin:7px;
-  }
-  .optbut,.chunkvarbut{
-    margin-top: 20px;
-    height:40px;
-    margin-left: 7px;
-  }
-  
-  .options{
-    margin-right : 100px;
-    /* margin-left: 0;
-    margin-top: 0; */
-  }
 
-  .plusbtn, .constbtn{
-    margin-left: 20px;
-    margin-bottom: 5px;
-    height:35px;
-  }
+#changevardiv {
+  margin-right: 20px;
+}
 
-  .dispgenvar2{
-    margin-top: 10px;
-  }
-.coverdiv,.genbtn,.downloadbtn,.dlabel{
+.selectbut,
+.valuechinp,
+.genbtn,
+.loopinp,
+.downloadbtn {
+  width: 200px;
+  margin: 4px;
+}
+
+.coverdiv {
+  box-shadow: #555;
+}
+
+.generatebut {
+  margin: 30px;
+  margin-left: 0;
+}
+
+.options {
+  margin: 7px;
+  margin-right: 100px;
+}
+
+.optbut,
+.chunkvarbut {
+  margin-top: 20px;
+  height: 40px;
+  margin-left: 7px;
+}
+
+.plusbtn,
+.constbtn {
+  margin-left: 20px;
+  margin-bottom: 5px;
+  height: 35px;
+}
+
+.dispgenvar2 {
+  margin-top: 10px;
+}
+
+.coverdiv,
+.genbtn,
+.downloadbtn,
+.dlabel {
   margin-right: 25px;
 }
-.loopinp{
+
+.loopinp {
   margin-left: 30px;
 }
-.aoptions{
+
+.aoptions {
   justify-content: center;
   align-items: center;
 }
 
-.constdiv{
+.constdiv {
   margin-right: 20px;
 }
+
 .editable {
   width: 300px;
   height: 200px;
   border: 1px solid #ccc;
   padding: 5px;
 }
-.questioninp{
-  height:100px;
+
+.questioninp {
+  height: 100px;
   resize: both; /* Enable resizing */
   overflow: auto;
 }
@@ -1478,39 +1502,23 @@ background-color: #b7b7b7;
   background-color: blue;
 }
 
-
-
-
-
-
-
-
-
-
-
 /* ################################### */
 
 #container {
   width: 1000px;
   margin: 20px auto;
 }
+
 .ck-editor__editable[role="textbox"] {
-  /* editing area */
   min-height: 200px;
 }
+
 .ck-content .image {
-  /* block images */
   max-width: 80%;
   margin: 20px auto;
 }
 
-
-
 /* ########################################### */
-
-
-
-
 
 #root #text-typing {
   font-family: 'Raleway', sans-serif;
@@ -1519,15 +1527,10 @@ background-color: #b7b7b7;
   text-transform: uppercase;
   color: rgb(0, 0, 0);
   overflow: hidden;
-  /* Ensures the content is not revealed until the animation */
-  border-right: .15em solid rgb(0, 255, 38);
-  /* The typwriter cursor */
+  border-right: 0.15em solid rgb(0, 255, 38);
   white-space: nowrap;
-  /* Keeps the content on a single line */
   margin: 0 auto;
-  /* Gives that scrolling effect as the typing happens */
-  letter-spacing: .15em;
-  /* Adjust as needed */
+  // letter-spacing: .15em;
   animation:
     typing 5s steps(22, end) forwards,
     blink-caret 1s infinite;
@@ -1535,20 +1538,18 @@ background-color: #b7b7b7;
 
 @keyframes typing {
   from {
-    width: 0
+    width: 0;
   }
 
   to {
-    width: 100%
+    width: 100%;
   }
 }
 
-/* The typewriter cursor effect */
 @keyframes blink-caret {
-
   from,
   to {
-    border-color: transparent
+    border-color: transparent;
   }
 
   50% {
@@ -1557,5 +1558,5 @@ background-color: #b7b7b7;
 }
 
 .heading {
-  width:100px;
+  width: 100px;
 }

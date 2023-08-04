@@ -18,9 +18,34 @@
 
   <!-- ======= Header ======= -->
   <include src="./partials/common/zen-class-header.html"/>
+  <!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+
+
+  <!-- End Hero -->
+
+  <!-- <section class="mt-lg-5 about" id="about">
+    <div class="container-sm ">
+      <div class="row">
+        <div style="list-style: none;">
+          <p class="fst-italic">
+           <h3> <strong> Guidelines </strong> </h3>      
+          </p>
+            <li><i class="bi bi-check-circle"></i> In variable section below solution , you can enter either <strong> array or maximum value </strong>, similarly in <strong> minimum section minimum value can be added</strong></li>
+            <li><i class="bi bi-check-circle"></i> In ranges section , you can enter multiples for the input , that is <strong> Multiple of the ranges </strong> eg if 10 and 6 and third value as 5 is given , 5 jumps will be taken i.e 6 , and it will jump to 11 not going to 7</li>
+            <li><i class="bi bi-check-circle"></i> Solution box is optional</li>
+            <li><i class="bi bi-check-circle"></i> For taking square root and power for the input value <br> For Taking Square Root , <strong> sqrt(required number)</strong> <br> For Taking Power of a number ,  <strong> pow(base value , raised power value)</strong></li>    
+        </div>
+      </div>
+    </div>
+    </section> -->
 
 
   <main id="main" class="mt-5">
+    <!-- ======= Counts Section ======= -->
+    <!-- End Counts Section -->
+    <!-- <div class="container"> -->
 
       <div class="row">
         <section class="col-md-1">
@@ -62,6 +87,33 @@
                 </div>
                 <div class="d-flex flex-row flex-wrap" id="constvardisp"></div>
               </div>
+              <!-- <div class="input-group mb-3" id="step-two" data-bs-toggle="tooltip"
+                title="Enter respective formula for the above given question">
+                <span class="input-group-text" id="basic-addon2">Formula</span>
+                <input type="text" id="formula" value="var0 + var1" class="form-control" placeholder="Formula" aria-label="formula"
+                  aria-describedby="basic-addon2">
+              </div> -->
+
+              <!-- <div class="input-group mb-3" id="step-three" data-bs-toggle="tooltip"
+                title="Enter respective formula for the MCQ options - 1">
+                <span class="input-group-text" id="basic-addon2">Option 1</span>
+                <input type="text" id="option1" class="form-control" value="var0 * 5" placeholder="Option" aria-label="formula"
+                  aria-describedby="basic-addon2">
+              </div>
+
+              <div class="input-group mb-3" id="step-four" data-bs-toggle="tooltip"
+                title="Enter respective formula for the MCQ options - 2">
+                <span class="input-group-text" id="basic-addon2">Option 2</span>
+                <input type="text" id="option2" value="var0 * 3" class="form-control" placeholder="Option" aria-label="formula"
+                  aria-describedby="basic-addon2">
+              </div>
+
+              <div class="input-group mb-3" id="step-five" data-bs-toggle="tooltip"
+                title="Enter respective formula for the MCQ options - 3">
+                <span class="input-group-text" id="basic-addon2">Option 3</span>
+                <input type="text" id="option3" class="form-control" value="var0 * var1" placeholder="Option" aria-label="formula"
+                  aria-describedby="basic-addon2">
+              </div> -->
 
               <div class="mb-3" id="step-one" id="step-six" data-bs-toggle="tooltip"
                 title="Enter respective explanantion for the given question">
@@ -79,7 +131,11 @@
               <div id="chanvardisp" class="container">
                 <div class="d-flex flex-row flex-wrap" id="chanvardisplay"></div>
               </div>
+              <!-- <div class="input-group mb-3">
+                <button type="button" class="btn btn-success" id="btn-3">Ratio (hcf)</button>
+              </div>
 
+              <p id="demo"></p> -->
               <div>
                 <div id="myDropdown" class="dropdown-content" >
                   <div class="d-flex flex-row flex-wrap">
@@ -125,7 +181,7 @@
                   </div>
                 </div>
                 
-                  <div class="flex flex-wrap" id="optionfunc" style="display:none;">
+                  <div class="flex" id="optionfunc" style="display:none;">
                     <button id="optadd" class="btn btn-success optactions">Add</button>
                     <button id="optsub" class="btn btn-success optactions">Sub</button>
                     <button id="optmul" class="btn btn-success optactions">Mul</button>
@@ -146,16 +202,104 @@
                 <a id="show"> <button type="button" class="btn btn-success" id="show">Show</button></a>
               </div>
 
+              <!-- <div class="input-group mb-3" id="step-7" data-bs-toggle="tooltip"
+                title="Enter how many varying values present in the question">
+                <span class="input-group-text" id="basic-addon1">Variable</span>
+                <input type="number" id="variable_count" class="form-control" placeholder="variable"  value="2" aria-label="variable"
+                  aria-describedby="basic-addon4">
+                <button type="button" class="btn btn-success" id="btn-1">Add Variable</button>
+              </div>
+
+
+
+              <div class="input-group mb-3 mt-5">
+                <div id="variable_no"></div>
+                <div id="variable_fml"></div>
+                <div id="variable_max"></div>
+                <div id="variable_min"></div>
+                <div id="variable_mul"></div>
+              </div>
+
+
+              <div class="row">
+
+                <div class="col-sm-6">
+
+                  <div class="input-group mb-3">
+                    <button type="button" class="btn btn-success" id="btn-2">Submit</button>
+                  </div>
+
+                </div>
+                <div class="col-sm-6">
+
+                  <div class="input-group mb-3 justify-content-end align-items-end">
+                    <button type="button" class="btn btn-danger" id="btn-2" onClick="window.location.reload();">Reload</button>
+                  </div>
+
+                </div>
+              </div>
+
+            </div> -->
+
 
           </div>
 
+          <!-- <div class="container list-container none">
+            <div class="row">
+              <div class="col-md-12">
+                <div id="list"></div>
+                <div id="dwn-btn"><button class="btn btn-md btn-primary" onclick ="resultNoAlone()">Download</button></div>
+                <br>
+                <div id="qa-btn"><button class="btn btn-md btn-primary" onclick ="resultQaAlone()">Download Only Question</button> <small class="text-muted">(This can be Used For Paraphrasing Question)</small></div>
+                <div id="pagination"></div>
+              </div>
+            </div>
+          </div>
+          </div> -->
+
+          
+
+            <!-- <div id="myDropdown" class="dropdown-content">
+              <button class="dropdownbut" id="calclcm" value="lcm">LCM</button>
+              <div id="checkboxes" style="display:none;"></div>
+              <div id="checkboxselect" style="display:none;"></div>
+            </div> -->
+            <!-- <div id="checkboxes" style="display:none;"></div> -->
+
+            <!-- <div id="lcmcalcwin" class="omni-calculator" data-calculator="math/gcf-and-lcm" data-width="300" data-config='{}' data-currency="INR" data-show-row-controls="false" data-version="3" data-t="1687158072991">
+              <div class="omni-calculator-header">GCF and LCM Calculator</div>
+              <div class="omni-calculator-footer">
+                <a href="https://www.omnicalculator.com/math/gcf-and-lcm" target="_blank"><img alt="Omni" class="omni-calculator-logo" src="https://cdn.omnicalculator.com/embed/omni-calculator-logo-long.svg" /></a>
+              </div>
+            </div> -->
+            
+            
+            
+
+            
+            <!-- <div id="checkboxselect" style="display:none;"></div> -->
         </section>
+
+        <!-- <div class="omni-calculator" data-calculator="math/gcf-and-lcm" data-width="300" data-config='{}' data-currency="INR" data-show-row-controls="false" data-version="3" data-t="1687243911957">
+          <div class="omni-calculator-header">GCF and LCM Calculator</div>
+          <div class="omni-calculator-footer">
+            <a href="https://www.omnicalculator.com/math/gcf-and-lcm" target="_blank"><img alt="Omni" class="omni-calculator-logo" src="https://cdn.omnicalculator.com/embed/omni-calculator-logo-long.svg" /></a>
+          </div>
+        </div>
+        <script async src="https://cdn.omnicalculator.com/sdk.js"></script>
+      </div> -->
+    <!-- </div> -->
+    <!-- <textarea id="formulaInput" placeholder="Enter formula"></textarea>
+<button id="convertButton">Convert</button> -->
 
 <!-- <div id="container">
   <div id="editor">
   </div>
 </div> -->
 
+
+
+<!-- Include the MathJax library -->
 
   </main>
   
@@ -164,6 +308,35 @@
   <!-- ======= Footer ======= -->
   <a href="#" class="back-to-top d-flex align-items-center
       justify-content-center"><i class="fa-solid fa-arrow-up"></i></a>
+  <!-- <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script> -->
+      
+      
+  
+  <!-- Vendor JS Files -->
+  
+  <!-- <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="{{ url_for('static', filename='vendor/purecounter/purecounter_vanilla.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js')}}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  local json
+  <script src="{{url_for('static', filename='JSON/specialCharacters.JSON')}}"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script> -->
+
+  <!-- Template Main JS File -->
+  
+  <!-- <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+  <script src="{{ url_for('static', filename='js/questiongenerator/index.js')}}"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script> -->
+  <!-- <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
+  <!-- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full"></script>  <script type="text/javascript" src="https://www.hostmath.com/Math/MathJax.js?config=OK"></script> -->
+  <!-- Include the MathJax library -->
 
 </body>
 
