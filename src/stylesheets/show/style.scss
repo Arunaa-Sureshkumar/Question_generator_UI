@@ -84,3 +84,15 @@ section {
   height: 40px;
   margin-right: 20px;
 }
+
+.actions button {
+  transition: transform 0.2s ease;
+}
+
+.actions button:hover {
+  transform: scale(1.2);
+}
+
+.tableouter {
+  padding: 0 60px 0 60px;
+}

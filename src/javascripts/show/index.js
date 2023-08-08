@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 /* eslint-disable prefer-template */
 /* eslint-disable quotes */
@@ -8,44 +9,108 @@ import 'bootstrap';
 import $ from 'jquery';
 import '../../stylesheets/common/importers/_bootstrap.scss';
 import '../../stylesheets/common/importers/_fontawesome.scss';
+import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
+import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import '../common/steroid';
 
 const api_path = process.env.API_PATH;
 function show() {
-  const cardContainer = document.getElementById('card-container');
+  // const cardContainer = document.getElementById('card-container');
 
-  // fetch(`${api_path}/get_variables`)
   fetch(`${api_path}/get_variables`)
     .then((response) => response.json())
     .then((data) => {
       console.log('get variable api', data);
-      for (let i = 0; i < Object.keys(data).length; i++) {
-        console.log('ques data', data[i].Question);
-        const card = document.createElement("div");
-        card.className = "cardouterdiv card" + i;
-        const h5 = document.createElement("h6");
-        h5.className = 'card-header';
-        h5.innerText = data[i].Ques_name;
-        const cardbody = document.createElement('div');
-        cardbody.className = 'card-body';
-        const p = document.createElement("p");
-        p.className = "card-title";
-        p.innerText = data[i].Question;
-        const a = document.createElement("a");
-        a.className = "btn btn-primary edit1";
-        a.id = "edit1";
-        a.setAttribute("data-name", data[i].Unique_id);
-        a.innerText = "Edit";
-        a.addEventListener("click", (e) => {
+      // for (let i = 0; i < Object.keys(data).length; i++) {
+      //   console.log('ques data', data[i].Question);
+      //   const card = document.createElement("div");
+      //   card.className = "cardouterdiv card" + i;
+      //   const h5 = document.createElement("h6");
+      //   h5.className = 'card-header';
+      //   h5.innerText = data[i].Ques_name;
+      //   const cardbody = document.createElement('div');
+      //   cardbody.className = 'card-body';
+      //   const p = document.createElement("p");
+      //   p.className = "card-title";
+      //   p.innerText = data[i].Question;
+      //   const a = document.createElement("a");
+      //   a.className = "btn btn-primary edit1";
+      //   a.id = "edit1";
+      //   a.setAttribute("data-name", data[i].Unique_id);
+      //   a.innerText = "Edit";
+      //   a.addEventListener("click", (e) => {
+      //     const uid = e.target.getAttribute('data-name');
+      //     window.location.href = `questiongenerator.html?id=${uid}`;
+      //   });
+      //   const but = document.createElement('button');
+      //   but.className = 'btn btn-danger';
+      //   but.id = "delques";
+      //   but.innerText = "Delete";
+      //   but.setAttribute("data-name", data[i].Unique_id);
+      //   but.addEventListener("click", (e) => {
+      //     const uid = e.target.getAttribute('data-name');
+      //     fetch(`${api_path}/delete`, {
+      //       method: "DELETE",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify({ Unique_id: uid }),
+      //     })
+      //       .then((response) => response.json())
+      //       .then((data1) => {
+      //         console.log(data1.message);
+      //         // eslint-disable-next-line no-restricted-globals
+      //         location.reload();
+      //       })
+      //       .catch((error) => {
+      //         console.error("Error:", error);
+      //       });
+      //   });
+      //   cardbody.append(p);
+      //   cardbody.append(a);
+      //   cardbody.append(but);
+      //   card.append(h5);
+      //   card.append(cardbody);
+      //   cardContainer.append(card);
+      // }
+      const tableBody = document.getElementById("table-body");
+
+      data.forEach((record) => {
+        const newRow = document.createElement("tr");
+        const ques_name = document.createElement("td");
+        ques_name.textContent = record.Ques_name;
+        const ques_tag = document.createElement("td");
+        ques_tag.textContent = record.Tags;
+        const ques_type = document.createElement("td");
+        ques_type.textContent = record.Ques_type;
+        const difficulty = document.createElement("td");
+        difficulty.textContent = record.Difficulty;
+        const question = document.createElement("td");
+        question.textContent = record.Question;
+        const solution = document.createElement("td");
+        solution.textContent = record.Solution;
+        const actions = document.createElement("td");
+        actions.className = "actions";
+        actions.style.width = "50px";
+        const edit = document.createElement("button");
+        edit.className = "fa fa-edit edit-btn";
+        edit.style.color = "green";
+        edit.style.border = "none";
+        edit.id = "edit1";
+        edit.setAttribute("data-name", record.Unique_id);
+        edit.style.backgroundColor = "transparent";
+        edit.addEventListener("click", (e) => {
           const uid = e.target.getAttribute('data-name');
           window.location.href = `questiongenerator.html?id=${uid}`;
         });
-        const but = document.createElement('button');
-        but.className = 'btn btn-danger';
-        but.id = "delques";
-        but.innerText = "Delete";
-        but.setAttribute("data-name", data[i].Unique_id);
-        but.addEventListener("click", (e) => {
+        const del = document.createElement("button");
+        del.className = "fa fa-trash del-btn";
+        del.style.color = "red";
+        del.style.border = "none";
+        del.style.backgroundColor = "transparent";
+        del.id = "delques";
+        del.setAttribute("data-name", record.Unique_id);
+        del.addEventListener("click", (e) => {
           const uid = e.target.getAttribute('data-name');
           fetch(`${api_path}/delete`, {
             method: "DELETE",
@@ -58,19 +123,24 @@ function show() {
             .then((data1) => {
               console.log(data1.message);
               // eslint-disable-next-line no-restricted-globals
-              location.reload(); // Output the response from the API
+              location.reload();
             })
             .catch((error) => {
               console.error("Error:", error);
             });
         });
-        cardbody.append(p);
-        cardbody.append(a);
-        cardbody.append(but);
-        card.append(h5);
-        card.append(cardbody);
-        cardContainer.append(card);
-      }
+        actions.appendChild(edit);
+        actions.appendChild(del);
+        newRow.appendChild(ques_name);
+        newRow.appendChild(ques_type);
+        newRow.appendChild(difficulty);
+        newRow.appendChild(ques_tag);
+        newRow.appendChild(question);
+        newRow.appendChild(solution);
+        newRow.appendChild(actions);
+        tableBody.appendChild(newRow);
+      });
+      $('#data-table').DataTable();
     })
     .catch((error) => {
       console.error('An error occurred:', error);

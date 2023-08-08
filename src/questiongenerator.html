@@ -56,13 +56,61 @@
         <section id="questiongenerator" class="col-md-10 questiongenerator">
           <div class="container">
             <div>
-              <div>
-                <h1 class="col-md-8">Question Generator</h1>
-                
+              <div class="d-flex flex-row justify-content-between">
+                <h1 class="ml-2 left-item">Question Generator</h1>
+                <a id="show" class="mr-2 right-item"> <button type="button" class="btn btn-success" id="show">Question Bank</button></a>
               </div>
               <div class="mb-3" id="step-one" data-bs-toggle="tooltip"
                 title="Question name">
                 <textarea type="text" id="questionname" class="form-control questionnameinp" placeholder="Question Name" rows="1"></textarea>
+              </div>
+              <div class="border p-3 rounded metadata">
+                <div class="d-flex flex-row types">
+                  <div class="typediv d-flex flex-row">
+                    <label  class="ml-2 form-label typelabel heading" id="basic-addon1">Type</label>
+                    <input type="text" id="type" class="type form-control">
+                  </div>
+                  <div class="subtypediv d-flex flex-row">
+                    <label  class="mr-2 form-label typelabel heading" id="basic-addon1">SubType</label>
+                    <input type="text" id="subtype" class="type form-control">
+                  </div>
+                </div>
+                <div>
+                  <label  class="ml-2 form-label heading" id="basic-addon1">Difficulty</label>
+                  <form id="difficultyForm" class="d-flex flex-row difficultyform">
+                    <label class="difficultylabel">
+                        <input type="radio" name="difficulty" value="easy" class="difficultyinput" checked>
+                        Easy
+                    </label>
+                    <label class="difficultylabel">
+                        <input type="radio" name="difficulty" class="difficultyinput" value="medium">
+                        Medium
+                    </label>
+                    <label class="difficultylabel">
+                        <input type="radio" name="difficulty" class="difficultyinput" value="hard">
+                        Hard
+                    </label>
+                  </form>
+                </div>
+                <div class="tagsdiv d-flex flex-row">
+                  <label  class="form-label heading" id="basic-addon1" for="subtopics">Subtopics</label>
+                  <input list="courses" name="course" id="subtopic" class="form-control subtopicclass">
+                  <datalist id="courses">
+                      <option value="Java">
+                      <option value="C++">
+                      <option value="Python">
+                      <option value="DSA">
+                      <option value="ML and AI">
+                  </datalist>
+                </div>
+                <div class="tagsdiv">
+                  <label for="skills" class="form-label heading" id="basic-addon1">Tags</label>
+                  <select class="progLang form-control tagclass" multiple="true" id="tags">
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="html">HTML</option>
+                  </select>
+                </div>
               </div>
               <div class="mb-3" id="step-one" data-bs-toggle="tooltip"
                 title="Enter the Question">
@@ -197,10 +245,11 @@
                 <div id="dispgenvar" class="d-flex flex-row flex-wrap"></div>
                 <div id="dispgenvar2" class="dispgenvar2"></div>
               </div>
-              <div>
-                <button type="button" class="btn btn-success" id="save">Save</button>
-                <a id="show"> <button type="button" class="btn btn-success" id="show">Show</button></a>
+              <div class="d-flex flex-row justify-content-between" id="questionbank">
+                <button type="button" class="ml-2 btn btn-success btmsave" id="save">Save</button>
+                <a id="show" class="mr-2"> <button type="button" class="btn btn-success btmshow" id="show">Question Bank</button></a>
               </div>
+              <div id="questionsaved"></div>
 
               <!-- <div class="input-group mb-3" id="step-7" data-bs-toggle="tooltip"
                 title="Enter how many varying values present in the question">

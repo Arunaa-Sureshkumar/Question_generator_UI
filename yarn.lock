@@ -4278,6 +4278,13 @@
   dependencies:
     "jquery" ">=1.7"
 
+"datatables@^1.10.18":
+  "integrity" "sha512-ntatMgS9NN6UMpwbmO+QkYJuKlVeMA2Mi0Gu/QxyIh+dW7ZjLSDhPT2tWlzjpIWEkDYgieDzS9Nu7bdQCW0sbQ=="
+  "resolved" "https://registry.npmjs.org/datatables/-/datatables-1.10.18.tgz"
+  "version" "1.10.18"
+  dependencies:
+    "jquery" ">=1.7"
+
 "debug@^2.2.0":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz"
@@ -11850,6 +11857,11 @@
   "integrity" "sha1-Yl2GWPhlr0Psliv8N2o3NZpJlMo="
   "resolved" "https://registry.npmjs.org/select-hose/-/select-hose-2.0.0.tgz"
   "version" "2.0.0"
+
+"select2@^4.1.0-rc.0":
+  "integrity" "sha512-Hr9TdhyHCZUtwznEH2CBf7967mEM0idtJ5nMtjvk3Up5tPukOLXbHUNmh10oRfeNIhj+3GD3niu+g6sVK+gK0A=="
+  "resolved" "https://registry.npmjs.org/select2/-/select2-4.1.0-rc.0.tgz"
+  "version" "4.1.0-rc.0"
 
 "selectize@^0.12.6":
   "integrity" "sha512-bWO5A7G+I8+QXyjLfQUgh31VI4WKYagUZQxAXlDyUmDDNrFxrASV0W9hxCOl0XJ/XQ1dZEu3G9HjXV4Wj0yb6w=="

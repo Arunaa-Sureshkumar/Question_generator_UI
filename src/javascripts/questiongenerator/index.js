@@ -22,6 +22,8 @@
 import 'bootstrap';
 import $, { event } from 'jquery';
 import * as XLSX from 'xlsx';
+import 'select2';
+import 'select2/dist/css/select2.css';
 import '../../stylesheets/common/importers/_bootstrap.scss';
 import '../../stylesheets/common/importers/_fontawesome.scss';
 import '../common/steroid';
@@ -1627,24 +1629,33 @@ $(document).ready(() => {
     $('#checkboxes').toggle('slide');
   });
 });
-
+const tagsarray = [];
 function save() {
   console.log('hi');
+  const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
+  const tags = $('#tags').select2('data');
+  for (let i = 0; i < tags.length; i++) {
+    tagsarray.push(tags[i].text);
+  }
+  console.log("tags", tagsarray);
+  const questype = document.getElementById("type").value;
+  const quessubtype = document.getElementById("subtype").value;
+  const subtopics = document.getElementById("subtopic").value;
   var question = document.getElementById('question').value;
   var solution = document.getElementById('solution').value;
-  console.log("/save/chnagevariables", changevariables);
-  console.log("cvariables", cvariables);
-  console.log("/save/sub", subcheckedvariable);
-  console.log("/save/add", addcheckedvariable);
-  console.log("/save/lcm", lcmcheckedvariable);
-  console.log("/save/mul", mulcheckedvariable);
-  console.log("/save/sq", sqcheckedvariable);
-  console.log("/save/allnewvariables", newallvariables);
+  // console.log("/save/chnagevariables", changevariables);
+  // console.log("cvariables", cvariables);
+  // console.log("/save/sub", subcheckedvariable);
+  // console.log("/save/add", addcheckedvariable);
+  // console.log("/save/lcm", lcmcheckedvariable);
+  // console.log("/save/mul", mulcheckedvariable);
+  // console.log("/save/sq", sqcheckedvariable);
+  // console.log("/save/allnewvariables", newallvariables);
 
-  console.log("/save/action", actions);
-  console.log("/save/optionvalue", optdbvalues);
-  console.log("/save/optionvariables", optdbvariables);
-  console.log("/save/optionvariables 2nd", optionvariables);
+  // console.log("/save/action", actions);
+  // console.log("/save/optionvalue", optdbvalues);
+  // console.log("/save/optionvariables", optdbvariables);
+  // console.log("/save/optionvariables 2nd", optionvariables);
   // var allvariables = Object.assign(changevariables, cvariables, constantvariables);**
   var allvariables = Object.assign(changevariables, cvariables, constantvariables);
   console.log("/save/allvariables", allvariables);
@@ -1670,9 +1681,9 @@ function save() {
   if (urlParams.has('id')) {
     idValue = urlParams.get('id');
   }
-  console.log("options", optionvars);
-  console.log("newoptionvariables", newoptionvariables);
-  console.log("all variables", allvariables);
+  // console.log("options", optionvars);
+  // console.log("newoptionvariables", newoptionvariables);
+  // console.log("all variables", allvariables);
   // console.log('inside save', optionvalues);
   fetch(`${api_path}/save`, {
     method: 'POST',
@@ -1680,12 +1691,16 @@ function save() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, optionvariable: newoptionvariables,
+      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, optionvariable: newoptionvariables, type: questype, subtype: quessubtype, difficulty: selectedDifficulty, topic: subtopics, tags: tagsarray,
     }),
   })
     .then(response => response.json())
     .then(data => {
       console.log('Data', data);
+      const questionsaved = document.getElementById("questionsaved");
+      const h6 = document.createElement("small");
+      h6.innerText = "Question Saved Successfully";
+      questionsaved.appendChild(h6);
       // window.location.href = 'questiongenerator.html';
     })
     .catch((error) => {
@@ -1774,6 +1789,13 @@ if (urlParams.has('id')) {
     .catch(error => console.error('Error:', error));
   // console.log('id retrived', idValue);
 }
+
+// eslint-disable-next-line prefer-arrow-callback, func-names
+$(document).ready(function () {
+  $(".progLang").select2({
+    tags: true,
+  });
+});
 
 // const showvar = document.getElementById('show');
 // showvar.addEventListener('click', show);
