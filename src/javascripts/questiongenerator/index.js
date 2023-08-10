@@ -27,6 +27,17 @@ import 'select2/dist/css/select2.css';
 import '../../stylesheets/common/importers/_bootstrap.scss';
 import '../../stylesheets/common/importers/_fontawesome.scss';
 import '../common/steroid';
+import 'quill/dist/quill.snow.css';
+import Quill from 'quill';
+
+const quill = new Quill('#editor-container', {
+  theme: 'snow',
+});
+const editorbut = document.getElementById("editorbut");
+editorbut.addEventListener("click", () => {
+  const editorvalue = document.getElementById("editorvalue");
+  editorvalue.innerHTML = quill.root.innerHTML;
+});
 
 const defVar = document.getElementById('defvar');
 defVar.addEventListener('click', () => {
@@ -1640,9 +1651,11 @@ function save() {
   console.log("tags", tagsarray);
   const questype = document.getElementById("type").value;
   const quessubtype = document.getElementById("subtype").value;
-  const subtopics = document.getElementById("subtopic").value;
   var question = document.getElementById('question').value;
   var solution = document.getElementById('solution').value;
+  var code = document.getElementById('code').value;
+  // var editorvalue = document.getElementById('editorvalue').innerHTML;
+  // console.log(editorvalue);
   // console.log("/save/chnagevariables", changevariables);
   // console.log("cvariables", cvariables);
   // console.log("/save/sub", subcheckedvariable);
@@ -1691,7 +1704,7 @@ function save() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, optionvariable: newoptionvariables, type: questype, subtype: quessubtype, difficulty: selectedDifficulty, topic: subtopics, tags: tagsarray,
+      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, optionvariable: newoptionvariables, type: questype, subtype: quessubtype, difficulty: selectedDifficulty, tags: tagsarray, editorval: editorvalue, quescode: code,
     }),
   })
     .then(response => response.json())
@@ -1718,10 +1731,53 @@ if (urlParams.has('id')) {
   fetch(`${api_path}/get_data/${idValue}`)
     .then((response) => response.json())
     .then(data => {
+      // eslint-disable-next-line prefer-const
+      let options = [];
       console.log("retrived data", data.Question, data.Solution);
       optdbvalues = Object.assign(data.Options);
       optdbvariables = Object.assign(data.optionvariables);
       alldbvariables = Object.assign(data.Variables);
+      const quescode = document.getElementById('code');
+      quescode.value = data.Code;
+      const questopic = document.getElementById('type');
+      questopic.value = data.Ques_type;
+      const quessubtopic = document.getElementById('subtype');
+      quessubtopic.value = data.Ques_subtype;
+      const tags = document.getElementById("tags");
+      const optionsArray = Array.from(tags.options);
+
+      // Now you have an array of all the option elements
+      console.log(optionsArray);
+      optionsArray.forEach((option) => {
+        options.push(option.text);
+      });
+      console.log(options);
+      data.Tags.forEach((tag) => {
+        const option = document.createElement("option");
+        option.value = tag;
+        option.textContent = tag;
+        option.selected = true;
+        if (options.includes(tag)) {
+          const defoption = tags.querySelector(`option[value="${tag}"]`);
+          console.log(defoption);
+          if (defoption) {
+            defoption.selected = true;
+          }
+          console.log("tag", tag);
+        } else {
+          tags.appendChild(option);
+          console.log("else tag", tag);
+        }
+      });
+      const radioValues = ["easy", "medium", "hard"];
+      const radioButtons = document.getElementsByName("difficulty");
+      radioButtons.forEach((radio) => {
+        if (radioValues.includes(radio.value)) {
+          if (radio.value === data.Difficulty) {
+            radio.checked = true;
+          }
+        }
+      });
       const quesname = document.getElementById('questionname');
       quesname.value = data.Ques_name;
       const question = document.getElementById('question');

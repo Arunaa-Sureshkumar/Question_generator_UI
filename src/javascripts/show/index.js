@@ -77,6 +77,9 @@ function show() {
 
       data.forEach((record) => {
         const newRow = document.createElement("tr");
+        newRow.addEventListener("click", () => {
+          window.location.href = `questiongenerator.html?id=${record.Unique_id}`;
+        });
         const ques_name = document.createElement("td");
         ques_name.textContent = record.Ques_name;
         const ques_tag = document.createElement("td");

@@ -66,13 +66,26 @@
               </div>
               <div class="border p-3 rounded metadata">
                 <div class="d-flex flex-row types">
+                  <div class="codediv d-flex flex-row">
+                    <label  class="form-label typelabel heading" id="basic-addon1">Code</label>
+                    <input type="text" id="code" class="type form-control" placeholder="Question Code">
+                  </div>
                   <div class="typediv d-flex flex-row">
-                    <label  class="ml-2 form-label typelabel heading" id="basic-addon1">Type</label>
+                    <label  class="ml-2 form-label typelabel heading" id="basic-addon1">Topic</label>
                     <input type="text" id="type" class="type form-control">
                   </div>
                   <div class="subtypediv d-flex flex-row">
-                    <label  class="mr-2 form-label typelabel heading" id="basic-addon1">SubType</label>
-                    <input type="text" id="subtype" class="type form-control">
+                    <label  class="mr-2 form-label typelabel heading" id="basic-addon1">SubTopic</label>
+                    <!-- <input type="text" id="subtype" class="type form-control"> -->
+
+                    <input type="text" list="courses" name="course" id="subtype" class="type form-control">
+                    <datalist id="courses">
+                        <option value="Java">
+                        <option value="C++">
+                        <option value="Python">
+                        <option value="DSA">
+                        <option value="ML and AI">
+                    </datalist>
                   </div>
                 </div>
                 <div>
@@ -92,7 +105,7 @@
                     </label>
                   </form>
                 </div>
-                <div class="tagsdiv d-flex flex-row">
+                <!-- <div class="tagsdiv d-flex flex-row">
                   <label  class="form-label heading" id="basic-addon1" for="subtopics">Subtopics</label>
                   <input list="courses" name="course" id="subtopic" class="form-control subtopicclass">
                   <datalist id="courses">
@@ -102,13 +115,13 @@
                       <option value="DSA">
                       <option value="ML and AI">
                   </datalist>
-                </div>
+                </div> -->
                 <div class="tagsdiv">
                   <label for="skills" class="form-label heading" id="basic-addon1">Tags</label>
                   <select class="progLang form-control tagclass" multiple="true" id="tags">
-                    <option value="python">Python</option>
-                    <option value="java">Java</option>
-                    <option value="html">HTML</option>
+                    <option value="Python">Python</option>
+                    <option value="Java">Java</option>
+                    <option value="HTML">HTML</option>
                   </select>
                 </div>
               </div>
@@ -250,7 +263,9 @@
                 <a id="show" class="mr-2"> <button type="button" class="btn btn-success btmshow" id="show">Question Bank</button></a>
               </div>
               <div id="questionsaved"></div>
-
+              <div id="editor-container"></div>
+              <div id="editorvalue"></div>
+              <button type="button" id="editorbut">editorbut</button>
               <!-- <div class="input-group mb-3" id="step-7" data-bs-toggle="tooltip"
                 title="Enter how many varying values present in the question">
                 <span class="input-group-text" id="basic-addon1">Variable</span>
