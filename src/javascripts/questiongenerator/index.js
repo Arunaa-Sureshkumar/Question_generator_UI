@@ -1,3 +1,5 @@
+/* eslint-disable prefer-template */
+/* eslint-disable no-useless-concat */
 /* eslint-disable quotes */
 /* eslint-disable arrow-parens */
 /* eslint-disable no-inner-declarations */
@@ -29,19 +31,69 @@ import '../../stylesheets/common/importers/_fontawesome.scss';
 import '../common/steroid';
 import 'quill/dist/quill.snow.css';
 import Quill from 'quill';
+import * as DOMPurify from 'dompurify';
+import { DOMParser } from 'xmldom';
+import * as ExcelJS from 'exceljs';
+import {
+  fraction, format, add, subtract, multiply, square,
+} from 'mathjs';
+
+const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],
+  ['blockquote', 'code-block'],
+
+  [{ header: 1 }, { header: 2 }],
+  [{ list: 'ordered' }, { list: 'bullet' }],
+  [{ script: 'sub' }, { script: 'super' }],
+  [{ indent: '-1' }, { indent: '+1' }],
+  [{ direction: 'rtl' }],
+
+  [{ size: ['small', false, 'large', 'huge'] }],
+  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ color: [] }, { background: [] }],
+  [{ font: [] }],
+  [{ align: [] }],
+
+  ['clean'],
+];
 
 const quill = new Quill('#editor-container', {
+  modules: {
+    toolbar: '#toolbar',
+  },
   theme: 'snow',
 });
+
+const quillsoln = new Quill('#editor-containersoln', {
+  modules: {
+    toolbar: '#toolbarsoln',
+  },
+  theme: 'snow',
+});
+
 const editorbut = document.getElementById("editorbut");
 editorbut.addEventListener("click", () => {
   const editorvalue = document.getElementById("editorvalue");
-  editorvalue.innerHTML = quill.root.innerHTML;
+  editorvalue.classList.add("content-added");
+  const sanitizedHtml = DOMPurify.sanitize(quill.root.innerHTML);
+  editorvalue.innerHTML = sanitizedHtml;
+  console.log(editorvalue.innerHTML);
+  // document.getElementById("popup").style.display = "none";
 });
 
+const editorbutsoln = document.getElementById("editorbutsoln");
+editorbutsoln.addEventListener("click", () => {
+  const editorvalue = document.getElementById("editorvaluesoln");
+  editorvalue.classList.add("content-added");
+  const sanitizedHtml = DOMPurify.sanitize(quillsoln.root.innerHTML);
+  editorvalue.innerHTML = sanitizedHtml;
+  console.log(editorvalue.innerHTML);
+});
 const defVar = document.getElementById('defvar');
 defVar.addEventListener('click', () => {
   addText("create");
+  // document.getElementById("popup").style.display = "block";
 });
 const api_path = process.env.API_PATH;
 
@@ -70,6 +122,7 @@ let factdbarray = [];
 let diffdbarray = [];
 let perdbarray = [];
 let logdbarray = [];
+let fracdbarray = [];
 let vardbarray = [];
 let optdbarray = [];
 let optdbvariables = {};
@@ -99,23 +152,28 @@ function addText(act, dbvariables) {
   // }
   // if (act === "create") {
   console.log("inside act create");
-  let question = document.getElementById('question').value;
-  const textarea = document.getElementById('question');
-  const wordToAdd = (` dvar${variable_number} `);
-  const cursorStart = textarea.selectionStart;
-  const cursorEnd = textarea.selectionEnd;
-  const textareaValue = textarea.value;
-  const modifiedValue = textareaValue.substring(0, cursorStart) + wordToAdd + textareaValue.substring(cursorEnd);
-  if (act === 'create') {
-    question = modifiedValue;
-  }
-  console.log(modifiedValue);
-  console.log(question);
-  const newCursorPos = cursorStart + wordToAdd.length;
-  textarea.setSelectionRange(newCursorPos, newCursorPos);
+  // let question = document.getElementById('question').value;
+  // let question = document.getElementById('question').innerHTML;
+  // const textarea = document.getElementById('question');
+  // const wordToAdd = (` dvar${variable_number} `);
+  // const cursorStart = textarea.selectionStart;
+  // const cursorEnd = textarea.selectionEnd;
+  // const textareaValue = textarea.value;
+  // const modifiedValue = textareaValue.substring(0, cursorStart) + wordToAdd + textareaValue.substring(cursorEnd);
+  // if (act === 'create') {
+  //   question = modifiedValue;
+  // }
+  // console.log(modifiedValue);
+  // console.log(question);
+  // const newCursorPos = cursorStart + wordToAdd.length;
+  // textarea.setSelectionRange(newCursorPos, newCursorPos);
   // }
   variables[variable] = 0;
-
+  console.log("variable number check", variable_number);
+  if (quill.getSelection()) {
+    quill.insertText(quill.getSelection().index, `dvar${variable_number}`);
+    // variable_number++;
+  }
   const div = document.createElement('div');
   const vardiv = document.createElement('div');
   vardiv.className = `d-flex flex-row vareditdiv${variable_number}`;
@@ -191,8 +249,9 @@ function addText(act, dbvariables) {
         const diffarray = diffdbarray.concat(diffcheckedvariable);
         const perarray = perdbarray.concat(percheckedvariable);
         const logarray = logdbarray.concat(logcheckedvariable);
+        const fracarray = fracdbarray.concat(fraccheckedvaribale);
         console.log("addaray", addarray);
-        changerefresh(vardbarray, editnum, clickedinput, 'def', lcmarray, addarray, subarray, mularray, divarray, sqarray, sqrootarray, cubearray, curootarray, factarray, diffarray, perarray, logarray, optdbarray);
+        changerefresh(vardbarray, editnum, clickedinput, 'def', lcmarray, addarray, subarray, mularray, divarray, sqarray, sqrootarray, cubearray, curootarray, factarray, diffarray, perarray, logarray, fracarray, optdbarray);
       } else {
         changerefresh(allvariables, editnum, clickedinput, 'def');
       }
@@ -215,7 +274,9 @@ function addText(act, dbvariables) {
   }
 
   // e.preventDefault();
-  document.getElementById('question').value = question;
+  // document.getElementById('question').value = question;
+  // document.getElementById('question').innerHTML = question;
+
   variable_number++;
   console.log('changevariables', changevariables);
 }
@@ -252,12 +313,13 @@ function getvalue1(event, lcmdb, adddb, subdb, muldb, divdb, squaredb, sqrootdb,
   const diffarray = diffdbarray.concat(diffcheckedvariable);
   const perarray = perdbarray.concat(percheckedvariable);
   const logarray = logdbarray.concat(logcheckedvariable);
-  changerefresh(allvariables, editnum, clickedinput, 'def', lcmarray, addarray, subarray, mularray, divarray, sqarray, sqrootarray, cubearray, curootarray, factarray, diffarray, perarray, logarray, optionvariable);
+  const fracarray = fracdbarray.concat(fraccheckedvariable);
+  changerefresh(allvariables, editnum, clickedinput, 'def', lcmarray, addarray, subarray, mularray, divarray, sqarray, sqrootarray, cubearray, curootarray, factarray, diffarray, perarray, logarray, fracarray, optionvariable);
   // const vareditdivlabel = document.querySelector(`.vareditdiv${editnum} label`);
   // changerefresh(allvariables, editnum, clickedinput, 'def', lcmdb, adddb, subdb, muldb, divdb, squaredb, sqrootdb, cubedb, curootdb, factdb, diffdb, perdb, logdb, optionvariable);
 }
 let newallvariables = {};
-function changerefresh(allvariables, editnum, clickedinput, variable, lcmcheckedvariables = lcmcheckedvariable, addcheckedvariables = addcheckedvariable, subcheckedvariables = subcheckedvariable, mulcheckedvariables = mulcheckedvariable, divcheckedvariables = divcheckedvariable, sqcheckedvariables = sqcheckedvariable, sqrootcheckedvariables = sqrootcheckedvariable, cubecheckedvariables = cubecheckedvariable, curootcheckedvariables = curootcheckedvariable, factcheckedvariables = factcheckedvariable, diffcheckedvariables = diffcheckedvariable, percheckedvariables = percheckedvariable, logcheckedvariables = logcheckedvariable, optionvariable = optionvariables) {
+function changerefresh(allvariables, editnum, clickedinput, variable, lcmcheckedvariables = lcmcheckedvariable, addcheckedvariables = addcheckedvariable, subcheckedvariables = subcheckedvariable, mulcheckedvariables = mulcheckedvariable, divcheckedvariables = divcheckedvariable, sqcheckedvariables = sqcheckedvariable, sqrootcheckedvariables = sqrootcheckedvariable, cubecheckedvariables = cubecheckedvariable, curootcheckedvariables = curootcheckedvariable, factcheckedvariables = factcheckedvariable, diffcheckedvariables = diffcheckedvariable, percheckedvariables = percheckedvariable, logcheckedvariables = logcheckedvariable, fraccheckedvariables = fraccheckedvariable, optionvariable = optionvariables) {
   console.log("global", lcmcheckedvariable);
   console.log("all variables", allvariables);
   console.log("lcmcheckedvariable", lcmcheckedvariables);
@@ -265,7 +327,7 @@ function changerefresh(allvariables, editnum, clickedinput, variable, lcmchecked
   // console.log("test", lcmcheckedvariable);
   const actionlen = Object.keys(actions).length;
   let optnum = 2;
-  let lcmnum = 0; let addnum = 0; let subnum = 0; let mulnum = 0; let divnum = 0; let squnum = 0; let squrootnum = 0; let cubnum = 0; let cubrootnum = 0; let factnum = 0; let diffenum = 0; let percenum = 0; let lognum = 0;
+  let lcmnum = 0; let addnum = 0; let subnum = 0; let mulnum = 0; let divnum = 0; let squnum = 0; let squrootnum = 0; let cubnum = 0; let cubrootnum = 0; let factnum = 0; let diffenum = 0; let percenum = 0; let lognum = 0; let fracnum = 0;
   let checkbox;
   if (variable == 'def') checkbox = document.querySelector(`[data-name="dvardiv${editnum}"]`);
   if (variable == 'const') checkbox = document.querySelector(`[data-name="constdiv${editnum}"]`);
@@ -374,6 +436,12 @@ function changerefresh(allvariables, editnum, clickedinput, variable, lcmchecked
       var splitArrays = splitarray(logcheckedvariables);
       var array = splitArrays[lognum++].map((key) => newallvariables[key]);
       var res = calculatelog(array);
+      changeinput.value = res;
+    }
+    if (action == 'Fraction') {
+      var splitArrays = splitarray(fraccheckedvariables);
+      var array = splitArrays[fracnum++].map((key) => newallvariables[key]);
+      var res = calculatefrac(array);
       changeinput.value = res;
     }
     console.log("changeinput.value and res and changeinput id", changeinput.value, res, changeinput.id);
@@ -533,9 +601,21 @@ function deletebut(e) {
   const parentDiv = e.currentTarget.parentNode.parentNode;
   console.log(parentDiv, '||', e.currentTarget.previousElementSibling.id);
   const key = e.currentTarget.previousElementSibling.id;
-  const question = document.getElementById('question');
-  const newstring = (question.value).replace(e.currentTarget.previousElementSibling.id, '');
-  question.value = newstring;
+  // const question = document.getElementById('question');
+  // const newstring = (question.value).replace(e.currentTarget.previousElementSibling.id, '');
+  // question.value = newstring;
+  if (quill) {
+    var editorContent = quill.root.innerHTML;
+    // Replace "dvar0" with an empty string
+    var modifiedContent = editorContent.replace(e.currentTarget.previousElementSibling.id, '');
+    // Update the editor content
+    quill.root.innerHTML = modifiedContent;
+  }
+  if (quillsoln) {
+    var editorContent = quillsoln.root.innerHTML;
+    var modifiedContent = editorContent.replace(e.currentTarget.previousElementSibling.id, '');
+    quillsoln.root.innerHTML = modifiedContent;
+  }
   const solution = document.getElementById('solution');
   solution.value = (solution.value).replace(e.currentTarget.previousElementSibling.id, '');
   delete changevariables[key];
@@ -565,20 +645,24 @@ function addvar(act) {
   // variable = "cvar"+change_var_number;
   // variables[variable] = 0;
 
-  let solution = document.getElementById('solution').value;
-  const textarea = document.getElementById('solution');
-  const wordToAdd = (` cvar${change_var_number} `);
-  const cursorStart = textarea.selectionStart;
-  const cursorEnd = textarea.selectionEnd;
-  const textareaValue = textarea.value;
+  // let solution = document.getElementById('solution').value;
+  // const textarea = document.getElementById('solution');
+  // const wordToAdd = (` cvar${change_var_number} `);
+  // const cursorStart = textarea.selectionStart;
+  // const cursorEnd = textarea.selectionEnd;
+  // const textareaValue = textarea.value;
 
-  const modifiedValue = textareaValue.substring(0, cursorStart) + wordToAdd + textareaValue.substring(cursorEnd);
-  if (act === "create") {
-    solution = modifiedValue;
+  // const modifiedValue = textareaValue.substring(0, cursorStart) + wordToAdd + textareaValue.substring(cursorEnd);
+  // if (act === "create") {
+  //   solution = modifiedValue;
+  // }
+  // // Move the cursor after the newly added word
+  // const newCursorPos = cursorStart + wordToAdd.length;
+  // textarea.setSelectionRange(newCursorPos, newCursorPos);
+  if (quillsoln.getSelection()) {
+    quillsoln.insertText(quillsoln.getSelection().index, `cvar${change_var_number}`);
+    // variable_number++;
   }
-  // Move the cursor after the newly added word
-  const newCursorPos = cursorStart + wordToAdd.length;
-  textarea.setSelectionRange(newCursorPos, newCursorPos);
 
   const changevardiv = document.createElement('div');
   const butspandiv = document.createElement('div');
@@ -651,7 +735,7 @@ function addvar(act) {
   const lcmstore = changevarinput.id;
   changevarinput.value = lcm;
   // e.preventDefault();
-  document.getElementById('solution').value = solution;
+  // document.getElementById('solution').value = solution;
   change_var_number++;
 }
 
@@ -706,6 +790,9 @@ calcper.myParam = '13';
 const calclog = document.getElementById('calclog');
 calclog.addEventListener('click', lcmcalculation);
 calclog.myParam = '14';
+const calcfrac = document.getElementById('calcfrac');
+calcfrac.addEventListener('click', lcmcalculation);
+calcfrac.myParam = '15';
 // calcassign.myParam = ""
 
 const calclcmaction = calclcm.value;
@@ -807,6 +894,7 @@ var factcheckedvariable = [];
 var diffcheckedvariable = [];
 var percheckedvariable = [];
 var logcheckedvariable = [];
+var fraccheckedvariable = [];
 function selectvariables(e) {
   const element = document.getElementById(e.currentTarget.myParam);
   element.style.backgroundColor = '#198754';
@@ -905,6 +993,13 @@ function selectvariables(e) {
     console.log('inside action==14', lcm);
     logcheckedvariable.push(...checkedvariables);
     logcheckedvariable.push('end');
+  }
+  if (action == 15) {
+    mathaction = 'Fraction';
+    lcm = calculatefrac(checkedvalues);
+    console.log('inside action==15', lcm);
+    fraccheckedvariable.push(...checkedvariables);
+    fraccheckedvariable.push('end');
   }
   changevarinput(lcm, mathaction);
   togglebutton();
@@ -1021,6 +1116,22 @@ const calculatelog = (...[arr]) => {
   return n;
 };
 
+const calculatefrac = (...[arr]) => {
+  function simplifyFraction(numerator, denominator) {
+    const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+    const commonDivisor = gcd(numerator, denominator);
+
+    return {
+      numerator: numerator / commonDivisor,
+      denominator: denominator / commonDivisor,
+    };
+  }
+  const simplifiedFraction = simplifyFraction(arr[0], arr[1]);
+  const fracvalue = simplifiedFraction.numerator + "/" + simplifiedFraction.denominator;
+  console.log(simplifiedFraction.numerator + "/" + simplifiedFraction.denominator);
+  return fracvalue;
+};
+
 let newvariable = 0;
 var actions = {};
 function changevarinput(lcm, mathaction) {
@@ -1117,6 +1228,36 @@ function splitarray(lcmcheckedvariable) {
   splitArrays.push(currentArray);
   return splitArrays;
 }
+function formatRichText(text) {
+  const formattedText = [];
+  const modifiedText = text.replace(/<\/?p>/g, '');
+  if (!modifiedText.includes('<sup>') && !modifiedText.includes('<sub>')) {
+    console.log("modified Text inside formatRichText", modifiedText);
+    return [{ text: modifiedText }];
+  }
+  const parts = modifiedText.split(/(<sup>.*?<\/sup>|<sub>.*?<\/sub>|<b>.*?<\/b>)/);
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const part of parts) {
+    if (part.startsWith('<sup>') && part.endsWith('</sup>')) {
+      const superscriptText = part.slice(5, -6);
+      formattedText.push({
+        text: superscriptText,
+        font: { vertAlign: 'superscript' },
+      });
+    } else if (part.startsWith('<sub>') && part.endsWith('</sub>')) {
+      const subscriptText = part.slice(5, -6);
+      formattedText.push({
+        text: subscriptText,
+        font: { vertAlign: 'subscript' },
+      });
+    } else {
+      formattedText.push({ text: part });
+    }
+  }
+
+  return formattedText;
+}
 
 function generatevariabledisplay() {
   console.log('inside genratevariabledisplay', changevariables);
@@ -1185,13 +1326,27 @@ function generatevariabledisplay() {
   genbut.id = 'genbut';
   genbut.innerText = 'Gen';
   genbut.className = 'p-1 btn btn-success genbtn';
-  const workbook = XLSX.utils.book_new();
-  let worksheet = workbook.Sheets.Sheet1;
+  // const workbook = XLSX.utils.book_new();
+  // let worksheet = workbook.Sheets.Sheet1;
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Sheet1');
+  console.log("workbook", workbook);
   genbut.addEventListener('click', () => {
-    const ques = document.getElementById('question').value;
-    console.log(ques);
+    // const ques = document.getElementById('question').value;
+    const questioneditorvalue = document.getElementById('editorvalue');
+    const spanelement = questioneditorvalue.querySelector('span');
+    if (spanelement) {
+      spanelement.parentNode.removeChild(spanelement);
+    }
+    const solneditorvalue = document.getElementById('editorvaluesoln');
+    const spanelementsoln = solneditorvalue.querySelector('span');
+    if (spanelementsoln) {
+      spanelementsoln.parentNode.removeChild(spanelementsoln);
+    }
+    const ques = document.getElementById('editorvalue').innerHTML;
     const loop = document.getElementById('loop').value;
-    const solution = document.getElementById('solution').value;
+    // const solution = document.getElementById('solution').value;
+    const solution = document.getElementById('editorvaluesoln').innerHTML;
     // console.log(solution);
     // console.log("cvariables",cvariables);
     // console.log("actions",actions);
@@ -1205,17 +1360,21 @@ function generatevariabledisplay() {
         const res = Number(changevariables[match]) + (Number(changed[match]) + Number(changed[match]) * i);
         // console.log(newvalues);
         newvalues[match] = res;
+        console.log("i res", res);
         return res;
       });
-        // console.log(newvalues);
-      const solution = document.getElementById('solution').value;
+      console.log("replacedsentence", replacedSentence);
+      // const replacespan = replacedSentence.replace('ql-cursor', '');
+      console.log(questioneditorvalue.innerHTML);
+      // const solution = document.getElementById('solution').value;
+      const solution = document.getElementById('editorvaluesoln').innerHTML;
 
       const replacedSolution = solution.replace(/dvar\d+/g, (match) => {
         const res = Number(newvalues[match]);
         return res;
       });
 
-      var num = 0; var anum = 0; var snum = 0; var mnum = 0; var dnum = 0; var sqnum = 0; var srnum = 0; var cnum = 0; var curnum = 0; var fnum = 0; var dinum = 0; var pernum = 0; var lognum = 0;
+      var num = 0; var anum = 0; var snum = 0; var mnum = 0; var dnum = 0; var sqnum = 0; var srnum = 0; var cnum = 0; var curnum = 0; var fnum = 0; var dinum = 0; var pernum = 0; var lognum = 0; var fracnum = 0;
 
       const crtSolution = replacedSolution.replace(/cvar\d+/g, (match) => {
         const action = actions[match];
@@ -1293,6 +1452,11 @@ function generatevariabledisplay() {
           var array = splitArrays[lognum++].map((key) => newvalues[key]);
           var res = calculatelog(array);
         }
+        if (action == 'Fraction') {
+          splitArrays = splitarray(fraccheckedvariable);
+          var array = splitArrays[fracnum++].map((key) => newvalues[key]);
+          var res = calculatefrac(array);
+        }
 
         // var res = calculateLCM()keys.map(key => obj[key]);
         const capvar = match.charAt(0).toUpperCase() + match.slice(1);
@@ -1319,28 +1483,141 @@ function generatevariabledisplay() {
         const op = optionvariables[opt];
 
         const opvalue = newvalues[op[0]];
-        if (op[1] == '+') newoptions[opt] = Number(opvalue) + Number(op[2]);
-        if (op[1] == '-') newoptions[opt] = Number(opvalue) - Number(op[2]);
-        if (op[1] == '*') newoptions[opt] = Number(opvalue) * Number(op[2]);
-        if (op[1] == '^') newoptions[opt] = Number(opvalue) * Number(opvalue);
+        if (op[1] == '+') {
+          if (!Number(opvalue)) {
+            newoptions[opt] = format(add(fraction(opvalue), fraction(op[2])));
+          } else {
+            newoptions[opt] = Number(opvalue) + Number(op[2]);
+          }
+        }
+        if (op[1] == '-') {
+          if (!Number(opvalue)) {
+            newoptions[opt] = format(subtract(fraction(opvalue), fraction(op[2])));
+          } else {
+            newoptions[opt] = Number(opvalue) - Number(op[2]);
+          }
+        }
+        if (op[1] == '*') {
+          if (!Number(opvalue)) {
+            newoptions[opt] = format(multiply(fraction(opvalue), fraction(op[2])));
+          } else {
+            newoptions[opt] = Number(opvalue) * Number(op[2]);
+          }
+        }
+        if (op[1] == '^') {
+          if (!Number(opvalue)) {
+            newoptions[opt] = format(square(fraction(opvalue)));
+          } else {
+            newoptions[opt] = Number(opvalue) * Number(opvalue);
+          }
+        }
       }
       console.log('optionvariables', optionvariables);
       console.log('newoptions', newoptions);
-      if (!worksheet) {
-        var data = [{
-          Questions: replacedSentence, Option1: newoptions.option1, Option2: newoptions.option2, Option3: newoptions.option3, Option4: newoptions.option4, CorrectAns: newoptions.option1, Solution: finalSolution,
-        }];
-        worksheet = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-      } else {
-        var data = [{
-          Questions: replacedSentence, Option1: newoptions.option1, Option2: newoptions.option2, Option3: newoptions.option3, Option4: newoptions.option4, CorrectAns: newoptions.option1, Solution: finalSolution,
-        }];
-        const rowIndex = XLSX.utils.sheet_add_json(worksheet, data, { header: ['Questions', 'Option1', 'Option2', 'Option3', 'Option4', 'CorrectAns', 'Solution'], skipHeader: true, origin: -1 });
-        const cellRef = XLSX.utils.encode_cell({ r: rowIndex, c: 0 });
-        worksheet[cellRef] = replacedSentence;
+      // const editorvalue = document.getElementById("editorvalue");
+      // const divContent = document.getElementById('editorvalue').innerHTML;
+      // console.log("quill content", excelContent);
+
+      // =====================================
+      // if (!worksheet) {
+      //   var data = [{
+      //     Questions: replacedSentence, Option1: newoptions.option1, Option2: newoptions.option2, Option3: newoptions.option3, Option4: newoptions.option4, CorrectAns: newoptions.option1, Solution: finalSolution, editorvalue: cleanText,
+      //   }];
+      //   worksheet = XLSX.utils.json_to_sheet(data);
+      //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+      // } else {
+      //   var data = [{
+      //     Questions: replacedSentence, Option1: newoptions.option1, Option2: newoptions.option2, Option3: newoptions.option3, Option4: newoptions.option4, CorrectAns: newoptions.option1, Solution: finalSolution, editorvalue: cleanText,
+      //   }];
+      //   const rowIndex = XLSX.utils.sheet_add_json(worksheet, data, { header: ['Questions', 'Option1', 'Option2', 'Option3', 'Option4', 'CorrectAns', 'Solution', 'editorval'], skipHeader: true, origin: -1 });
+      //   const cellRef = XLSX.utils.encode_cell({ r: rowIndex, c: 0 });
+      //   worksheet[cellRef] = replacedSentence;
+      // }
+      const questioncell = worksheet.getCell('A' + (i + 2));
+      const opt1cell = worksheet.getCell('B' + (i + 1));
+      const opt2cell = worksheet.getCell('C' + (i + 1));
+      const opt3cell = worksheet.getCell('D' + (i + 1));
+      const opt4cell = worksheet.getCell('E' + (i + 1));
+      const anscell = worksheet.getCell('F' + (i + 1));
+      const solncell = worksheet.getCell('G' + (i + 1));
+
+      const editorvalue = document.getElementById("editorvalue");
+      editorvalue.innerHTML = quill.root.innerHTML;
+      const originalText = document.getElementById('editorvalue').innerHTML;
+      const richText = formatRichText(replacedSentence);
+      const solnrichText = formatRichText(finalSolution);
+      console.log("richText", richText);
+      const accumulatedRichText = [];
+      const solnrichTextarray = [];
+      worksheet.columns = [
+        { header: 'Question', key: 'ques', width: 35 },
+        { header: 'Option1', key: 'opt1', width: 15 },
+        { header: 'Option2', key: 'opt2', width: 15 },
+        { header: 'Option3', key: 'opt3', width: 15 },
+        { header: 'Option4', key: 'opt4', width: 15 },
+        { header: 'Correct Ans', key: 'ans', width: 15 },
+        { header: 'Solution', key: 'soln', width: 35 },
+      ];
+      // worksheet.addRow({ id: 1, name: 'John Doe', dob: new Date(1970, 1, 1) });
+      // worksheet.addRow({
+      //   ques: replacedSentence, opt1: newoptions.option1, opt2: newoptions.option2, opt3: newoptions.option3, opt4: newoptions.option4, ans: newoptions.option1, soln: finalSolution,
+      // });
+      for (let i = 0; i < richText.length; i++) {
+        accumulatedRichText.push({ text: richText[i].text, font: richText[i].font });
       }
+      for (let i = 0; i < solnrichText.length; i++) {
+        solnrichTextarray.push({ text: solnrichText[i].text, font: solnrichText[i].font });
+      }
+      questioncell.value = {
+        richText: [
+          // ...(cell.value ? cell.value.richText : []),
+          ...accumulatedRichText,
+        ],
+      };
+      solncell.value = {
+        richText: [
+          // ...(cell.value ? cell.value.richText : []),
+          ...solnrichTextarray,
+        ],
+      };
+      opt1cell.value = {
+        richText: [
+          { text: newoptions.option1 },
+        ],
+      };
+      opt2cell.value = {
+        richText: [
+          { text: newoptions.option2 },
+        ],
+      };
+      opt3cell.value = {
+        richText: [
+          { text: newoptions.option3 },
+        ],
+      };
+      opt4cell.value = {
+        richText: [
+          { text: newoptions.option4 },
+        ],
+      };
+      anscell.value = {
+        richText: [
+          { text: newoptions.option1 },
+        ],
+      };
+      // opt1cell.value = {
+      //   richText: [
+      //     { text: "hello" },
+      //   ],
+      // };
+      // opt2cell.value = {
+      //   richText: [
+      //     { text: "hi" },
+      //   ],
+      // };
       dlabel.innerHTML = 'You can now download sheet';
+
+      // ========================================
     }
   });
   const loop = document.createElement('input');
@@ -1356,17 +1633,40 @@ function generatevariabledisplay() {
   downloadbut.className = 'p-1 downloadbtn btn btn-success';
 
   downloadbut.addEventListener('click', () => {
-    const excelData = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
-    const blob = new Blob([excelData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const url = URL.createObjectURL(blob);
+    // ========================
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'output.xlsx';
-    link.click();
+    // const excelData = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
+    // const blob = new Blob([excelData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    // const url = URL.createObjectURL(blob);
 
-    URL.revokeObjectURL(url);
-    console.log('downloaded');
+    // const link = document.createElement('a');
+    // link.href = url;
+    // link.download = 'output.xlsx';
+    // link.click();
+
+    // URL.revokeObjectURL(url);
+    // console.log('downloaded');
+
+    workbook.xlsx.writeBuffer()
+      .then(buffer => {
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'rich_text_example.xlsx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        URL.revokeObjectURL(url);
+        console.log('Excel file with rich text formatting created and downloaded.');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+    // ============================================
   });
   const loopdiv = document.createElement('div');
   loopdiv.className = 'd-flex flex-row';
@@ -1477,7 +1777,11 @@ function updateoptinputadd(e) {
   // console.log(e.currentTarget.value);
   const option1value = document.getElementById('option1').value;
   const opinput = document.getElementById(e.currentTarget.myParam);
-  opinput.value = Number(option1value) + Number(e.currentTarget.value);
+  if (!Number(option1value)) {
+    opinput.value = format(add(fraction(option1value), fraction(e.currentTarget.value)));
+  } else {
+    opinput.value = Number(option1value) + Number(e.currentTarget.value);
+  }
   optionvalues[opinput.id] = opinput.value;
   console.log('optionvalues', optionvalues);
   const keys = Object.keys(cvariables);
@@ -1496,7 +1800,11 @@ function optsubnum(e) {
 function updateoptinputsub(e) {
   const option1value = document.getElementById('option1').value;
   const opinput = document.getElementById(e.currentTarget.myParam);
-  opinput.value = Number(option1value) - Number(e.currentTarget.value);
+  if (!Number(option1value)) {
+    opinput.value = format(subtract(fraction(option1value), fraction(e.currentTarget.value)));
+  } else {
+    opinput.value = Number(option1value) - Number(e.currentTarget.value);
+  }
   optionvalues[opinput.id] = opinput.value;
   console.log('optionvalues', optionvalues);
   const keys = Object.keys(cvariables);
@@ -1516,7 +1824,11 @@ function updateoptinputmul(e) {
   // console.log(e.currentTarget.value);
   const option1value = document.getElementById('option1').value;
   const opinput = document.getElementById(e.currentTarget.myParam);
-  opinput.value = Number(option1value) * Number(e.currentTarget.value);
+  if (!Number(option1value)) {
+    opinput.value = format(multiply(fraction(option1value), fraction(e.currentTarget.value)));
+  } else {
+    opinput.value = Number(option1value) * Number(e.currentTarget.value);
+  }
   optionvalues[opinput.id] = opinput.value;
   console.log('optionvalues', optionvalues);
   const keys = Object.keys(cvariables);
@@ -1539,7 +1851,11 @@ function updateoptinputsq(e) {
   const opinput = document.getElementById(e.currentTarget.myParam);
   console.log('updatsquare', e.currentTarget.myParam);
   console.log('opinput', opinput);
-  opinput.value = Number(option1value) * 2;
+  if (!Number(option1value)) {
+    opinput.value = format(square(fraction(option1value)));
+  } else {
+    opinput.value = Number(option1value) * 2;
+  }
   optionvalues[opinput.id] = opinput.value;
   console.log('optionvalues', optionvalues);
   const keys = Object.keys(cvariables);
@@ -1605,7 +1921,8 @@ function addconstantvar() {
         const diffarray = diffdbarray.concat(diffcheckedvariable);
         const perarray = perdbarray.concat(percheckedvariable);
         const logarray = logdbarray.concat(logcheckedvariable);
-        changerefresh(vardbarray, editnum, e.target, 'const', lcmarray, addarray, subarray, mularray, divarray, sqarray, sqrootarray, cubearray, curootarray, factarray, diffarray, perarray, logarray, optdbarray);
+        const fracarray = fracdbarray.concat(fraccheckedvariable);
+        changerefresh(vardbarray, editnum, e.target, 'const', lcmarray, addarray, subarray, mularray, divarray, sqarray, sqrootarray, cubearray, curootarray, factarray, diffarray, perarray, logarray, fracarray, optdbarray);
       } else {
         changerefresh(allvariables, editnum, e.target, 'const');
       }
@@ -1704,7 +2021,7 @@ function save() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, optionvariable: newoptionvariables, type: questype, subtype: quessubtype, difficulty: selectedDifficulty, tags: tagsarray, editorval: editorvalue, quescode: code,
+      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, fracvariables: fraccheckedvariable, optionvariable: newoptionvariables, type: questype, subtype: quessubtype, difficulty: selectedDifficulty, tags: tagsarray, editorval: editorvalue, quescode: code,
     }),
   })
     .then(response => response.json())
@@ -1804,7 +2121,7 @@ if (urlParams.has('id')) {
           // console.log("oooo", Object.keys(data.Variables)[i], newinput.value);
           console.log("option variable", data.optionvariables);
           newinput.addEventListener("change", (e) => {
-            getvalue1(e, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.Variables, data.optionvariables);
+            getvalue1(e, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.Variables, data.optionvariables, data.frac);
           });
           createcheckboxes(Object.keys(data.Variables)[i], data.Variables[Object.keys(data.Variables)[i]], 'quesvar');
         }
@@ -1834,6 +2151,7 @@ if (urlParams.has('id')) {
           perdbarray = data.percentage;
           logdbarray = data.log;
           vardbarray = data.Variables;
+          fracdbarray = data.frac;
           optdbarray = data.optionvariables;
           newinput.addEventListener("change", (e) => {
             getvalue1(e, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.Variables, data.optionvariables);
@@ -1845,6 +2163,15 @@ if (urlParams.has('id')) {
     .catch(error => console.error('Error:', error));
   // console.log('id retrived', idValue);
 }
+var customButton = document.querySelector('#custom-button');
+customButton.addEventListener('click', () => {
+  addText("create");
+});
+
+var customButtonsoln = document.querySelector('#custom-buttonsoln');
+customButtonsoln.addEventListener('click', () => {
+  addvar("create");
+});
 
 // eslint-disable-next-line prefer-arrow-callback, func-names
 $(document).ready(function () {
@@ -1853,180 +2180,13 @@ $(document).ready(function () {
   });
 });
 
-// const showvar = document.getElementById('show');
-// showvar.addEventListener('click', show);
-//   CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
+document.getElementById("quill-trigger").addEventListener("click", () => {
+  document.getElementById("popup").style.display = "block";
+});
 
-//     toolbar: {
-//         items: [
-//             'exportPDF','exportWord', '|',
-//             'findAndReplace', 'selectAll', '|',
-//             'heading', '|',
-//             'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
-//             'bulletedList', 'numberedList', 'todoList', '|',
-//             'outdent', 'indent', '|',
-//             'undo', 'redo',
-//             '-',
-//             'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
-//             'alignment', '|',
-//             'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
-//             'specialCharacters', 'horizontalLine', 'pageBreak', '|',
-//             'textPartLanguage', '|',
-//             'sourceEditing'
-//         ],
-//         shouldNotGroupWhenFull: true
-//     },
-
-//     list: {
-//         properties: {
-//             styles: true,
-//             startIndex: true,
-//             reversed: true
-//         }
-//     },
-//     heading: {
-//         options: [
-//             { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-//             { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-//             { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-//             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-//             { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-//             { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
-//             { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
-//         ]
-//     },
-//     placeholder: 'Welcome to CKEditor 5!',
-//     fontFamily: {
-//         options: [
-//             'default',
-//             'Arial, Helvetica, sans-serif',
-//             'Courier New, Courier, monospace',
-//             'Georgia, serif',
-//             'Lucida Sans Unicode, Lucida Grande, sans-serif',
-//             'Tahoma, Geneva, sans-serif',
-//             'Times New Roman, Times, serif',
-//             'Trebuchet MS, Helvetica, sans-serif',
-//             'Verdana, Geneva, sans-serif'
-//         ],
-//         supportAllValues: true
-//     },
-//     fontSize: {
-//         options: [ 10, 12, 14, 'default', 18, 20, 22 ],
-//         supportAllValues: true
-//     },
-//     htmlSupport: {
-//         allow: [
-//             {
-//                 name: /.*/,
-//                 attributes: true,
-//                 classes: true,
-//                 styles: true
-//             }
-//         ]
-//     },
-//     htmlEmbed: {
-//         showPreviews: true
-//     },
-//     link: {
-//         decorators: {
-//             addTargetToExternalLinks: true,
-//             defaultProtocol: 'https://',
-//             toggleDownloadable: {
-//                 mode: 'manual',
-//                 label: 'Downloadable',
-//                 attributes: {
-//                     download: 'file'
-//                 }
-//             }
-//         }
-//     },
-//     mention: {
-//         feeds: [
-//             {
-//                 marker: '@',
-//                 feed: [
-//                     '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
-//                     '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
-//                     '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
-//                     '@sugar', '@sweet', '@topping', '@wafer'
-//                 ],
-//                 minimumCharacters: 1
-//             }
-//         ]
-//     },
-//     removePlugins: [
-//         'CKBox',
-//         'CKFinder',
-//         'EasyImage',
-//         'RealTimeCollaborativeComments',
-//         'RealTimeCollaborativeTrackChanges',
-//         'RealTimeCollaborativeRevisionHistory',
-//         'PresenceList',
-//         'Comments',
-//         'TrackChanges',
-//         'TrackChangesData',
-//         'RevisionHistory',
-//         'Pagination',
-//         'WProofreader',
-//         'MathType',
-//         'SlashCommand',
-//         'Template',
-//         'DocumentOutline',
-//         'FormatPainter',
-//         'TableOfContents'
-//     ]
-// }).then(editor => {
-//   // Access CKEditor value and display in text box
-//   const outputTextBox = document.querySelector('#output');
-//   editor.model.document.on('change:data', () => {
-//     outputTextBox.innerHTML = editor.getData();
-//     console.log(outputTextBox.innerText);
-//   });
-
-//   console.log("outer",outputTextBox.innerText);
-// })
-// .catch(error => {
-//   console.error(error);
+// document.getElementById("closePopup").addEventListener("click", () => {
+//   document.getElementById("popup").style.display = "none";
 // });
-
-// const toolbarOptions = [
-//   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-//   ['blockquote', 'code-block'],
-
-//   [{ header: 1 }, { header: 2 }], // custom button values
-//   [{ list: 'ordered' }, { list: 'bullet' }],
-//   [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-//   [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-//   [{ direction: 'rtl' }], // text direction
-
-//   [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-//   [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-//   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-//   [{ font: [] }],
-//   [{ align: [] }],
-
-//   ['clean'], // remove formatting button
-// ];
-// const quill = new Quill('#editor', {
-//   modules: {
-//     toolbar: toolbarOptions,
-//   },
-//   theme: 'snow',
-// });
-
-// function getTextFromEditor() {
-//   // var text = quill.getText();
-//   // alert(text);
-//   const tempDiv = document.createElement('div');
-//   tempDiv.innerHTML = quill.root.innerHTML;
-
-//   const text = tempDiv.textContent || tempDiv.innerText;
-//   console.log(text);
-// }
-// const but = document.getElementById("button");
-// but.addEventListener("click",getTextFromEditor);
-
 // A can do a peice of job in dvar0 days. B can do a peice of jon in dvar1 days. how many days does a and b takes together to complete a job?
 
 // Let's find lcm of 10 and 15 = 30

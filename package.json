@@ -102,7 +102,9 @@
     "datatables.net": "^1.13.4",
     "datatables.net-bs4": "^1.13.4",
     "datatables.net-responsive": "^2.4.1",
+    "dompurify": "^3.0.5",
     "dotenv": "^8.2.0",
+    "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
     "gsap": "^3.9.1",
     "he": "^1.2.0",
@@ -116,6 +118,7 @@
     "lazysizes": "^5.3.2",
     "list.js": "^2.3.1",
     "material-design-icons-iconfont": "^6.1.0",
+    "mathjs": "^11.9.1",
     "moengage": "^0.1.3",
     "pdfmake": "^0.2.7",
     "plyr": "^3.6.3",
@@ -129,6 +132,7 @@
     "steroid-router": "^1.0.4",
     "swiper": "^6.8.4",
     "visualizer": "^3.0.1",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "xmldom": "^0.6.0"
   }
 }
