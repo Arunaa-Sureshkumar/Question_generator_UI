@@ -130,6 +130,7 @@ let optdbvalues = {};
 let alldbvariables = {};
 const vi = 0;
 let dballvariables = {};
+
 function addText(act, dbvariables) {
   const urlParams = new URLSearchParams(window.location.search);
   if (act == "edit") {
@@ -170,10 +171,12 @@ function addText(act, dbvariables) {
   // }
   variables[variable] = 0;
   console.log("variable number check", variable_number);
-  if (quill.getSelection()) {
-    quill.insertText(quill.getSelection().index, `dvar${variable_number}`);
-    // variable_number++;
-  }
+  const contentToInsert = `dvar${variable_number}`;
+  const index = quill.getSelection()?.index || quill.getLength();
+
+  quill.insertText(index, contentToInsert);
+  quill.setSelection(index + contentToInsert.length);
+
   const div = document.createElement('div');
   const vardiv = document.createElement('div');
   vardiv.className = `d-flex flex-row vareditdiv${variable_number}`;
@@ -659,10 +662,11 @@ function addvar(act) {
   // // Move the cursor after the newly added word
   // const newCursorPos = cursorStart + wordToAdd.length;
   // textarea.setSelectionRange(newCursorPos, newCursorPos);
-  if (quillsoln.getSelection()) {
-    quillsoln.insertText(quillsoln.getSelection().index, `cvar${change_var_number}`);
-    // variable_number++;
-  }
+  const contentToInsert = `cvar${change_var_number}`;
+  const index = quillsoln.getSelection()?.index || quillsoln.getLength();
+
+  quillsoln.insertText(index, contentToInsert);
+  quillsoln.setSelection(index + contentToInsert.length);
 
   const changevardiv = document.createElement('div');
   const butspandiv = document.createElement('div');
