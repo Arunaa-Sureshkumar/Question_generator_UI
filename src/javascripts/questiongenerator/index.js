@@ -130,6 +130,9 @@ let optdbvalues = {};
 let alldbvariables = {};
 const vi = 0;
 let dballvariables = {};
+let generateactions = {};
+let generateactionvalue = {};
+let loopnumber = 0;
 
 function addText(act, dbvariables) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -170,13 +173,21 @@ function addText(act, dbvariables) {
   // textarea.setSelectionRange(newCursorPos, newCursorPos);
   // }
   variables[variable] = 0;
+
   console.log("variable number check", variable_number);
-  const contentToInsert = `dvar${variable_number}`;
-  const index = quill.getSelection()?.index || quill.getLength();
-
-  quill.insertText(index, contentToInsert);
-  quill.setSelection(index + contentToInsert.length);
-
+  // const contentToInsert = `dvar${variable_number}`;
+  // const index = quill.getSelection()?.index || quill.getLength();
+  // if (quillval == 0) {
+  //   quill.insertText(index - 1, contentToInsert);
+  //   console.log("quillval0");
+  // } else {
+  //   quill.insertText(index, contentToInsert);
+  // }
+  // quillval++;
+  // quill.setSelection(index + 2 + contentToInsert.length);
+  if (quill.getSelection()) {
+    quill.insertText(quill.getSelection().index, `dvar${variable_number}`);
+  }
   const div = document.createElement('div');
   const vardiv = document.createElement('div');
   vardiv.className = `d-flex flex-row vareditdiv${variable_number}`;
@@ -555,45 +566,58 @@ function editlabel(e) {
   // change dvardiv_ label
 }
 function modifysolution(e) {
+  console.log("dvar0 clicked");
   // var solution = document.getElementById("solution");
   // var newsolution = solution.value+" "+e.target.innerHTML
   // console.log("solution ",solution)
   // solution.value = newsolution;
 
-  const solution = document.getElementById('solution').value;
-  const textarea = document.getElementById('solution');
-  const word = e.target.innerHTML;
-  if (word.includes('(')) var wordToAdd = word.substring(word.indexOf('(') + 1, word.indexOf(')'));
-  else wordToAdd = e.target.innerHTML;
-  const cursorStart = textarea.selectionStart;
-  const cursorEnd = textarea.selectionEnd;
-  const textareaValue = textarea.value;
-  const modifiedValue = `${textareaValue.substring(0, cursorStart)} ${wordToAdd} ${textareaValue.substring(cursorEnd)}`;
-  textarea.value = modifiedValue;
+  // const solution = document.getElementById('solution').value;
+  // const textarea = document.getElementById('solution');
+  // const word = e.target.innerHTML;
+  // if (word.includes('(')) var wordToAdd = word.substring(word.indexOf('(') + 1, word.indexOf(')'));
+  // else wordToAdd = e.target.innerHTML;
+  // const cursorStart = textarea.selectionStart;
+  // const cursorEnd = textarea.selectionEnd;
+  // const textareaValue = textarea.value;
+  // const modifiedValue = `${textareaValue.substring(0, cursorStart)} ${wordToAdd} ${textareaValue.substring(cursorEnd)}`;
+  // textarea.value = modifiedValue;
 
-  const newCursorPos = cursorStart + wordToAdd.length + 1;
-  textarea.setSelectionRange(newCursorPos, newCursorPos);
+  // const newCursorPos = cursorStart + wordToAdd.length + 1;
+  // textarea.setSelectionRange(newCursorPos, newCursorPos);
+  const contentToInsert = e.target.innerHTML;
+  const index = quillsoln.getSelection()?.index - 1 || quillsoln.getLength();
+
+  quillsoln.insertText(index - 1, contentToInsert);
+  quillsoln.setSelection(index + contentToInsert.length);
+  // if (quillsoln.getSelection()) {
+  //   console.log("hiiiiiii");
+  //   quillsoln.insertText(quillsoln.getSelection().index, e.target.innerHTML);
+  // }
 }
 
 function modifysolutionchange(e) {
   // var solution = document.getElementById("solution");
   const { name } = e.target;
   const newname = name.charAt(0).toUpperCase() + name.slice(1);
-  // var newsolution = solution.value+" "+newname;
-  // console.log("solution ",solution)
-  // solution.value = newsolution;
+  // // var newsolution = solution.value+" "+newname;
+  // // console.log("solution ",solution)
+  // // solution.value = newsolution;
 
-  const solution = document.getElementById('solution').value;
-  const textarea = document.getElementById('solution');
-  const wordToAdd = newname;
-  const cursorStart = textarea.selectionStart;
-  const cursorEnd = textarea.selectionEnd;
-  const textareaValue = textarea.value;
-  const modifiedValue = textareaValue.substring(0, cursorStart) + wordToAdd + textareaValue.substring(cursorEnd);
-  textarea.value = modifiedValue;
+  // const solution = document.getElementById('solution').value;
+  // const textarea = document.getElementById('solution');
+  // const wordToAdd = newname;
+  // const cursorStart = textarea.selectionStart;
+  // const cursorEnd = textarea.selectionEnd;
+  // const textareaValue = textarea.value;
+  // const modifiedValue = textareaValue.substring(0, cursorStart) + wordToAdd + textareaValue.substring(cursorEnd);
+  // textarea.value = modifiedValue;
 
-  const newCursorPos = cursorStart + wordToAdd.length;
-  textarea.setSelectionRange(newCursorPos, newCursorPos);
+  // const newCursorPos = cursorStart + wordToAdd.length;
+  // textarea.setSelectionRange(newCursorPos, newCursorPos);
+  if (quillsoln.getSelection()) {
+    quillsoln.insertText(quillsoln.getSelection().index, newname);
+  }
 
   togglebutton();
   $('#checkboxes').toggle('slide');
@@ -662,12 +686,14 @@ function addvar(act) {
   // // Move the cursor after the newly added word
   // const newCursorPos = cursorStart + wordToAdd.length;
   // textarea.setSelectionRange(newCursorPos, newCursorPos);
-  const contentToInsert = `cvar${change_var_number}`;
-  const index = quillsoln.getSelection()?.index || quillsoln.getLength();
+  // const contentToInsert = `cvar${change_var_number}`;
+  // const index = quillsoln.getSelection()?.index || quillsoln.getLength();
 
-  quillsoln.insertText(index, contentToInsert);
-  quillsoln.setSelection(index + contentToInsert.length);
-
+  // quillsoln.insertText(index, contentToInsert);
+  // quillsoln.setSelection(index + contentToInsert.length);
+  if (quillsoln.getSelection()) {
+    quillsoln.insertText(quillsoln.getSelection().index, `cvar${change_var_number}`);
+  }
   const changevardiv = document.createElement('div');
   const butspandiv = document.createElement('div');
   butspandiv.className = `d-flex flex-row changevardiv${change_var_number}`;
@@ -1212,7 +1238,16 @@ function changesolnvar(id, lcm) {
 const generatebtn = document.getElementById('generatebtn');
 const dispgenvar = document.getElementById('dispgenvar');
 generatebtn.addEventListener('click', () => {
-  generatevariabledisplay();
+  // const defProperties = Object.keys(changevariables).filter((key) => key.startsWith('dvar'));
+
+  // const defObject = {};
+
+  // defProperties.forEach((key) => {
+  //   defObject[key] = changevariables[key];
+  // });
+  // console.log('defarray', defObject);
+  // const len = Object.keys(defObject).length;
+  generatevariabledisplay("create");
 });
 let loopnum;
 const changed = {};
@@ -1262,19 +1297,32 @@ function formatRichText(text) {
 
   return formattedText;
 }
-
-function generatevariabledisplay() {
+const dvaractions = {};
+const dvaractionvalue = {};
+function generatevariabledisplay(act) {
   console.log('inside genratevariabledisplay', changevariables);
-  const defProperties = Object.keys(changevariables).filter((key) => key.startsWith('dvar'));
+  let defProperties; let defObject;
+  console.log("inside --------- dballvariables", dballvariables);
+  console.log("inside --------- dvarcount", dvarcount);
+  if (act == "create") {
+    defProperties = Object.keys(changevariables).filter((key) => key.startsWith('dvar'));
 
-  const defObject = {};
+    defObject = {};
 
-  defProperties.forEach((key) => {
-    defObject[key] = changevariables[key];
-  });
-  console.log('defarray', defObject);
+    defProperties.forEach((key) => {
+      defObject[key] = changevariables[key];
+    });
+    console.log('defarray', defObject);
+  } else {
+    defProperties = Object.keys(dballvariables).filter((key) => key.startsWith('dvar'));
+
+    defObject = {};
+    defProperties.forEach((key) => {
+      defObject[key] = dballvariables[key];
+    });
+    console.log("defObject", defObject);
+  }
   const len = Object.keys(defObject).length;
-
   let cover;
   for (let i = 0; i < len; i++) {
     cover = document.createElement('div');
@@ -1292,6 +1340,7 @@ function generatevariabledisplay() {
     defvarvalue.id = `genvalue${i}`;
     const select = document.createElement('select');
     select.className = 'p-1 selectbut';
+    select.id = `generateaction${i}`;
     // Use the Option constructor: args text, value, defaultSelected, selected
     var option = new Option('select', 'value', false, false);
     select.appendChild(option);
@@ -1309,8 +1358,11 @@ function generatevariabledisplay() {
       const difvalue = Number(defvarvalue.innerHTML);
 
       if (option.value === 'Increment') {
+        console.log("{{{{{{{{{{{{{{{}}}}}}}}}}}}", Object.keys(defObject)[i]);
+        dvaractions[Object.keys(defObject)[i]] = "Increment";
         changed[Object.keys(defObject)[i]] = Number(valuech.value);
       }
+      dvaractionvalue[Object.keys(defObject)[i]] = Number(valuech.value);
     });
 
     cover.appendChild(label);
@@ -1319,7 +1371,21 @@ function generatevariabledisplay() {
     cover.appendChild(valuech);
     // outercover.appendChild(cover);
     dispgenvar.appendChild(cover);
+    if (act == 'edit') {
+      const generateaction = document.getElementById(`generateaction${i}`);
+      console.log(generateactions);
+      console.log(generateactionvalue);
+      console.log(loopnumber);
+      // const optionToSelect = generateaction.querySelector(`option[value="${dataFromDatabase}"]`);
+      const actionval = generateactions[label.innerHTML];
+      const optionToSelect = generateaction.querySelector(`option[value="${actionval}"]`);
+      if (optionToSelect) {
+        optionToSelect.selected = true;
+      }
+      valuech.value = generateactionvalue[label.innerHTML];
+    }
   }
+
   const outer = document.createElement('div');
   outer.className = 'd-flex flex-column';
   const queslabel = document.createElement('label');
@@ -1334,6 +1400,97 @@ function generatevariabledisplay() {
   // let worksheet = workbook.Sheets.Sheet1;
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sheet1');
+  worksheet.columns = [
+    { header: 'Question', key: 'ques', width: 35 },
+    { header: 'Option1', key: 'opt1', width: 15 },
+    { header: 'Option2', key: 'opt2', width: 15 },
+    { header: 'Option3', key: 'opt3', width: 15 },
+    { header: 'Option4', key: 'opt4', width: 15 },
+    { header: 'Correct Ans', key: 'ans', width: 15 },
+    { header: 'Solution', key: 'soln', width: 35 },
+  ];
+  const ques = document.getElementById('editorvalue').innerHTML;
+  console.log("question", ques);
+  console.log("for first question", changevariables, cvariables);
+  const replacedfirstquestion = ques.replace(/dvar\d+/g, (match) => {
+    const res = Number(changevariables[match]);
+    console.log("i res", res);
+    return res;
+  });
+  console.log("final first question", replacedfirstquestion);
+  const solution = document.getElementById('editorvaluesoln').innerHTML;
+
+  const replacedfirstSolution = solution.replace(/dvar\d+/g, (match) => {
+    const res = Number(cvariables[match]);
+    return res;
+  });
+  const firstSoln = replacedfirstSolution.replace(/cvar\d+/g, (match) => {
+    const res = Number(cvariables[match]);
+    return res;
+  });
+
+  const finalfirstSoln = firstSoln.replace(/Cvar\d+/g, (match) => {
+    // eslint-disable-next-line radix
+    const extractedNumber = parseInt(match.match(/\d+/)[0]);
+    const res = Number(cvariables['cvar' + extractedNumber]);
+    return res;
+  });
+
+  const finalfirstSolution = finalfirstSoln.replace(/const\d+/g, (match) => {
+    const res = Number(constantvariables[match]);
+    newvalues[match] = res;
+    return res;
+  });
+  console.log("options", optionvalues);
+  console.log("final first solution", finalfirstSolution);
+  const firstquestion = formatRichText(replacedfirstSolution);
+  const firstquestionarray = [];
+  for (let i = 0; i < firstquestion.length; i++) {
+    firstquestionarray.push({ text: firstquestion[i].text, font: firstquestion[i].font });
+  }
+  const firstsolution = formatRichText(finalfirstSolution);
+  const firstsolutionarray = [];
+  for (let i = 0; i < firstsolution.length; i++) {
+    firstsolutionarray.push({ text: firstsolution[i].text, font: firstsolution[i].font });
+  }
+  worksheet.getCell('A2').value = {
+    richText: [
+      ...firstquestionarray,
+    ],
+  };
+  worksheet.getCell('B2').value = {
+    richText: [
+      { text: optionvalues.option1 },
+    ],
+  };
+  worksheet.getCell('C2').value = {
+    richText: [
+      { text: optionvalues.option2 },
+    ],
+  };
+  worksheet.getCell('D2').value = {
+    richText: [
+      { text: optionvalues.option3 },
+    ],
+  };
+  worksheet.getCell('E2').value = {
+    richText: [
+      { text: optionvalues.option4 },
+    ],
+  };
+  worksheet.getCell('F2').value = {
+    richText: [
+      { text: optionvalues.option1 },
+    ],
+  };
+  worksheet.getCell('G2').value = {
+    richText: [
+      ...firstsolutionarray,
+    ],
+  };
+  // worksheet.addRow({
+  //   ques: replacedfirstquestion, opt1: optionvalues.option1, opt2: optionvalues.option2, opt3: optionvalues.option3, opt4: optionvalues.option4, ans: optionvalues.option1, soln: finalfirstSolution,
+  // });
   console.log("workbook", workbook);
   genbut.addEventListener('click', () => {
     // const ques = document.getElementById('question').value;
@@ -1537,13 +1694,13 @@ function generatevariabledisplay() {
       //   const cellRef = XLSX.utils.encode_cell({ r: rowIndex, c: 0 });
       //   worksheet[cellRef] = replacedSentence;
       // }
-      const questioncell = worksheet.getCell('A' + (i + 2));
-      const opt1cell = worksheet.getCell('B' + (i + 1));
-      const opt2cell = worksheet.getCell('C' + (i + 1));
-      const opt3cell = worksheet.getCell('D' + (i + 1));
-      const opt4cell = worksheet.getCell('E' + (i + 1));
-      const anscell = worksheet.getCell('F' + (i + 1));
-      const solncell = worksheet.getCell('G' + (i + 1));
+      const questioncell = worksheet.getCell('A' + (i + 3));
+      const opt1cell = worksheet.getCell('B' + (i + 3));
+      const opt2cell = worksheet.getCell('C' + (i + 3));
+      const opt3cell = worksheet.getCell('D' + (i + 3));
+      const opt4cell = worksheet.getCell('E' + (i + 3));
+      const anscell = worksheet.getCell('F' + (i + 3));
+      const solncell = worksheet.getCell('G' + (i + 3));
 
       const editorvalue = document.getElementById("editorvalue");
       editorvalue.innerHTML = quill.root.innerHTML;
@@ -1553,15 +1710,15 @@ function generatevariabledisplay() {
       console.log("richText", richText);
       const accumulatedRichText = [];
       const solnrichTextarray = [];
-      worksheet.columns = [
-        { header: 'Question', key: 'ques', width: 35 },
-        { header: 'Option1', key: 'opt1', width: 15 },
-        { header: 'Option2', key: 'opt2', width: 15 },
-        { header: 'Option3', key: 'opt3', width: 15 },
-        { header: 'Option4', key: 'opt4', width: 15 },
-        { header: 'Correct Ans', key: 'ans', width: 15 },
-        { header: 'Solution', key: 'soln', width: 35 },
-      ];
+      // worksheet.columns = [
+      //   { header: 'Question', key: 'ques', width: 35 },
+      //   { header: 'Option1', key: 'opt1', width: 15 },
+      //   { header: 'Option2', key: 'opt2', width: 15 },
+      //   { header: 'Option3', key: 'opt3', width: 15 },
+      //   { header: 'Option4', key: 'opt4', width: 15 },
+      //   { header: 'Correct Ans', key: 'ans', width: 15 },
+      //   { header: 'Solution', key: 'soln', width: 35 },
+      // ];
       // worksheet.addRow({ id: 1, name: 'John Doe', dob: new Date(1970, 1, 1) });
       // worksheet.addRow({
       //   ques: replacedSentence, opt1: newoptions.option1, opt2: newoptions.option2, opt3: newoptions.option3, opt4: newoptions.option4, ans: newoptions.option1, soln: finalSolution,
@@ -1574,13 +1731,11 @@ function generatevariabledisplay() {
       }
       questioncell.value = {
         richText: [
-          // ...(cell.value ? cell.value.richText : []),
           ...accumulatedRichText,
         ],
       };
       solncell.value = {
         richText: [
-          // ...(cell.value ? cell.value.richText : []),
           ...solnrichTextarray,
         ],
       };
@@ -1609,16 +1764,6 @@ function generatevariabledisplay() {
           { text: newoptions.option1 },
         ],
       };
-      // opt1cell.value = {
-      //   richText: [
-      //     { text: "hello" },
-      //   ],
-      // };
-      // opt2cell.value = {
-      //   richText: [
-      //     { text: "hi" },
-      //   ],
-      // };
       dlabel.innerHTML = 'You can now download sheet';
 
       // ========================================
@@ -1632,6 +1777,9 @@ function generatevariabledisplay() {
     loopnum = loop.value;
     console.log('loopnum', loopnum);
   });
+  if (act == 'edit') {
+    loop.value = loopnumber;
+  }
   const downloadbut = document.createElement('button');
   downloadbut.innerText = 'Download';
   downloadbut.className = 'p-1 downloadbtn btn btn-success';
@@ -1964,6 +2112,10 @@ $(document).ready(() => {
 const tagsarray = [];
 function save() {
   console.log('hi');
+  // const loop = document.getElementById('loop').value;
+  console.log("dvaractions", dvaractions);
+  console.log("dvaractionvalues", dvaractionvalue);
+  console.log("loop", loopnum);
   const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
   const tags = $('#tags').select2('data');
   for (let i = 0; i < tags.length; i++) {
@@ -1972,8 +2124,10 @@ function save() {
   console.log("tags", tagsarray);
   const questype = document.getElementById("type").value;
   const quessubtype = document.getElementById("subtype").value;
-  var question = document.getElementById('question').value;
-  var solution = document.getElementById('solution').value;
+  // var question = document.getElementById('editor-container').innerHTML;
+  var question = quill.root.innerHTML;
+  // var solution = document.getElementById('editor-containersoln').innerHTML;
+  var solution = quillsoln.root.innerHTML;
   var code = document.getElementById('code').value;
   // var editorvalue = document.getElementById('editorvalue').innerHTML;
   // console.log(editorvalue);
@@ -2025,16 +2179,19 @@ function save() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, fracvariables: fraccheckedvariable, optionvariable: newoptionvariables, type: questype, subtype: quessubtype, difficulty: selectedDifficulty, tags: tagsarray, editorval: editorvalue, quescode: code,
+      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, fracvariables: fraccheckedvariable, optionvariable: newoptionvariables, type: questype, subtype: quessubtype, difficulty: selectedDifficulty, tags: tagsarray, editorval: editorvalue, quescode: code, dvaractionsval: dvaractions, dvaractionvalues: dvaractionvalue, loop: loopnum,
     }),
   })
     .then(response => response.json())
     .then(data => {
+      // console.log(data.unique_id);
       console.log('Data', data);
       const questionsaved = document.getElementById("questionsaved");
       const h6 = document.createElement("small");
       h6.innerText = "Question Saved Successfully";
       questionsaved.appendChild(h6);
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
       // window.location.href = 'questiongenerator.html';
     })
     .catch((error) => {
@@ -2046,7 +2203,7 @@ const savevar = document.getElementById('save');
 savevar.addEventListener('click', save);
 
 const urlParams = new URLSearchParams(window.location.search);
-
+let dvarcount = 0;
 if (urlParams.has('id')) {
   const idValue = urlParams.get('id');
   fetch(`${api_path}/get_data/${idValue}`)
@@ -2054,7 +2211,11 @@ if (urlParams.has('id')) {
     .then(data => {
       // eslint-disable-next-line prefer-const
       let options = [];
+      console.log("dvaractions", data.Generate_actions, data.Generate_action_val, data.Loop_num);
       console.log("retrived data", data.Question, data.Solution);
+      generateactions = data.Generate_actions;
+      generateactionvalue = data.Generate_action_val;
+      loopnumber = data.Loop_num;
       optdbvalues = Object.assign(data.Options);
       optdbvariables = Object.assign(data.optionvariables);
       alldbvariables = Object.assign(data.Variables);
@@ -2101,10 +2262,12 @@ if (urlParams.has('id')) {
       });
       const quesname = document.getElementById('questionname');
       quesname.value = data.Ques_name;
-      const question = document.getElementById('question');
-      question.value = data.Question;
-      const solution = document.getElementById('solution');
-      solution.value = data.Solution;
+      // const question = document.getElementById('question');
+      // question.value = data.Question;
+      quill.root.innerHTML = data.Question;
+      // const solution = document.getElementById('solution');
+      // solution.value = data.Solution;
+      quillsoln.root.innerHTML = data.Solution;
       const option1 = document.getElementById('option1');
       option1.value = data.Options.option1;
       const option2 = document.getElementById('option2');
@@ -2118,6 +2281,7 @@ if (urlParams.has('id')) {
       for (let i = 0; i < variablelen; i++) {
         console.log("var", Object.keys(data.Variables)[i]);
         if (Object.keys(data.Variables)[i].includes("dvar")) {
+          dvarcount++;
           console.log("data variables", data.Variables);
           addText("edit", data.Variables);
           const newinput = document.getElementById(Object.keys(data.Variables)[i]);
@@ -2163,17 +2327,26 @@ if (urlParams.has('id')) {
           createcheckboxes(Object.keys(data.Variables)[i], data.Variables[Object.keys(data.Variables)[i]], 'const');
         }
       }
+      console.log("dballvariables", dballvariables);
+      console.log("dvarcount", dvarcount);
+      generatevariabledisplay("edit");
     })
     .catch(error => console.error('Error:', error));
   // console.log('id retrived', idValue);
 }
 var customButton = document.querySelector('#custom-button');
 customButton.addEventListener('click', () => {
+  quill.focus();
+  var contentLength = quill.getLength();
+  quill.setSelection(contentLength, contentLength);
   addText("create");
 });
 
 var customButtonsoln = document.querySelector('#custom-buttonsoln');
 customButtonsoln.addEventListener('click', () => {
+  quillsoln.focus();
+  var contentLength = quillsoln.getLength();
+  quillsoln.setSelection(contentLength, contentLength);
   addvar("create");
 });
 

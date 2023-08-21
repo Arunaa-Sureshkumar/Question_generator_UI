@@ -95,17 +95,17 @@ function show() {
         const actions = document.createElement("td");
         actions.className = "actions";
         actions.style.width = "50px";
-        const edit = document.createElement("button");
-        edit.className = "fa fa-edit edit-btn";
-        edit.style.color = "green";
-        edit.style.border = "none";
-        edit.id = "edit1";
-        edit.setAttribute("data-name", record.Unique_id);
-        edit.style.backgroundColor = "transparent";
-        edit.addEventListener("click", (e) => {
-          const uid = e.target.getAttribute('data-name');
-          window.location.href = `questiongenerator.html?id=${uid}`;
-        });
+        // const edit = document.createElement("button");
+        // edit.className = "fa fa-edit edit-btn";
+        // edit.style.color = "green";
+        // edit.style.border = "none";
+        // edit.id = "edit1";
+        // edit.setAttribute("data-name", record.Unique_id);
+        // edit.style.backgroundColor = "transparent";
+        // edit.addEventListener("click", () => {
+        //   // const uid = e.target.getAttribute('data-name');
+        //   // window.location.href = `questiongenerator.html?id=${uid}`;
+        // });
         const del = document.createElement("button");
         del.className = "fa fa-trash del-btn";
         del.style.color = "red";
@@ -114,6 +114,7 @@ function show() {
         del.id = "delques";
         del.setAttribute("data-name", record.Unique_id);
         del.addEventListener("click", (e) => {
+          e.stopPropagation();
           const uid = e.target.getAttribute('data-name');
           fetch(`${api_path}/delete`, {
             method: "DELETE",
@@ -132,7 +133,7 @@ function show() {
               console.error("Error:", error);
             });
         });
-        actions.appendChild(edit);
+        // actions.appendChild(edit);
         actions.appendChild(del);
         newRow.appendChild(ques_name);
         newRow.appendChild(ques_type);
