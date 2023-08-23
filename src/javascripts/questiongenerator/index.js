@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable prefer-template */
 /* eslint-disable no-useless-concat */
 /* eslint-disable quotes */
@@ -133,7 +134,6 @@ let dballvariables = {};
 let generateactions = {};
 let generateactionvalue = {};
 let loopnumber = 0;
-
 function addText(act, dbvariables) {
   const urlParams = new URLSearchParams(window.location.search);
   if (act == "edit") {
@@ -1247,6 +1247,10 @@ generatebtn.addEventListener('click', () => {
   // });
   // console.log('defarray', defObject);
   // const len = Object.keys(defObject).length;
+  const dispgenvar = document.getElementById('dispgenvar');
+  const dispgenvar2 = document.getElementById('dispgenvar2');
+  dispgenvar.innerHTML = '';
+  dispgenvar2.innerHTML = '';
   generatevariabledisplay("create");
 });
 let loopnum;
@@ -1299,11 +1303,10 @@ function formatRichText(text) {
 }
 const dvaractions = {};
 const dvaractionvalue = {};
+const workbook = new ExcelJS.Workbook();
+const worksheet = workbook.addWorksheet('Sheet1');
 function generatevariabledisplay(act) {
-  console.log('inside genratevariabledisplay', changevariables);
   let defProperties; let defObject;
-  console.log("inside --------- dballvariables", dballvariables);
-  console.log("inside --------- dvarcount", dvarcount);
   if (act == "create") {
     defProperties = Object.keys(changevariables).filter((key) => key.startsWith('dvar'));
 
@@ -1312,7 +1315,6 @@ function generatevariabledisplay(act) {
     defProperties.forEach((key) => {
       defObject[key] = changevariables[key];
     });
-    console.log('defarray', defObject);
   } else {
     defProperties = Object.keys(dballvariables).filter((key) => key.startsWith('dvar'));
 
@@ -1320,7 +1322,6 @@ function generatevariabledisplay(act) {
     defProperties.forEach((key) => {
       defObject[key] = dballvariables[key];
     });
-    console.log("defObject", defObject);
   }
   const len = Object.keys(defObject).length;
   let cover;
@@ -1358,7 +1359,6 @@ function generatevariabledisplay(act) {
       const difvalue = Number(defvarvalue.innerHTML);
 
       if (option.value === 'Increment') {
-        console.log("{{{{{{{{{{{{{{{}}}}}}}}}}}}", Object.keys(defObject)[i]);
         dvaractions[Object.keys(defObject)[i]] = "Increment";
         changed[Object.keys(defObject)[i]] = Number(valuech.value);
       }
@@ -1392,383 +1392,23 @@ function generatevariabledisplay(act) {
   queslabel.innerHTML = 'How many questions you want to generate';
   const dlabel = document.createElement('label');
   dlabel.className = 'dlabel';
+  dlabel.id = 'dlabel';
   const genbut = document.createElement('button');
   genbut.id = 'genbut';
   genbut.innerText = 'Gen';
   genbut.className = 'p-1 btn btn-success genbtn';
   // const workbook = XLSX.utils.book_new();
   // let worksheet = workbook.Sheets.Sheet1;
-  const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet('Sheet1');
-  worksheet.columns = [
-    { header: 'Question', key: 'ques', width: 35 },
-    { header: 'Option1', key: 'opt1', width: 15 },
-    { header: 'Option2', key: 'opt2', width: 15 },
-    { header: 'Option3', key: 'opt3', width: 15 },
-    { header: 'Option4', key: 'opt4', width: 15 },
-    { header: 'Correct Ans', key: 'ans', width: 15 },
-    { header: 'Solution', key: 'soln', width: 35 },
-  ];
-  const ques = document.getElementById('editorvalue').innerHTML;
-  console.log("question", ques);
-  console.log("for first question", changevariables, cvariables);
-  const replacedfirstquestion = ques.replace(/dvar\d+/g, (match) => {
-    const res = Number(changevariables[match]);
-    console.log("i res", res);
-    return res;
-  });
-  console.log("final first question", replacedfirstquestion);
-  const solution = document.getElementById('editorvaluesoln').innerHTML;
 
-  const replacedfirstSolution = solution.replace(/dvar\d+/g, (match) => {
-    const res = Number(cvariables[match]);
-    return res;
-  });
-  const firstSoln = replacedfirstSolution.replace(/cvar\d+/g, (match) => {
-    const res = Number(cvariables[match]);
-    return res;
-  });
-
-  const finalfirstSoln = firstSoln.replace(/Cvar\d+/g, (match) => {
-    // eslint-disable-next-line radix
-    const extractedNumber = parseInt(match.match(/\d+/)[0]);
-    const res = Number(cvariables['cvar' + extractedNumber]);
-    return res;
-  });
-
-  const finalfirstSolution = finalfirstSoln.replace(/const\d+/g, (match) => {
-    const res = Number(constantvariables[match]);
-    newvalues[match] = res;
-    return res;
-  });
-  console.log("options", optionvalues);
-  console.log("final first solution", finalfirstSolution);
-  const firstquestion = formatRichText(replacedfirstSolution);
-  const firstquestionarray = [];
-  for (let i = 0; i < firstquestion.length; i++) {
-    firstquestionarray.push({ text: firstquestion[i].text, font: firstquestion[i].font });
-  }
-  const firstsolution = formatRichText(finalfirstSolution);
-  const firstsolutionarray = [];
-  for (let i = 0; i < firstsolution.length; i++) {
-    firstsolutionarray.push({ text: firstsolution[i].text, font: firstsolution[i].font });
-  }
-  worksheet.getCell('A2').value = {
-    richText: [
-      ...firstquestionarray,
-    ],
-  };
-  worksheet.getCell('B2').value = {
-    richText: [
-      { text: optionvalues.option1 },
-    ],
-  };
-  worksheet.getCell('C2').value = {
-    richText: [
-      { text: optionvalues.option2 },
-    ],
-  };
-  worksheet.getCell('D2').value = {
-    richText: [
-      { text: optionvalues.option3 },
-    ],
-  };
-  worksheet.getCell('E2').value = {
-    richText: [
-      { text: optionvalues.option4 },
-    ],
-  };
-  worksheet.getCell('F2').value = {
-    richText: [
-      { text: optionvalues.option1 },
-    ],
-  };
-  worksheet.getCell('G2').value = {
-    richText: [
-      ...firstsolutionarray,
-    ],
-  };
   // worksheet.addRow({
   //   ques: replacedfirstquestion, opt1: optionvalues.option1, opt2: optionvalues.option2, opt3: optionvalues.option3, opt4: optionvalues.option4, ans: optionvalues.option1, soln: finalfirstSolution,
   // });
-  console.log("workbook", workbook);
-  genbut.addEventListener('click', () => {
-    // const ques = document.getElementById('question').value;
-    const questioneditorvalue = document.getElementById('editorvalue');
-    const spanelement = questioneditorvalue.querySelector('span');
-    if (spanelement) {
-      spanelement.parentNode.removeChild(spanelement);
-    }
-    const solneditorvalue = document.getElementById('editorvaluesoln');
-    const spanelementsoln = solneditorvalue.querySelector('span');
-    if (spanelementsoln) {
-      spanelementsoln.parentNode.removeChild(spanelementsoln);
-    }
-    const ques = document.getElementById('editorvalue').innerHTML;
-    const loop = document.getElementById('loop').value;
-    // const solution = document.getElementById('solution').value;
-    const solution = document.getElementById('editorvaluesoln').innerHTML;
-    // console.log(solution);
-    // console.log("cvariables",cvariables);
-    // console.log("actions",actions);
-
-    for (let i = 0; i < loop; i++) {
-      var newvalues = {};
-      // newvalues = Number(constantvariables);
-      newvalues = constantvariables;
-      console.log('newvalues after adding const', newvalues);
-      const replacedSentence = ques.replace(/dvar\d+/g, (match) => {
-        const res = Number(changevariables[match]) + (Number(changed[match]) + Number(changed[match]) * i);
-        // console.log(newvalues);
-        newvalues[match] = res;
-        console.log("i res", res);
-        return res;
-      });
-      console.log("replacedsentence", replacedSentence);
-      // const replacespan = replacedSentence.replace('ql-cursor', '');
-      console.log(questioneditorvalue.innerHTML);
-      // const solution = document.getElementById('solution').value;
-      const solution = document.getElementById('editorvaluesoln').innerHTML;
-
-      const replacedSolution = solution.replace(/dvar\d+/g, (match) => {
-        const res = Number(newvalues[match]);
-        return res;
-      });
-
-      var num = 0; var anum = 0; var snum = 0; var mnum = 0; var dnum = 0; var sqnum = 0; var srnum = 0; var cnum = 0; var curnum = 0; var fnum = 0; var dinum = 0; var pernum = 0; var lognum = 0; var fracnum = 0;
-
-      const crtSolution = replacedSolution.replace(/cvar\d+/g, (match) => {
-        const action = actions[match];
-        if (action === 'LCM') {
-          var splitArrays = splitarray(lcmcheckedvariable);
-          var array = splitArrays[num++].map((key) => newvalues[key]);
-          var res = calculateLCM(array);
-        }
-        if (action === 'Add') {
-          splitArrays = splitarray(addcheckedvariable);
-          // var array = addcheckedvariable.map(key => newvalues[key]);
-          var array = splitArrays[anum++].map((key) => newvalues[key]);
-          var res = calculateADD(array);
-        }
-        if (action === 'Sub') {
-          splitArrays = splitarray(subcheckedvariable);
-          var array = splitArrays[snum++].map((key) => newvalues[key]);
-          var res = calculateSUB(array);
-        }
-        if (action === 'Mul') {
-          splitArrays = splitarray(mulcheckedvariable);
-          // var array = mulcheckedvariable.map(key => newvalues[key]);
-          var array = splitArrays[mnum++].map((key) => newvalues[key]);
-          var res = calculateMUL(array);
-        }
-        if (action === 'Div') {
-          splitArrays = splitarray(divcheckedvariable);
-          // var array = divcheckedvariable.map(key => newvalues[key]);
-          var array = splitArrays[dnum++].map((key) => newvalues[key]);
-          var res = calculateDIV(array);
-        }
-        if (action === 'Square') {
-          splitArrays = splitarray(sqcheckedvariable);
-          // var array = sqcheckedvariable.map(key => newvalues[key]);
-          var array = splitArrays[sqnum++].map((key) => newvalues[key]);
-          var res = calculatesquare(array);
-        }
-        if (action === 'SqRoot') {
-          splitArrays = splitarray(sqrootcheckedvariable);
-          // var array = sqrootcheckedvariable.map(key => newvalues[key]);
-          var array = splitArrays[srnum++].map((key) => newvalues[key]);
-          var res = calculatesqroot(array);
-        }
-        if (action === 'Cube') {
-          splitArrays = splitarray(cubecheckedvariable);
-          // var array = cubecheckedvariable.map(key => newvalues[key]);
-          var array = splitArrays[cnum++].map((key) => newvalues[key]);
-          var res = calculatecube(array);
-        }
-        if (action === 'CubeRoot') {
-          splitArrays = splitarray(curootcheckedvariable);
-          // var array = curootcheckedvariable.map(key => newvalues[key]);
-          var array = splitArrays[curnum++].map((key) => newvalues[key]);
-          var res = calculatecuberoot(array);
-        }
-        if (action === 'Factorial') {
-          splitArrays = splitarray(factcheckedvariable);
-          // var array = factcheckedvariable.map(key => newvalues[key]);
-          var array = splitArrays[fnum++].map((key) => newvalues[key]);
-          var res = calculatefact(array);
-        }
-        if (action === 'Difference') {
-          splitArrays = splitarray(diffcheckedvariable);
-          // var array = diffcheckedvariable.map(key => newvalues[key]);
-          var array = splitArrays[dinum++].map((key) => newvalues[key]);
-          var res = calculatediff(array);
-        }
-        if (action === 'Percentage') {
-          splitArrays = splitarray(percheckedvariable);
-          var array = splitArrays[pernum++].map((key) => newvalues[key]);
-          var res = calculateper(array);
-        }
-        if (action == 'Log') {
-          splitArrays = splitarray(logcheckedvariable);
-          var array = splitArrays[lognum++].map((key) => newvalues[key]);
-          var res = calculatelog(array);
-        }
-        if (action == 'Fraction') {
-          splitArrays = splitarray(fraccheckedvariable);
-          var array = splitArrays[fracnum++].map((key) => newvalues[key]);
-          var res = calculatefrac(array);
-        }
-
-        // var res = calculateLCM()keys.map(key => obj[key]);
-        const capvar = match.charAt(0).toUpperCase() + match.slice(1);
-        newvalues[match] = res;
-        newvalues[capvar] = res;
-
-        return res;
-      });
-      const finalSoln = crtSolution.replace(/Cvar\d+/g, (match) => {
-        const res = Number(newvalues[match]);
-        return res;
-      });
-      const finalSolution = finalSoln.replace(/const\d+/g, (match) => {
-        const res = Number(constantvariables[match]);
-        newvalues[match] = res;
-        return res;
-      });
-      const option1 = newvalues[Object.values(optionvariables)[0]];
-      newoptions.option1 = option1;
-      const optionlen = Object.keys(optionvariables).length;
-
-      for (let i = 1; i < optionlen; i++) {
-        const opt = `option${Number(i + 1)}`;
-        const op = optionvariables[opt];
-
-        const opvalue = newvalues[op[0]];
-        if (op[1] == '+') {
-          if (!Number(opvalue)) {
-            newoptions[opt] = format(add(fraction(opvalue), fraction(op[2])));
-          } else {
-            newoptions[opt] = Number(opvalue) + Number(op[2]);
-          }
-        }
-        if (op[1] == '-') {
-          if (!Number(opvalue)) {
-            newoptions[opt] = format(subtract(fraction(opvalue), fraction(op[2])));
-          } else {
-            newoptions[opt] = Number(opvalue) - Number(op[2]);
-          }
-        }
-        if (op[1] == '*') {
-          if (!Number(opvalue)) {
-            newoptions[opt] = format(multiply(fraction(opvalue), fraction(op[2])));
-          } else {
-            newoptions[opt] = Number(opvalue) * Number(op[2]);
-          }
-        }
-        if (op[1] == '^') {
-          if (!Number(opvalue)) {
-            newoptions[opt] = format(square(fraction(opvalue)));
-          } else {
-            newoptions[opt] = Number(opvalue) * Number(opvalue);
-          }
-        }
-      }
-      console.log('optionvariables', optionvariables);
-      console.log('newoptions', newoptions);
-      // const editorvalue = document.getElementById("editorvalue");
-      // const divContent = document.getElementById('editorvalue').innerHTML;
-      // console.log("quill content", excelContent);
-
-      // =====================================
-      // if (!worksheet) {
-      //   var data = [{
-      //     Questions: replacedSentence, Option1: newoptions.option1, Option2: newoptions.option2, Option3: newoptions.option3, Option4: newoptions.option4, CorrectAns: newoptions.option1, Solution: finalSolution, editorvalue: cleanText,
-      //   }];
-      //   worksheet = XLSX.utils.json_to_sheet(data);
-      //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-      // } else {
-      //   var data = [{
-      //     Questions: replacedSentence, Option1: newoptions.option1, Option2: newoptions.option2, Option3: newoptions.option3, Option4: newoptions.option4, CorrectAns: newoptions.option1, Solution: finalSolution, editorvalue: cleanText,
-      //   }];
-      //   const rowIndex = XLSX.utils.sheet_add_json(worksheet, data, { header: ['Questions', 'Option1', 'Option2', 'Option3', 'Option4', 'CorrectAns', 'Solution', 'editorval'], skipHeader: true, origin: -1 });
-      //   const cellRef = XLSX.utils.encode_cell({ r: rowIndex, c: 0 });
-      //   worksheet[cellRef] = replacedSentence;
-      // }
-      const questioncell = worksheet.getCell('A' + (i + 3));
-      const opt1cell = worksheet.getCell('B' + (i + 3));
-      const opt2cell = worksheet.getCell('C' + (i + 3));
-      const opt3cell = worksheet.getCell('D' + (i + 3));
-      const opt4cell = worksheet.getCell('E' + (i + 3));
-      const anscell = worksheet.getCell('F' + (i + 3));
-      const solncell = worksheet.getCell('G' + (i + 3));
-
-      const editorvalue = document.getElementById("editorvalue");
-      editorvalue.innerHTML = quill.root.innerHTML;
-      const originalText = document.getElementById('editorvalue').innerHTML;
-      const richText = formatRichText(replacedSentence);
-      const solnrichText = formatRichText(finalSolution);
-      console.log("richText", richText);
-      const accumulatedRichText = [];
-      const solnrichTextarray = [];
-      // worksheet.columns = [
-      //   { header: 'Question', key: 'ques', width: 35 },
-      //   { header: 'Option1', key: 'opt1', width: 15 },
-      //   { header: 'Option2', key: 'opt2', width: 15 },
-      //   { header: 'Option3', key: 'opt3', width: 15 },
-      //   { header: 'Option4', key: 'opt4', width: 15 },
-      //   { header: 'Correct Ans', key: 'ans', width: 15 },
-      //   { header: 'Solution', key: 'soln', width: 35 },
-      // ];
-      // worksheet.addRow({ id: 1, name: 'John Doe', dob: new Date(1970, 1, 1) });
-      // worksheet.addRow({
-      //   ques: replacedSentence, opt1: newoptions.option1, opt2: newoptions.option2, opt3: newoptions.option3, opt4: newoptions.option4, ans: newoptions.option1, soln: finalSolution,
-      // });
-      for (let i = 0; i < richText.length; i++) {
-        accumulatedRichText.push({ text: richText[i].text, font: richText[i].font });
-      }
-      for (let i = 0; i < solnrichText.length; i++) {
-        solnrichTextarray.push({ text: solnrichText[i].text, font: solnrichText[i].font });
-      }
-      questioncell.value = {
-        richText: [
-          ...accumulatedRichText,
-        ],
-      };
-      solncell.value = {
-        richText: [
-          ...solnrichTextarray,
-        ],
-      };
-      opt1cell.value = {
-        richText: [
-          { text: newoptions.option1 },
-        ],
-      };
-      opt2cell.value = {
-        richText: [
-          { text: newoptions.option2 },
-        ],
-      };
-      opt3cell.value = {
-        richText: [
-          { text: newoptions.option3 },
-        ],
-      };
-      opt4cell.value = {
-        richText: [
-          { text: newoptions.option4 },
-        ],
-      };
-      anscell.value = {
-        richText: [
-          { text: newoptions.option1 },
-        ],
-      };
-      dlabel.innerHTML = 'You can now download sheet';
-
-      // ========================================
-    }
-  });
+  // console.log("workbook", workbook);
+  if (act == 'create') {
+    genbut.addEventListener('click', () => {
+      genbutfunction("create");
+    });
+  }
   const loop = document.createElement('input');
   loop.id = 'loop';
   loop.className = 'p-1 loopinp';
@@ -1798,7 +1438,10 @@ function generatevariabledisplay(act) {
 
     // URL.revokeObjectURL(url);
     // console.log('downloaded');
-
+    console.log(worksheet);
+    const values = worksheet.getSheetValues();
+    console.log(values);
+    console.log(workbook);
     workbook.xlsx.writeBuffer()
       .then(buffer => {
         const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -1819,7 +1462,9 @@ function generatevariabledisplay(act) {
       });
 
     // ============================================
+    // console.log("chnage variables inside genbut last", changevariables);
   });
+
   const loopdiv = document.createElement('div');
   loopdiv.className = 'd-flex flex-row';
   loopdiv.appendChild(queslabel);
@@ -1839,7 +1484,388 @@ function generatevariabledisplay(act) {
   outer.appendChild(gendownloadbutdiv);
   dispgenvar2.appendChild(outer);
 }
+function genbutfunction(act, optionval = optionvalues, optionvariable = optionvariables, changevars = changevariables, constantvars = constantvariables, changedvar = changed, lcmcheckedvariables = lcmcheckedvariable, addcheckedvariables = addcheckedvariable, subcheckedvariables = subcheckedvariable, mulcheckedvariables = mulcheckedvariable, divcheckedvariables = divcheckedvariable, sqcheckedvariables = sqcheckedvariable, sqrootcheckedvariables = sqrootcheckedvariable, cubecheckedvariables = cubecheckedvariable, curootcheckedvariables = curootcheckedvariable, factcheckedvariables = factcheckedvariable, diffcheckedvariables = diffcheckedvariable, percheckedvariables = percheckedvariable, logcheckedvariables = logcheckedvariable, fraccheckedvariables = fraccheckedvariable) {
+  // console.log("chnage variables inside genbut", changevariables);
+  // const ques = document.getElementById('question').value;
+  worksheet.columns = [
+    { header: 'Question', key: 'ques', width: 35 },
+    { header: 'Option1', key: 'opt1', width: 15 },
+    { header: 'Option2', key: 'opt2', width: 15 },
+    { header: 'Option3', key: 'opt3', width: 15 },
+    { header: 'Option4', key: 'opt4', width: 15 },
+    { header: 'Correct Ans', key: 'ans', width: 15 },
+    { header: 'Solution', key: 'soln', width: 35 },
+  ];
+  const ques = document.getElementById('editorvalue').innerHTML;
+  const replacedfirstquestion = ques.replace(/dvar\d+/g, (match) => {
+    const res = Number(changevars[match]);
+    return res;
+  });
+  console.log("final first question", replacedfirstquestion);
+  const solution = document.getElementById('editorvaluesoln').innerHTML;
 
+  const replacedfirstSolution = solution.replace(/dvar\d+/g, (match) => {
+    const res = Number(constantvars[match]);
+    return res;
+  });
+  const firstSoln = replacedfirstSolution.replace(/cvar\d+/g, (match) => {
+    const res = Number(constantvars[match]);
+    return res;
+  });
+
+  const finalfirstSoln = firstSoln.replace(/Cvar\d+/g, (match) => {
+    // eslint-disable-next-line radix
+    const extractedNumber = parseInt(match.match(/\d+/)[0]);
+    const res = Number(constantvars['cvar' + extractedNumber]);
+    return res;
+  });
+
+  const finalfirstSolution = finalfirstSoln.replace(/const\d+/g, (match) => {
+    const res = Number(constantvars[match]);
+    newvalues[match] = res;
+    return res;
+  });
+  // console.log("options", optionvalues);
+  const firstquestion = formatRichText(replacedfirstquestion);
+  const firstquestionarray = [];
+  for (let i = 0; i < firstquestion.length; i++) {
+    firstquestionarray.push({ text: firstquestion[i].text, font: firstquestion[i].font });
+  }
+  const firstsolution = formatRichText(finalfirstSolution);
+  const firstsolutionarray = [];
+  for (let i = 0; i < firstsolution.length; i++) {
+    firstsolutionarray.push({ text: firstsolution[i].text, font: firstsolution[i].font });
+  }
+  worksheet.getCell('A2').value = {
+    richText: [
+      ...firstquestionarray,
+    ],
+  };
+  worksheet.getCell('B2').value = {
+    richText: [
+      { text: optionval.option1 },
+    ],
+  };
+  worksheet.getCell('C2').value = {
+    richText: [
+      { text: optionval.option2 },
+    ],
+  };
+  worksheet.getCell('D2').value = {
+    richText: [
+      { text: optionval.option3 },
+    ],
+  };
+  worksheet.getCell('E2').value = {
+    richText: [
+      { text: optionval.option4 },
+    ],
+  };
+  worksheet.getCell('F2').value = {
+    richText: [
+      { text: optionval.option1 },
+    ],
+  };
+  worksheet.getCell('G2').value = {
+    richText: [
+      ...firstsolutionarray,
+    ],
+  };
+  if (act == "create") {
+    console.log("genbutfunction create");
+  } else {
+    console.log("genbut function edit");
+  }
+  const questioneditorvalue = document.getElementById('editorvalue');
+  // const questioneditorvalue = quill.root.innerHTML;
+  const spanelement = questioneditorvalue.querySelector('span');
+  if (spanelement) {
+    spanelement.parentNode.removeChild(spanelement);
+  }
+  const solneditorvalue = document.getElementById('editorvaluesoln');
+  // const solneditorvalue = quillsoln.root.innerHTML;
+  const spanelementsoln = solneditorvalue.querySelector('span');
+  if (spanelementsoln) {
+    spanelementsoln.parentNode.removeChild(spanelementsoln);
+  }
+  // const ques = document.getElementById('editorvalue').innerHTML;
+  const loop = document.getElementById('loop').value;
+  // const solution = document.getElementById('solution').value;
+  // const solution = document.getElementById('editorvaluesoln').innerHTML;
+  // console.log(solution);
+  // console.log("cvariables",cvariables);
+  // console.log("actions",actions);
+  for (let i = 0; i < loop; i++) {
+    let newvalues = {};
+    // newvalues = Number(constantvariables);=
+    newvalues = constantvars;
+    const replacedSentence = ques.replace(/dvar\d+/g, (match) => {
+      const res = Number(changevars[match]) + (Number(changedvar[match]) + Number(changedvar[match]) * i);
+      // console.log(newvalues);
+
+      newvalues[match] = res;
+      // console.log("i res", res);
+      return res;
+    });
+    // console.log("replacedsentence", replacedSentence);
+    // const replacespan = replacedSentence.replace('ql-cursor', '');
+    // console.log(questioneditorvalue.innerHTML);
+    // const solution = document.getElementById('solution').value;
+    const solution = document.getElementById('editorvaluesoln').innerHTML;
+
+    const replacedSolution = solution.replace(/dvar\d+/g, (match) => {
+      const res = Number(newvalues[match]);
+      return res;
+    });
+
+    var num = 0; var anum = 0; var snum = 0; var mnum = 0; var dnum = 0; var sqnum = 0; var srnum = 0; var cnum = 0; var curnum = 0; var fnum = 0; var dinum = 0; var pernum = 0; var lognum = 0; var fracnum = 0;
+
+    const crtSolution = replacedSolution.replace(/cvar\d+/g, (match) => {
+      const action = actions[match];
+      if (action === 'LCM') {
+        var splitArrays = splitarray(lcmcheckedvariables);
+        var array = splitArrays[num++].map((key) => newvalues[key]);
+        var res = calculateLCM(array);
+      }
+      if (action === 'Add') {
+        splitArrays = splitarray(addcheckedvariables);
+        // var array = addcheckedvariable.map(key => newvalues[key]);
+        var array = splitArrays[anum++].map((key) => newvalues[key]);
+        var res = calculateADD(array);
+      }
+      if (action === 'Sub') {
+        splitArrays = splitarray(subcheckedvariables);
+        var array = splitArrays[snum++].map((key) => newvalues[key]);
+        var res = calculateSUB(array);
+      }
+      if (action === 'Mul') {
+        splitArrays = splitarray(mulcheckedvariables);
+        // var array = mulcheckedvariable.map(key => newvalues[key]);
+        var array = splitArrays[mnum++].map((key) => newvalues[key]);
+        var res = calculateMUL(array);
+      }
+      if (action === 'Div') {
+        splitArrays = splitarray(divcheckedvariables);
+        // var array = divcheckedvariable.map(key => newvalues[key]);
+        var array = splitArrays[dnum++].map((key) => newvalues[key]);
+        var res = calculateDIV(array);
+      }
+      if (action === 'Square') {
+        splitArrays = splitarray(sqcheckedvariables);
+        // var array = sqcheckedvariable.map(key => newvalues[key]);
+        var array = splitArrays[sqnum++].map((key) => newvalues[key]);
+        var res = calculatesquare(array);
+      }
+      if (action === 'SqRoot') {
+        splitArrays = splitarray(sqrootcheckedvariables);
+        // var array = sqrootcheckedvariable.map(key => newvalues[key]);
+        var array = splitArrays[srnum++].map((key) => newvalues[key]);
+        var res = calculatesqroot(array);
+      }
+      if (action === 'Cube') {
+        splitArrays = splitarray(cubecheckedvariables);
+        // var array = cubecheckedvariable.map(key => newvalues[key]);
+        var array = splitArrays[cnum++].map((key) => newvalues[key]);
+        var res = calculatecube(array);
+      }
+      if (action === 'CubeRoot') {
+        splitArrays = splitarray(curootcheckedvariables);
+        // var array = curootcheckedvariable.map(key => newvalues[key]);
+        var array = splitArrays[curnum++].map((key) => newvalues[key]);
+        var res = calculatecuberoot(array);
+      }
+      if (action === 'Factorial') {
+        splitArrays = splitarray(factcheckedvariables);
+        // var array = factcheckedvariable.map(key => newvalues[key]);
+        var array = splitArrays[fnum++].map((key) => newvalues[key]);
+        var res = calculatefact(array);
+      }
+      if (action === 'Difference') {
+        splitArrays = splitarray(diffcheckedvariables);
+        // var array = diffcheckedvariable.map(key => newvalues[key]);
+        var array = splitArrays[dinum++].map((key) => newvalues[key]);
+        var res = calculatediff(array);
+      }
+      if (action === 'Percentage') {
+        splitArrays = splitarray(percheckedvariables);
+        var array = splitArrays[pernum++].map((key) => newvalues[key]);
+        var res = calculateper(array);
+      }
+      if (action == 'Log') {
+        splitArrays = splitarray(logcheckedvariables);
+        var array = splitArrays[lognum++].map((key) => newvalues[key]);
+        var res = calculatelog(array);
+      }
+      if (action == 'Fraction') {
+        splitArrays = splitarray(fraccheckedvariables);
+        var array = splitArrays[fracnum++].map((key) => newvalues[key]);
+        var res = calculatefrac(array);
+      }
+
+      // var res = calculateLCM()keys.map(key => obj[key]);
+      const capvar = match.charAt(0).toUpperCase() + match.slice(1);
+      newvalues[match] = res;
+      newvalues[capvar] = res;
+      return res;
+    });
+    const finalSoln = crtSolution.replace(/Cvar\d+/g, (match) => {
+      const res = Number(newvalues[match]);
+      return res;
+    });
+    const finalSolution = finalSoln.replace(/const\d+/g, (match) => {
+      const res = Number(constantvars[match]);
+      if (act == "create") {
+        newvalues[match] = res;
+      } else {
+        editnewvalues[match] = res;
+      }
+      return res;
+    });
+    const option1 = newvalues[Object.values(optionvariable)[0]];
+    newoptions.option1 = option1;
+    const optionlen = Object.keys(optionvariable).length;
+
+    for (let i = 1; i < optionlen; i++) {
+      const opt = `option${Number(i + 1)}`;
+      const op = optionvariable[opt];
+
+      const opvalue = newvalues[op[0]];
+      if (op[1] == '+') {
+        if (!Number(opvalue)) {
+          newoptions[opt] = format(add(fraction(opvalue), fraction(op[2])));
+        } else {
+          newoptions[opt] = Number(opvalue) + Number(op[2]);
+        }
+      }
+      if (op[1] == '-') {
+        if (!Number(opvalue)) {
+          newoptions[opt] = format(subtract(fraction(opvalue), fraction(op[2])));
+        } else {
+          newoptions[opt] = Number(opvalue) - Number(op[2]);
+        }
+      }
+      if (op[1] == '*') {
+        if (!Number(opvalue)) {
+          newoptions[opt] = format(multiply(fraction(opvalue), fraction(op[2])));
+        } else {
+          newoptions[opt] = Number(opvalue) * Number(op[2]);
+        }
+      }
+      if (op[1] == '^') {
+        if (!Number(opvalue)) {
+          newoptions[opt] = format(square(fraction(opvalue)));
+        } else {
+          newoptions[opt] = Number(opvalue) * Number(opvalue);
+        }
+      }
+    }
+    // console.log('optionvariables', optionvariables);
+    // console.log('newoptions', newoptions);
+    // const editorvalue = document.getElementById("editorvalue");
+    // const divContent = document.getElementById('editorvalue').innerHTML;
+    // console.log("quill content", excelContent);
+
+    // =====================================
+    // if (!worksheet) {
+    //   var data = [{
+    //     Questions: replacedSentence, Option1: newoptions.option1, Option2: newoptions.option2, Option3: newoptions.option3, Option4: newoptions.option4, CorrectAns: newoptions.option1, Solution: finalSolution, editorvalue: cleanText,
+    //   }];
+    //   worksheet = XLSX.utils.json_to_sheet(data);
+    //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    // } else {
+    //   var data = [{
+    //     Questions: replacedSentence, Option1: newoptions.option1, Option2: newoptions.option2, Option3: newoptions.option3, Option4: newoptions.option4, CorrectAns: newoptions.option1, Solution: finalSolution, editorvalue: cleanText,
+    //   }];
+    //   const rowIndex = XLSX.utils.sheet_add_json(worksheet, data, { header: ['Questions', 'Option1', 'Option2', 'Option3', 'Option4', 'CorrectAns', 'Solution', 'editorval'], skipHeader: true, origin: -1 });
+    //   const cellRef = XLSX.utils.encode_cell({ r: rowIndex, c: 0 });
+    //   worksheet[cellRef] = replacedSentence;
+    // }
+    const questioncell = worksheet.getCell('A' + (i + 3));
+    const opt1cell = worksheet.getCell('B' + (i + 3));
+    const opt2cell = worksheet.getCell('C' + (i + 3));
+    const opt3cell = worksheet.getCell('D' + (i + 3));
+    const opt4cell = worksheet.getCell('E' + (i + 3));
+    const anscell = worksheet.getCell('F' + (i + 3));
+    const solncell = worksheet.getCell('G' + (i + 3));
+
+    const editorvalue = document.getElementById("editorvalue");
+    editorvalue.innerHTML = quill.root.innerHTML;
+    const originalText = document.getElementById('editorvalue').innerHTML;
+    const richText = formatRichText(replacedSentence);
+    const solnrichText = formatRichText(finalSolution);
+    // console.log("richText", richText);
+    const accumulatedRichText = [];
+    const solnrichTextarray = [];
+    // worksheet.columns = [
+    //   { header: 'Question', key: 'ques', width: 35 },
+    //   { header: 'Option1', key: 'opt1', width: 15 },
+    //   { header: 'Option2', key: 'opt2', width: 15 },
+    //   { header: 'Option3', key: 'opt3', width: 15 },
+    //   { header: 'Option4', key: 'opt4', width: 15 },
+    //   { header: 'Correct Ans', key: 'ans', width: 15 },
+    //   { header: 'Solution', key: 'soln', width: 35 },
+    // ];
+    // worksheet.addRow({ id: 1, name: 'John Doe', dob: new Date(1970, 1, 1) });
+    // worksheet.addRow({
+    //   ques: replacedSentence, opt1: newoptions.option1, opt2: newoptions.option2, opt3: newoptions.option3, opt4: newoptions.option4, ans: newoptions.option1, soln: finalSolution,
+    // });
+    for (let i = 0; i < richText.length; i++) {
+      accumulatedRichText.push({ text: richText[i].text, font: richText[i].font });
+    }
+    for (let i = 0; i < solnrichText.length; i++) {
+      solnrichTextarray.push({ text: solnrichText[i].text, font: solnrichText[i].font });
+    }
+    console.log("change variables*********************", changevars);
+    console.log("accumulatesrichtext......", accumulatedRichText);
+    console.log("acumulatedsolntext.......", solnrichTextarray);
+    console.log("option1.....", newoptions.option1);
+    console.log("option2.....", newoptions.option2);
+    console.log("option3.....", newoptions.option3);
+    console.log("option4.....", newoptions.option4);
+    console.log("option1.....", newoptions.option1);
+    questioncell.value = {
+      richText: [
+        ...accumulatedRichText,
+      ],
+    };
+    solncell.value = {
+      richText: [
+        ...solnrichTextarray,
+      ],
+    };
+    opt1cell.value = {
+      richText: [
+        { text: newoptions.option1 },
+      ],
+    };
+    opt2cell.value = {
+      richText: [
+        { text: newoptions.option2 },
+      ],
+    };
+    opt3cell.value = {
+      richText: [
+        { text: newoptions.option3 },
+      ],
+    };
+    opt4cell.value = {
+      richText: [
+        { text: newoptions.option4 },
+      ],
+    };
+    anscell.value = {
+      richText: [
+        { text: newoptions.option1 },
+      ],
+    };
+    const dlabel = document.getElementById('dlabel');
+    dlabel.innerHTML = 'You can now download sheet';
+
+    // ========================================
+  }
+  console.log("change variables******************", changevars);
+  // console.log("chnage variables inside genbut last", changevariables);
+}
 var optionvariables = {};
 var optionvalues = {};
 // const addoption = document.getElementById("addoption");
@@ -2145,7 +2171,18 @@ function save() {
   // console.log("/save/optionvariables", optdbvariables);
   // console.log("/save/optionvariables 2nd", optionvariables);
   // var allvariables = Object.assign(changevariables, cvariables, constantvariables);**
-  var allvariables = Object.assign(changevariables, cvariables, constantvariables);
+  console.log("change variables on save", changevariables);
+  console.log("change variables on svae c variables", cvariables);
+  console.log("change variables on save const var", constantvariables);
+  const constProperties = {};
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key in constantvariables) {
+    if (key.startsWith('const')) {
+      constProperties[key] = constantvariables[key];
+    }
+  }
+  console.log("change variables on save const var", constProperties);
+  var allvariables = Object.assign(changevariables, cvariables, constProperties);
   console.log("/save/allvariables", allvariables);
   if (Object.keys(optionvalues).length === 0) {
     var optionvars = Object.assign(optdbvalues);
@@ -2191,7 +2228,7 @@ function save() {
       h6.innerText = "Question Saved Successfully";
       questionsaved.appendChild(h6);
       // eslint-disable-next-line no-restricted-globals
-      location.reload();
+      // location.reload();
       // window.location.href = 'questiongenerator.html';
     })
     .catch((error) => {
@@ -2330,6 +2367,17 @@ if (urlParams.has('id')) {
       console.log("dballvariables", dballvariables);
       console.log("dvarcount", dvarcount);
       generatevariabledisplay("edit");
+      genbut.addEventListener("click", () => {
+        console.log("{{{{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}", data.optionvariables);
+        const constantsdb = {};
+        for (const key in data.Variables) {
+          if (key.startsWith('const')) {
+            constantsdb[key] = data.Variables[key];
+          }
+        }
+        console.log("constantdb", constantsdb);
+        genbutfunction("edit", data.Options, data.optionvariables, data.Variables, constantsdb, data.Generate_action_val, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.frac);
+      });
     })
     .catch(error => console.error('Error:', error));
   // console.log('id retrived', idValue);
