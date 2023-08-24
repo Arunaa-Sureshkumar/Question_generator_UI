@@ -665,6 +665,7 @@ let divvar = 0;
 var calclcm;
 let chvardivval;
 let assignname;
+let changevardivvalue;
 function addvar(act) {
   const variableList = document.getElementById('variableList');
   // var solution = document.getElementById("solution").value;
@@ -754,7 +755,7 @@ function addvar(act) {
     const clickedButton = e.target;
     console.log('uio', clickedButton.id);
     togglebutton();
-
+    changevardivvalue = clickedButton.id;
     assignname = document.getElementById('calcassign');
     assignname.name = clickedButton.id;
   }
@@ -926,7 +927,9 @@ var percheckedvariable = [];
 var logcheckedvariable = [];
 var fraccheckedvariable = [];
 function selectvariables(e) {
+  console.log("select variables e", e.target);
   const element = document.getElementById(e.currentTarget.myParam);
+  console.log("element ", element);
   element.style.backgroundColor = '#198754';
   const checkboxes = document.querySelectorAll('input[name="allvariables"]:checked');
   checkboxes.forEach((checkbox) => {
@@ -1183,7 +1186,12 @@ function changevarinput(lcm, mathaction) {
 
   cvariables[chvarinput.name] = chvarinput.value;
   actions[chvarinput.name] = mathaction;
-  const chvardiv = document.getElementById(chvardivval);
+  console.log("chvardivval", chvardivval);
+  console.log("changevardivvalue", changevardivvalue);
+  const chvardivvalnumber = changevardivvalue.replace(/\D+/g, '');
+  console.log("chvardivvalnumber", chvardivvalnumber);
+  console.log(chvardiv + chvardivvalnumber);
+  const chvardiv = document.getElementById('chvardiv' + chvardivvalnumber);
   const cvarspan = document.createElement('span');
   cvarspan.className = 'fa fa-trash';
   cvarspan.id = `cdel${variable_number}`;
