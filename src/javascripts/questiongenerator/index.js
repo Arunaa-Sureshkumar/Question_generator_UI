@@ -1591,7 +1591,6 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
   console.log("finalfirstsoln", finalfirstSoln);
   const finalfirstSolution = finalfirstSoln.replace(/const\d+/g, (match) => {
     const res = Number(changevars[match]);
-    newvalues[match] = res;
     return res;
   });
   console.log("finalfirstSoltuion", finalfirstSolution);
