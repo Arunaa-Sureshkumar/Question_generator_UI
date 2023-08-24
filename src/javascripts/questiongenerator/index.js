@@ -91,11 +91,11 @@ editorbutsoln.addEventListener("click", () => {
   editorvalue.innerHTML = sanitizedHtml;
   console.log(editorvalue.innerHTML);
 });
-const defVar = document.getElementById('defvar');
-defVar.addEventListener('click', () => {
-  addText("create");
-  // document.getElementById("popup").style.display = "block";
-});
+// const defVar = document.getElementById('defvar');
+// defVar.addEventListener('click', () => {
+//   addText("create");
+//   // document.getElementById("popup").style.display = "block";
+// });
 const api_path = process.env.API_PATH;
 
 let variable_number = 0;
@@ -657,10 +657,10 @@ function deletebut(e) {
 // ####################################
 let lcm = 0;
 const selectvar = document.getElementById('checkedvar');
-const chunkvar = document.getElementById('chunkvar');
-chunkvar.addEventListener('click', () => {
-  addvar("create");
-});
+// const chunkvar = document.getElementById('chunkvar');
+// chunkvar.addEventListener('click', () => {
+//   addvar("create");
+// });
 let divvar = 0;
 var calclcm;
 let chvardivval;
@@ -1274,13 +1274,9 @@ function splitarray(lcmcheckedvariable) {
 function formatRichText(text) {
   const formattedText = [];
   const modifiedText = text.replace(/<\/?p>/g, '');
-  if (!modifiedText.includes('<sup>') && !modifiedText.includes('<sub>')) {
-    console.log("modified Text inside formatRichText", modifiedText);
-    return [{ text: modifiedText }];
-  }
-  const parts = modifiedText.split(/(<sup>.*?<\/sup>|<sub>.*?<\/sub>|<b>.*?<\/b>)/);
+  console.log(modifiedText);
+  const parts = modifiedText.split(/(<sup>.*?<\/sup>|<sub>.*?<\/sub>|<em>.*?<\/em>|<u>.*?<\/u>|<strong>.*?<\/strong>)/);
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const part of parts) {
     if (part.startsWith('<sup>') && part.endsWith('</sup>')) {
       const superscriptText = part.slice(5, -6);
@@ -1294,6 +1290,24 @@ function formatRichText(text) {
         text: subscriptText,
         font: { vertAlign: 'subscript' },
       });
+    } else if (part.startsWith('<strong>') && part.endsWith('</strong>')) {
+      const boldText = part.slice(8, -9);
+      formattedText.push({
+        text: boldText,
+        font: { bold: true },
+      });
+    } else if (part.startsWith('<em>') && part.endsWith('</em>')) {
+      const italicText = part.slice(4, -5);
+      formattedText.push({
+        text: italicText,
+        font: { italic: true },
+      });
+    } else if (part.startsWith('<u>') && part.endsWith('</u>')) {
+      const underlineText = part.slice(3, -4);
+      formattedText.push({
+        text: underlineText,
+        font: { underline: true },
+      });
     } else {
       formattedText.push({ text: part });
     }
@@ -1301,6 +1315,57 @@ function formatRichText(text) {
 
   return formattedText;
 }
+
+// function formatRichText(text) {
+//   const formattedText = [];
+//   const modifiedText = text.replace(/<\/?p>/g, '');
+
+//   // Check for formatting tags: <sup>, <sub>, <b>, <i>, <u>
+//   if (!modifiedText.includes('<sup>') && !modifiedText.includes('<sub>') && !modifiedText.includes('<b>') && !modifiedText.includes('<i>') && !modifiedText.includes('<u>')) {
+//     return [{ text: modifiedText }];
+//   }
+
+//   const parts = modifiedText.split(/(<sup>.*?<\/sup>|<sub>.*?<\/sub>|<b>.*?<\/b>|<i>.*?<\/i>|<u>.*?<\/u>)/);
+
+//   for (const part of parts) {
+//     if (part.startsWith('<sup>') && part.endsWith('</sup>')) {
+//       const superscriptText = part.slice(5, -6);
+//       formattedText.push({
+//         text: superscriptText,
+//         font: { vertAlign: 'superscript' },
+//       });
+//     } else if (part.startsWith('<sub>') && part.endsWith('</sub>')) {
+//       const subscriptText = part.slice(5, -6);
+//       formattedText.push({
+//         text: subscriptText,
+//         font: { vertAlign: 'subscript' },
+//       });
+//     } else if (part.startsWith('<b>') && part.endsWith('</b>')) {
+//       const boldText = part.slice(3, -4);
+//       formattedText.push({
+//         text: boldText,
+//         bold: true,
+//       });
+//     } else if (part.startsWith('<i>') && part.endsWith('</i>')) {
+//       const italicText = part.slice(3, -4);
+//       formattedText.push({
+//         text: italicText,
+//         italic: true,
+//       });
+//     } else if (part.startsWith('<u>') && part.endsWith('</u>')) {
+//       const underlineText = part.slice(3, -4);
+//       formattedText.push({
+//         text: underlineText,
+//         underline: true,
+//       });
+//     } else {
+//       formattedText.push({ text: part });
+//     }
+//   }
+
+//   return formattedText;
+// }
+
 const dvaractions = {};
 const dvaractionvalue = {};
 const workbook = new ExcelJS.Workbook();
@@ -1503,39 +1568,47 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
   });
   console.log("final first question", replacedfirstquestion);
   const solution = document.getElementById('editorvaluesoln').innerHTML;
-
+  console.log("solution", solution);
   const replacedfirstSolution = solution.replace(/dvar\d+/g, (match) => {
-    const res = Number(constantvars[match]);
+    const res = Number(changevars[match]);
     return res;
   });
+  console.log("replacedfirstsolution", replacedfirstSolution);
   const firstSoln = replacedfirstSolution.replace(/cvar\d+/g, (match) => {
-    const res = Number(constantvars[match]);
+    const res = Number(changevars[match]);
+    console.log(constantvars);
+    console.log(changevars);
+    console.log("first soln res", res, changevars[match]);
     return res;
   });
-
+  console.log("firstSoln", firstSoln);
   const finalfirstSoln = firstSoln.replace(/Cvar\d+/g, (match) => {
     // eslint-disable-next-line radix
     const extractedNumber = parseInt(match.match(/\d+/)[0]);
-    const res = Number(constantvars['cvar' + extractedNumber]);
+    const res = Number(changevars['cvar' + extractedNumber]);
     return res;
   });
-
+  console.log("finalfirstsoln", finalfirstSoln);
   const finalfirstSolution = finalfirstSoln.replace(/const\d+/g, (match) => {
-    const res = Number(constantvars[match]);
+    const res = Number(changevars[match]);
     newvalues[match] = res;
     return res;
   });
+  console.log("finalfirstSoltuion", finalfirstSolution);
   // console.log("options", optionvalues);
   const firstquestion = formatRichText(replacedfirstquestion);
   const firstquestionarray = [];
   for (let i = 0; i < firstquestion.length; i++) {
     firstquestionarray.push({ text: firstquestion[i].text, font: firstquestion[i].font });
   }
+  console.log("finalfirstsolution", finalfirstSolution);
   const firstsolution = formatRichText(finalfirstSolution);
+  console.log("formatted first solution", firstsolution);
   const firstsolutionarray = [];
   for (let i = 0; i < firstsolution.length; i++) {
     firstsolutionarray.push({ text: firstsolution[i].text, font: firstsolution[i].font });
   }
+  console.log("firstsolutionarray", firstsolutionarray);
   worksheet.getCell('A2').value = {
     richText: [
       ...firstquestionarray,
@@ -2368,14 +2441,12 @@ if (urlParams.has('id')) {
       console.log("dvarcount", dvarcount);
       generatevariabledisplay("edit");
       genbut.addEventListener("click", () => {
-        console.log("{{{{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}", data.optionvariables);
         const constantsdb = {};
         for (const key in data.Variables) {
           if (key.startsWith('const')) {
             constantsdb[key] = data.Variables[key];
           }
         }
-        console.log("constantdb", constantsdb);
         genbutfunction("edit", data.Options, data.optionvariables, data.Variables, constantsdb, data.Generate_action_val, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.frac);
       });
     })

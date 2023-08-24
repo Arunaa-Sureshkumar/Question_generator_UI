@@ -12,6 +12,7 @@ import '../../stylesheets/common/importers/_fontawesome.scss';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import '../common/steroid';
+// import { apply } from 'mathjs';
 
 const api_path = process.env.API_PATH;
 function show() {
@@ -77,24 +78,38 @@ function show() {
 
       data.forEach((record) => {
         const newRow = document.createElement("tr");
-        newRow.addEventListener("click", () => {
-          window.location.href = `questiongenerator.html?id=${record.Unique_id}`;
-        });
-        const ques_name = document.createElement("td");
-        ques_name.textContent = record.Ques_name;
-        const ques_tag = document.createElement("td");
-        ques_tag.textContent = record.Tags;
+        // newRow.addEventListener("click", () => {
+        //   window.location.href = `questiongenerator.html?id=${record.Unique_id}`;
+        // });
+        const ques_code = document.createElement("td");
+        ques_code.textContent = record.Code;
         const ques_type = document.createElement("td");
         ques_type.textContent = record.Ques_type;
+        const ques_subtype = document.createElement("td");
+        ques_subtype.textContent = record.Ques_subtype;
         const difficulty = document.createElement("td");
         difficulty.textContent = record.Difficulty;
+        const ques_tag = document.createElement("td");
+        ques_tag.textContent = record.Tags;
         const question = document.createElement("td");
         question.textContent = record.Question;
-        const solution = document.createElement("td");
-        solution.textContent = record.Solution;
-        const actions = document.createElement("td");
-        actions.className = "actions";
-        actions.style.width = "50px";
+        // const actions = document.createElement("td");
+        // actions.className = "actions";
+        // actions.style.width = "50px";
+        const editcell = document.createElement("td");
+        editcell.style.width = "30px";
+        const edit = document.createElement("button");
+        edit.className = "fa fa-edit edit-btn";
+        edit.style.color = "green";
+        edit.style.border = "none";
+        edit.id = "edit1";
+        edit.setAttribute("data-name", record.Unique_id);
+        edit.style.backgroundColor = "transparent";
+        edit.addEventListener("click", () => {
+          // const uid = e.target.getAttribute('data-name');
+          window.location.href = `questiongenerator.html?id=${record.Unique_id}`;
+        });
+        editcell.appendChild(edit);
         // const edit = document.createElement("button");
         // edit.className = "fa fa-edit edit-btn";
         // edit.style.color = "green";
@@ -106,6 +121,8 @@ function show() {
         //   // const uid = e.target.getAttribute('data-name');
         //   // window.location.href = `questiongenerator.html?id=${uid}`;
         // });
+        const delcell = document.createElement("td");
+        delcell.style.width = "30px";
         const del = document.createElement("button");
         del.className = "fa fa-trash del-btn";
         del.style.color = "red";
@@ -133,15 +150,19 @@ function show() {
               console.error("Error:", error);
             });
         });
+        delcell.appendChild(del);
         // actions.appendChild(edit);
-        actions.appendChild(del);
-        newRow.appendChild(ques_name);
+        // actions.appendChild(del);
+        // newRow.appendChild(ques_name);
+        newRow.appendChild(ques_code);
         newRow.appendChild(ques_type);
+        newRow.appendChild(ques_subtype);
         newRow.appendChild(difficulty);
         newRow.appendChild(ques_tag);
         newRow.appendChild(question);
-        newRow.appendChild(solution);
-        newRow.appendChild(actions);
+        // newRow.appendChild(solution);
+        newRow.appendChild(editcell);
+        newRow.appendChild(delcell);
         tableBody.appendChild(newRow);
       });
       $('#data-table').DataTable();
