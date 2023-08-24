@@ -92,7 +92,7 @@ function show() {
         const ques_tag = document.createElement("td");
         ques_tag.textContent = record.Tags;
         const question = document.createElement("td");
-        question.textContent = record.Question;
+        question.innerHTML = record.Question;
         // const actions = document.createElement("td");
         // actions.className = "actions";
         // actions.style.width = "50px";

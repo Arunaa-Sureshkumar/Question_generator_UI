@@ -930,7 +930,7 @@ function selectvariables(e) {
   console.log("select variables e", e.target);
   const element = document.getElementById(e.currentTarget.myParam);
   console.log("element ", element);
-  element.style.backgroundColor = '#198754';
+  element.style.backgroundColor = '#0dba4b';
   const checkboxes = document.querySelectorAll('input[name="allvariables"]:checked');
   checkboxes.forEach((checkbox) => {
     checkbox.checked = false;
