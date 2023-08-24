@@ -263,7 +263,7 @@ function addText(act, dbvariables) {
         const diffarray = diffdbarray.concat(diffcheckedvariable);
         const perarray = perdbarray.concat(percheckedvariable);
         const logarray = logdbarray.concat(logcheckedvariable);
-        const fracarray = fracdbarray.concat(fraccheckedvaribale);
+        const fracarray = fracdbarray.concat(fraccheckedvariable);
         console.log("addaray", addarray);
         changerefresh(vardbarray, editnum, clickedinput, 'def', lcmarray, addarray, subarray, mularray, divarray, sqarray, sqrootarray, cubearray, curootarray, factarray, diffarray, perarray, logarray, fracarray, optdbarray);
       } else {
@@ -297,19 +297,8 @@ function addText(act, dbvariables) {
 
 function getvalue1(event, lcmdb, adddb, subdb, muldb, divdb, squaredb, sqrootdb, cubedb, curootdb, factdb, diffdb, perdb, logdb, variables, optionvariable) {
   const clickedinput = event.target;
-  console.log("It is running .....");
-  console.log("clickedinput in getvalue1", clickedinput);
-  console.log("varibles passed", variables);
-  console.log("option variables", optionvariable);
-  // event.preventDefault();
-  console.log("getvalue1 function");
   const allvariables = Object.assign(variables);
-  // console.log("changevariables", changevariables);
-  console.log("variables ", variables);
-  console.log("allvariables", allvariables);
   const changevar = document.getElementById(clickedinput.id).value;
-  console.log('this', clickedinput.id, changevar);
-
   changevariables[clickedinput.id] = changevar;
   allvariables[clickedinput.id] = changevar;
   // createcheckboxes(changeinput.id,changevar,"quesvar")
@@ -334,16 +323,21 @@ function getvalue1(event, lcmdb, adddb, subdb, muldb, divdb, squaredb, sqrootdb,
 }
 let newallvariables = {};
 function changerefresh(allvariables, editnum, clickedinput, variable, lcmcheckedvariables = lcmcheckedvariable, addcheckedvariables = addcheckedvariable, subcheckedvariables = subcheckedvariable, mulcheckedvariables = mulcheckedvariable, divcheckedvariables = divcheckedvariable, sqcheckedvariables = sqcheckedvariable, sqrootcheckedvariables = sqrootcheckedvariable, cubecheckedvariables = cubecheckedvariable, curootcheckedvariables = curootcheckedvariable, factcheckedvariables = factcheckedvariable, diffcheckedvariables = diffcheckedvariable, percheckedvariables = percheckedvariable, logcheckedvariables = logcheckedvariable, fraccheckedvariables = fraccheckedvariable, optionvariable = optionvariables) {
-  console.log("global", lcmcheckedvariable);
-  console.log("all variables", allvariables);
-  console.log("lcmcheckedvariable", lcmcheckedvariables);
-  console.log("variablr", variable);
+  console.log("changerefresh defObject", defObject);
   // console.log("test", lcmcheckedvariable);
+  console.log("editnum", editnum);
+  console.log("clickedinput", clickedinput);
+  console.log("variable", variable);
   const actionlen = Object.keys(actions).length;
   let optnum = 2;
   let lcmnum = 0; let addnum = 0; let subnum = 0; let mulnum = 0; let divnum = 0; let squnum = 0; let squrootnum = 0; let cubnum = 0; let cubrootnum = 0; let factnum = 0; let diffenum = 0; let percenum = 0; let lognum = 0; let fracnum = 0;
   let checkbox;
-  if (variable == 'def') checkbox = document.querySelector(`[data-name="dvardiv${editnum}"]`);
+  if (variable == 'def') {
+    const genvalue = document.getElementById('genvalue' + editnum);
+    genvalue.innerHTML = clickedinput.value;
+    console.log("oooooooooooooooooooooooooooooo", genvalue);
+    checkbox = document.querySelector(`[data-name="dvardiv${editnum}"]`);
+  }
   if (variable == 'const') checkbox = document.querySelector(`[data-name="constdiv${editnum}"]`);
   if (variable == 'change') checkbox = document.querySelector(`[data-name="chvardiv${editnum}"]`);
   console.log("checkbox and editnum", checkbox, editnum);
@@ -1386,8 +1380,8 @@ const dvaractions = {};
 const dvaractionvalue = {};
 const workbook = new ExcelJS.Workbook();
 const worksheet = workbook.addWorksheet('Sheet1');
+let defProperties; let defObject;
 function generatevariabledisplay(act) {
-  let defProperties; let defObject;
   if (act == "create") {
     defProperties = Object.keys(changevariables).filter((key) => key.startsWith('dvar'));
 
