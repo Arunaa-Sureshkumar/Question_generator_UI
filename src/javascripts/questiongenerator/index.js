@@ -1034,7 +1034,7 @@ function selectvariables(e) {
     fraccheckedvariable.push(...checkedvariables);
     fraccheckedvariable.push('end');
   }
-  changevarinput(lcm, mathaction);
+  changevarinput('create', lcm, mathaction, 0);
   togglebutton();
   $('#checkboxes').toggle('slide');
   $('#checkboxselect').toggle('slide');
@@ -1167,7 +1167,7 @@ const calculatefrac = (...[arr]) => {
 
 let newvariable = 0;
 var actions = {};
-function changevarinput(lcm, mathaction) {
+function changevarinput(act, lcm, mathaction, divnum) {
   const cinpspandiv = document.createElement('div');
   const chvarinput = document.createElement('input');
   const actionvar = document.createElement('small');
@@ -1187,10 +1187,18 @@ function changevarinput(lcm, mathaction) {
   cvariables[chvarinput.name] = chvarinput.value;
   actions[chvarinput.name] = mathaction;
   console.log("chvardivval", chvardivval);
-  console.log("changevardivvalue", changevardivvalue);
-  const chvardivvalnumber = changevardivvalue.replace(/\D+/g, '');
-  console.log("chvardivvalnumber", chvardivvalnumber);
-  console.log(chvardiv + chvardivvalnumber);
+  // console.log("changevardivvalue", changevardivvalue);
+  // const chvardivvalnumber = changevardivvalue.replace(/\D+/g, '');
+  // console.log("chvardivvalnumber", chvardivvalnumber);
+  // console.log(chvardiv + chvardivvalnumber);
+  // const chvardiv = document.getElementById(chvardivval);
+  let chvardivvalnumber;
+  if (act == 'create') {
+    chvardivvalnumber = changevardivvalue.replace(/\D+/g, '');
+  } else {
+    // console.log("edit chvardivavlue", divnum);
+    chvardivvalnumber = divnum.replace(/\D+/g, '');
+  }
   const chvardiv = document.getElementById('chvardiv' + chvardivvalnumber);
   const cvarspan = document.createElement('span');
   cvarspan.className = 'fa fa-trash';
@@ -2416,7 +2424,7 @@ if (urlParams.has('id')) {
           const key = Object.keys(data.Variables)[i];
           const value = data.Variables[key];
           const action = data.Actions[key];
-          changevarinput(value, action);
+          changevarinput('edit', value, action, key);
           // createcheckboxes(Object.keys(data.Variables)[i], data.Variables[Object.keys(data.Variables)[i]], 'solvar');
         }
         if (Object.keys(data.Variables)[i].includes("const")) {
