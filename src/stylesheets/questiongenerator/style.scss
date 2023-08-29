@@ -1640,12 +1640,14 @@ table {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  max-width: 800px;
-  margin: auto;
+  max-width: 1000px;
+  height: 600px;
+  margin-top: 40px;
   padding: 60px;
   position: absolute;
   top: 50%;
   left: 50%;
+  overflow-y: scroll;
   transform: translate(-50%, -50%);
   text-align: center;
 }
@@ -1660,58 +1662,28 @@ table {
   cursor: pointer;
 }
 
-/* Input styles */
-input[type="text"],
-textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 14px;
+.popupoptions{
+  width: 500px;
 }
 
-#emailTemplate { 
-  margin-top: 10px;
-}
-/* Styles for the editor and button */
-.button-container {
-  display: inline-block;
-  margin: 0 2px;
+@media (max-width: 850px) {
+  .popup-content {
+    padding: 2rem;
+    width: 90%;
+  }
 }
 
-.non-editable-button {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 2px 5px;
-  cursor: default;
+#addalloptions,
+#alloptionvar1,
+#optionfunc,
+#addoptionsbut,
+#generatebtn,
+#save {
+  margin: 20px;
+  width: 100px;
 }
 
-.delete-button {
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-#message {
-  border: 1px solid black;
-  border-radius: 4px;
-  height: 100%;
-}
-
-.editable-div {
-  border: 1px solid #ccc;
-  padding: 10px;
-  position: relative;
-  text-align: left;
-  white-space: pre-line; 
-}
-
-.editable-placeholder {
-  color: gray;
-}
-
-#subject {
-  width: 100%;
-  border-radius: 4px;
+.optactions{
+  margin: 20px;
+  width: 100px;
 }

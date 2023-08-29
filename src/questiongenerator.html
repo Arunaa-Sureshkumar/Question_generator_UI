@@ -189,8 +189,8 @@
                     <button id="custom-button">+</button>
                   </div>
                   <div id="editor-container"></div>
-                  <button type="button" id="editorbut" class="editorbutton btn btn-success">Add ques</button>
-                  <div id="editorvalue"></div>
+                  <!-- <button type="button" id="editorbut" class="editorbutton btn btn-success">Add ques</button> -->
+                  <!-- <div id="editorvalue"></div> -->
                  
                 <!-- <button type="button" class="btn btn-success" id="btn-1">Add Variable</button> -->
               </div>
@@ -242,7 +242,7 @@
                   <!-- <button type="button" id="chunkvar" class="plusbtn btn btn-success">+</button> -->
                 </div>
                 <!-- <textarea class="form-control" placeholder="Explanantion for the given question" id="solution" value="var0" rows="3"></textarea> -->
-                <div id="editorvaluesoln"></div>
+                <!-- <div id="editorvaluesoln"></div> -->
                 <!-- <a href="https://www.HostMath.com/" target="_blank">HostMath</a> -->
                 <div id="toolbarsoln">
                   <!-- <select class="ql-size">
@@ -269,7 +269,7 @@
                   <button id="custom-buttonsoln">+</button>
                 </div>
                 <div id="editor-containersoln"></div>
-                <button type="button" id="editorbutsoln" class="editorbuttonsoln btn btn-success">Add Soln</button>
+                <!-- <button type="button" id="editorbutsoln" class="editorbuttonsoln btn btn-success">Add Soln</button> -->
                 
               </div>
 
@@ -312,9 +312,10 @@
               <div >
                 <div class="d-flex flex-row flex-wrap aoptions" id="alloptions">
                   
-                  <div class="options d-flex flex-column">
+                  <!-- <div class="options d-flex flex-column">
                     <label class="Option1 btn btn-success" id="optlabel1" name="option1">Option 1</label>
                     <input type="text" id="option1" class="optinp">
+                    <div></div>
                   </div>
                   <div class="options d-flex flex-column">
                     <label class="Option2 btn btn-success" id="optlabel2" name="option2">Option 2</label>
@@ -327,19 +328,145 @@
                   <div class="options d-flex flex-column">
                     <label class="Option4 btn btn-success" id="optlabel4" name="option4">Option 4</label>
                     <input type="text" id="option4" class="optinp">
+                  </div> -->
+                </div>
+                <div id="alloptiondiv" class="d-flex flex-row flex-wrap justify-content-around"></div>
+                <button id="addoptionsbut" class="addoptions btn btn-success">Addoptions</button>
+                <div id="popup" class="popup">
+                  <div class="popup-content">
+                    <span class="close" id="closePopup">&times;</span>
+                    <div class="popupoptions">
+                      <div class="options d-flex flex-column">
+                      <label class="Option1 btn btn-success" id="optlabel1" name="option1">Option 1</label>
+                        <!-- <input type="text" id="option1" class="optinp"> -->
+                      </div>
+                      <div id="toolbaroption1">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-script" value="sub"></button>
+                        <button class="ql-script" value="super"></button>
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-image"></button>
+                        <button id="custom-buttonoption1">+</button>
+                        <label class="checkbox-containeroption1">
+                          <input type="checkbox" class="quill-checkbox" id="checkbox-option1">
+                          <span class="checkmark"></span>
+                      </label>
+                      </div>
+                      <div id="editor-containeroption1"></div>
+                      <div id="alloptionvar1" style="display:none;">
+                        <div class= "d-flex flex-row" id="alloptionvarinnerdiv"></div>
+                      </div>
+                      <!-- <div id="option1value"></div> -->
+                      <!-- <button type="button" id="editorbutoption1" class="editorbuttonoption1 btn btn-success">Add option1</button> -->
+                    </div>
+                    <div class="popupoptions">
+                      <div class="options d-flex flex-column">
+                        <label class="Option2 btn btn-success" id="optlabel2" name="option2">Option 2</label>
+                        <!-- <input type="text" id="option2" class="optinp"> -->
+                      </div>
+                      <div id="toolbaroption2">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-script" value="sub"></button>
+                        <button class="ql-script" value="super"></button>
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-image"></button>
+                        <button id="custom-buttonoption2">+</button>
+                        <label class="checkbox-containeroption2">
+                            <input type="checkbox" class="quill-checkbox" id="checkbox-option2">
+                            <span class="checkmark"></span>
+                        </label>
+                      </div>
+                      <div id="editor-containeroption2"></div>
+                      <!-- <div id="alloptionvar2" class="flex" style="display:none;"></div> -->
+                      
+                      <!-- <div id="option1value"></div> -->
+                      <!-- <button type="button" id="editorbutoption2" class="editorbuttonoption2 btn btn-success">Add option1</button> -->
+                    </div>
+                    <div class="popupoptions">
+                      <div class="options d-flex flex-column">
+                      <label class="Option3 btn btn-success" id="optlabel3" name="option3">Option 3</label>
+                        <!-- <input type="text" id="option1" class="optinp"> -->
+                      </div>
+                      <div id="toolbaroption3">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-script" value="sub"></button>
+                        <button class="ql-script" value="super"></button>
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-image"></button>
+                        <button id="custom-buttonoption1">+</button>
+                        <label class="checkbox-containeroption3">
+                          <input type="checkbox" class="quill-checkbox" id="checkbox-option3">
+                          <span class="checkmark"></span>
+                      </label>
+                      </div>
+                      <div id="editor-containeroption3"></div>
+                      
+                      <!-- <div id="option1value"></div> -->
+                      <!-- <button type="button" id="editorbutoption1" class="editorbuttonoption1 btn btn-success">Add option1</button> -->
+                    </div>
+                    <div class="popupoptions">
+                      <div class="options d-flex flex-column">
+                      <label class="Option4 btn btn-success" id="optlabel4" name="option4">Option 4</label>
+                        <!-- <input type="text" id="option1" class="optinp"> -->
+                      </div>
+                      <div id="toolbaroption4">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-script" value="sub"></button>
+                        <button class="ql-script" value="super"></button>
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-image"></button>
+                        <button id="custom-buttonoption1">+</button>
+                        <label class="checkbox-containeroption4">
+                          <input type="checkbox" class="quill-checkbox" id="checkbox-option4">
+                          <span class="checkmark"></span>
+                      </label>
+                      </div>
+                      <div id="editor-containeroption4"></div>
+                      <!-- <div id="option1value"></div> -->
+                      <!-- <button type="button" id="editorbutoption1" class="editorbuttonoption1 btn btn-success">Add option1</button> -->
+                      <!-- <div class="flex" id="optionfunc" style="display:none;">
+                        <button id="optadd" class="btn btn-success optactions">Add</button>
+                        <button id="optsub" class="btn btn-success optactions">Sub</button>
+                        <button id="optmul" class="btn btn-success optactions">Mul</button>
+                        <button id="optsq" class="btn btn-success optactions">Square</button>
+                      </div>
+                      <input id="optnum" type="text" style="display:none;"> -->
+                    </div>
+                    <div id="optionfunc" style="display:none;">
+                      <div class="d-flex flex-row">
+                        <button id="optadd" class="btn btn-success optactions">Add</button>
+                        <button id="optsub" class="btn btn-success optactions">Sub</button>
+                        <button id="optmul" class="btn btn-success optactions">Mul</button>
+                        <button id="optsq" class="btn btn-success optactions">Square</button>
+                      </div>
+                    </div>
+                    <input id="optnum" type="text" style="display:none;"><br>
+                    <!-- <div id="alloptionvar1" class="flex" style="display:none;"></div> -->
+                    <button id="addalloptions" class="btn btn-success">Add</button>
                   </div>
                 </div>
-                
-                  <div class="flex" id="optionfunc" style="display:none;">
+                  <!-- <div class="flex" id="optionfunc" style="display:none;">
                     <button id="optadd" class="btn btn-success optactions">Add</button>
                     <button id="optsub" class="btn btn-success optactions">Sub</button>
                     <button id="optmul" class="btn btn-success optactions">Mul</button>
                     <button id="optsq" class="btn btn-success optactions">Square</button>
-                  </div>
+                  </div> -->
                   
-                  <input id="optnum" type="text" style="display:none;">
+                  <!-- <input id="optnum" type="text" style="display:none;"> -->
                 <!-- <button id="addoption" class="btn btn-success optbut">+</button> -->
-                <div id="alloptionvar1" class="flex" style="display:none;"></div>
+                <!-- <div id="alloptionvar1" class="flex" style="display:none;"></div> -->
               </div>
               <div>
                 <button type="button" class="btn btn-success generatebut" id="generatebtn">Generate</button>

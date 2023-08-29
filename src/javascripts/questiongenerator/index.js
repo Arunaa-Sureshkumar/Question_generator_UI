@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable prefer-template */
 /* eslint-disable no-useless-concat */
@@ -36,7 +37,7 @@ import * as DOMPurify from 'dompurify';
 import { DOMParser } from 'xmldom';
 import * as ExcelJS from 'exceljs';
 import {
-  fraction, format, add, subtract, multiply, square,
+  fraction, format, add, subtract, multiply, square, log,
 } from 'mathjs';
 
 const toolbarOptions = [
@@ -58,7 +59,6 @@ const toolbarOptions = [
 
   ['clean'],
 ];
-
 const quill = new Quill('#editor-container', {
   modules: {
     toolbar: '#toolbar',
@@ -73,24 +73,58 @@ const quillsoln = new Quill('#editor-containersoln', {
   theme: 'snow',
 });
 
-const editorbut = document.getElementById("editorbut");
-editorbut.addEventListener("click", () => {
-  const editorvalue = document.getElementById("editorvalue");
-  editorvalue.classList.add("content-added");
-  const sanitizedHtml = DOMPurify.sanitize(quill.root.innerHTML);
-  editorvalue.innerHTML = sanitizedHtml;
-  console.log(editorvalue.innerHTML);
-  // document.getElementById("popup").style.display = "none";
-});
+const quillInstances = {
+  quilloption1: new Quill('#editor-containeroption1', {
+    modules: {
+      toolbar: '#toolbaroption1',
+    },
+    theme: 'snow',
+  }),
 
-const editorbutsoln = document.getElementById("editorbutsoln");
-editorbutsoln.addEventListener("click", () => {
-  const editorvalue = document.getElementById("editorvaluesoln");
-  editorvalue.classList.add("content-added");
-  const sanitizedHtml = DOMPurify.sanitize(quillsoln.root.innerHTML);
-  editorvalue.innerHTML = sanitizedHtml;
-  console.log(editorvalue.innerHTML);
-});
+  quilloption2: new Quill('#editor-containeroption2', {
+    modules: {
+      toolbar: '#toolbaroption2',
+    },
+    theme: 'snow',
+  }),
+
+  quilloption3: new Quill('#editor-containeroption3', {
+    modules: {
+      toolbar: '#toolbaroption3',
+    },
+    theme: 'snow',
+  }),
+
+  quilloption4: new Quill('#editor-containeroption4', {
+    modules: {
+      toolbar: '#toolbaroption4',
+    },
+    theme: 'snow',
+  }),
+};
+
+// const editorbut = document.getElementById("editorbut");
+// editorbut.addEventListener("click", () => {
+//   const editorvalue = document.getElementById("editorvalue");
+//   editorvalue.classList.add("content-added");
+//   const sanitizedHtml = DOMPurify.sanitize(quill.root.innerHTML);
+//   editorvalue.innerHTML = sanitizedHtml;
+//   // document.getElementById("popup").style.display = "none";
+// });
+
+// const editorbutsoln = document.getElementById("editorbutsoln");
+// editorbutsoln.addEventListener("click", () => {
+//   const editorvalue = document.getElementById("editorvaluesoln");
+//   editorvalue.classList.add("content-added");
+//   const sanitizedHtml = DOMPurify.sanitize(quillsoln.root.innerHTML);
+//   editorvalue.innerHTML = sanitizedHtml;
+// });
+
+// const editorbutoption1 = document.getElementById("editorbutoption1");
+// editorbutoption1.addEventListener("click", () => {
+//   const option1value = document.getElementById("option1value");
+//   option1value.innerHTML = quilloption1.root.innerHTML;
+// });
 // const defVar = document.getElementById('defvar');
 // defVar.addEventListener('click', () => {
 //   addText("create");
@@ -134,14 +168,12 @@ let dballvariables = {};
 let generateactions = {};
 let generateactionvalue = {};
 let loopnumber = 0;
+let checkedValuesPerEditor = [];
 function addText(act, dbvariables) {
   const urlParams = new URLSearchParams(window.location.search);
   if (act == "edit") {
     dballvariables = Object.assign(dbvariables);
   }
-  console.log("addtext", vardbarray);
-  console.log("dballvariables", dballvariables);
-  console.log("act", act);
   const inpvar = 0;
   const variableList = document.getElementById('variableList');
   // question = document.getElementById("question").value;
@@ -155,7 +187,6 @@ function addText(act, dbvariables) {
   //   console.log("create", question);
   // }
   // if (act === "create") {
-  console.log("inside act create");
   // let question = document.getElementById('question').value;
   // let question = document.getElementById('question').innerHTML;
   // const textarea = document.getElementById('question');
@@ -173,8 +204,6 @@ function addText(act, dbvariables) {
   // textarea.setSelectionRange(newCursorPos, newCursorPos);
   // }
   variables[variable] = 0;
-
-  console.log("variable number check", variable_number);
   // const contentToInsert = `dvar${variable_number}`;
   // const index = quill.getSelection()?.index || quill.getLength();
   // if (quillval == 0) {
@@ -186,6 +215,10 @@ function addText(act, dbvariables) {
   // quillval++;
   // quill.setSelection(index + 2 + contentToInsert.length);
   if (quill.getSelection()) {
+    // console.log('Cursor Position:', quill.getSelection().index);
+    // const cursorPosition = quill.getBounds(quill.getSelection().index).left;
+
+    // console.log('Cursor Position:', cursorPosition);
     quill.insertText(quill.getSelection().index, `dvar${variable_number}`);
   }
   const div = document.createElement('div');
@@ -233,14 +266,14 @@ function addText(act, dbvariables) {
   function getvalue(e) {
     const clickedinput = e.target;
     e.preventDefault();
-    console.log("getvalue function");
-    console.log("newallvariables", newallvariables);
+    // console.log("getvalue function");
+    // console.log("newallvariables", newallvariables);
     const allvariables = Object.assign(changevariables, cvariables, constantvariables, dballvariables, newallvariables);
-    console.log("changevariables", changevariables);
-    console.log("allvariables", allvariables);
+    // console.log("changevariables", changevariables);
+    // console.log("allvariables", allvariables);
 
     const changevar = document.getElementById(clickedinput.id).value;
-    console.log('this', clickedinput.id, changevar);
+    // console.log('this', clickedinput.id, changevar);
 
     changevariables[clickedinput.id] = changevar;
     // createcheckboxes(changeinput.id,changevar,"quesvar")
@@ -264,7 +297,7 @@ function addText(act, dbvariables) {
         const perarray = perdbarray.concat(percheckedvariable);
         const logarray = logdbarray.concat(logcheckedvariable);
         const fracarray = fracdbarray.concat(fraccheckedvariable);
-        console.log("addaray", addarray);
+        // console.log("addaray", addarray);
         changerefresh(vardbarray, editnum, clickedinput, 'def', lcmarray, addarray, subarray, mularray, divarray, sqarray, sqrootarray, cubearray, curootarray, factarray, diffarray, perarray, logarray, fracarray, optdbarray);
       } else {
         changerefresh(allvariables, editnum, clickedinput, 'def');
@@ -292,42 +325,39 @@ function addText(act, dbvariables) {
   // document.getElementById('question').innerHTML = question;
 
   variable_number++;
-  console.log('changevariables', changevariables);
+  // console.log('changevariables', changevariables);
 }
 
-function getvalue1(event, lcmdb, adddb, subdb, muldb, divdb, squaredb, sqrootdb, cubedb, curootdb, factdb, diffdb, perdb, logdb, variables, optionvariable) {
+function getvalue1(event, lcmdb, adddb, subdb, muldb, divdb, squaredb, sqrootdb, cubedb, curootdb, factdb, diffdb, perdb, logdb, fracdb, variables, optionvariable) {
   const clickedinput = event.target;
   const allvariables = Object.assign(variables);
+  console.log(adddb);
   const changevar = document.getElementById(clickedinput.id).value;
   changevariables[clickedinput.id] = changevar;
   allvariables[clickedinput.id] = changevar;
   // createcheckboxes(changeinput.id,changevar,"quesvar")
   const editnum = event.target.id.slice(-1);
-  const lcmarray = lcmdbarray.concat(lcmcheckedvariable);
-  const addarray = adddbarray.concat(addcheckedvariable);
-  const subarray = subdbarray.concat(subcheckedvariable);
-  const mularray = muldbarray.concat(mulcheckedvariable);
-  const divarray = divdbarray.concat(divcheckedvariable);
-  const sqarray = sqdbarray.concat(sqcheckedvariable);
-  const sqrootarray = sqrootdbarray.concat(sqrootcheckedvariable);
-  const cubearray = cubedbarray.concat(cubecheckedvariable);
-  const curootarray = curootdbarray.concat(curootcheckedvariable);
-  const factarray = factdbarray.concat(factcheckedvariable);
-  const diffarray = diffdbarray.concat(diffcheckedvariable);
-  const perarray = perdbarray.concat(percheckedvariable);
-  const logarray = logdbarray.concat(logcheckedvariable);
-  const fracarray = fracdbarray.concat(fraccheckedvariable);
+  const lcmarray = lcmdb.concat(lcmcheckedvariable);
+  const addarray = adddb.concat(addcheckedvariable);
+  const subarray = subdb.concat(subcheckedvariable);
+  const mularray = muldb.concat(mulcheckedvariable);
+  const divarray = divdb.concat(divcheckedvariable);
+  const sqarray = squaredb.concat(sqcheckedvariable);
+  const sqrootarray = sqrootdb.concat(sqrootcheckedvariable);
+  const cubearray = cubedb.concat(cubecheckedvariable);
+  const curootarray = curootdb.concat(curootcheckedvariable);
+  const factarray = factdb.concat(factcheckedvariable);
+  const diffarray = diffdb.concat(diffcheckedvariable);
+  const perarray = perdb.concat(percheckedvariable);
+  const logarray = logdb.concat(logcheckedvariable);
+  const fracarray = fracdb.concat(fraccheckedvariable);
+  console.log(addarray);
   changerefresh(allvariables, editnum, clickedinput, 'def', lcmarray, addarray, subarray, mularray, divarray, sqarray, sqrootarray, cubearray, curootarray, factarray, diffarray, perarray, logarray, fracarray, optionvariable);
   // const vareditdivlabel = document.querySelector(`.vareditdiv${editnum} label`);
   // changerefresh(allvariables, editnum, clickedinput, 'def', lcmdb, adddb, subdb, muldb, divdb, squaredb, sqrootdb, cubedb, curootdb, factdb, diffdb, perdb, logdb, optionvariable);
 }
 let newallvariables = {};
 function changerefresh(allvariables, editnum, clickedinput, variable, lcmcheckedvariables = lcmcheckedvariable, addcheckedvariables = addcheckedvariable, subcheckedvariables = subcheckedvariable, mulcheckedvariables = mulcheckedvariable, divcheckedvariables = divcheckedvariable, sqcheckedvariables = sqcheckedvariable, sqrootcheckedvariables = sqrootcheckedvariable, cubecheckedvariables = cubecheckedvariable, curootcheckedvariables = curootcheckedvariable, factcheckedvariables = factcheckedvariable, diffcheckedvariables = diffcheckedvariable, percheckedvariables = percheckedvariable, logcheckedvariables = logcheckedvariable, fraccheckedvariables = fraccheckedvariable, optionvariable = optionvariables) {
-  console.log("changerefresh defObject", defObject);
-  // console.log("test", lcmcheckedvariable);
-  console.log("editnum", editnum);
-  console.log("clickedinput", clickedinput);
-  console.log("variable", variable);
   const actionlen = Object.keys(actions).length;
   let optnum = 2;
   let lcmnum = 0; let addnum = 0; let subnum = 0; let mulnum = 0; let divnum = 0; let squnum = 0; let squrootnum = 0; let cubnum = 0; let cubrootnum = 0; let factnum = 0; let diffenum = 0; let percenum = 0; let lognum = 0; let fracnum = 0;
@@ -335,43 +365,40 @@ function changerefresh(allvariables, editnum, clickedinput, variable, lcmchecked
   if (variable == 'def') {
     const genvalue = document.getElementById('genvalue' + editnum);
     genvalue.innerHTML = clickedinput.value;
-    console.log("oooooooooooooooooooooooooooooo", genvalue);
     checkbox = document.querySelector(`[data-name="dvardiv${editnum}"]`);
   }
   if (variable == 'const') checkbox = document.querySelector(`[data-name="constdiv${editnum}"]`);
   if (variable == 'change') checkbox = document.querySelector(`[data-name="chvardiv${editnum}"]`);
-  console.log("checkbox and editnum", checkbox, editnum);
-  console.log(document.querySelector(`[data-name="constdiv1"]`));
+  // console.log("checkbox and editnum", checkbox, editnum);
   const checkboxinput = checkbox.querySelector('input');
+  console.log(checkboxinput);
   checkboxinput.value = clickedinput.value;
   // let newallvariables = {}
   for (let i = 0; i < actionlen; i++) {
     const value = Object.keys(actions)[i];
     const action = actions[Object.keys(actions)[i]];
     const changeinput = document.querySelector(`input[name="${value}"]`);
+    console.log(changeinput);
     // console.log("changeinput", changeinput);
     // console.log("value", changeinput.value);
     // console.log("allvariables", allvariables);
     // console.log("change", changevariables);
     newallvariables = Object.assign(allvariables, changevariables);
-    console.log("new all variables", newallvariables);
+    // console.log("new all variables", newallvariables);
     if (action == 'LCM') {
       var splitArrays = splitarray(lcmcheckedvariables);
       console.log("splitarrays", splitArrays);
       var array = splitArrays[lcmnum++].map((key) => {
         console.log("map", key);
-        // return allvariables[key];
         return newallvariables[key];
       });
-      console.log("array", array);
       var res = calculateLCM(array);
-      console.log("res", res);
+      // console.log("res", res);
       changeinput.value = res;
     }
     if (action == 'Add') {
-      console.log("addcheckedvariable", addcheckedvariables);
+      console.log(addcheckedvariables);
       var splitArrays = splitarray(addcheckedvariables);
-      console.log("splitarrays", splitArrays);
       var array = splitArrays[addnum++].map((key) => {
         console.log("addmap", key);
         // return allvariables[key];
@@ -452,71 +479,69 @@ function changerefresh(allvariables, editnum, clickedinput, variable, lcmchecked
       var res = calculatefrac(array);
       changeinput.value = res;
     }
-    console.log("changeinput.value and res and changeinput id", changeinput.value, res, changeinput.id);
+    // console.log("changeinput.value and res and changeinput id", changeinput.value, res, changeinput.id);
     newallvariables[changeinput.id] = res;
     allvariables[changeinput.id] = res;
     cvariables[changeinput.id] = res;
     changevariables[changeinput.id] = res;
   }
-  console.log('option variables', optionvariable);
-  console.log('all variables', allvariables);
-  console.log("new all variables", newallvariables);
+  // console.log('option variables', optionvariable);
+  // console.log('all variables', allvariables);
+  // console.log("new all variables", newallvariables);
   const option1 = document.getElementById('option1');
   const option2 = document.getElementById('option2');
   const option3 = document.getElementById('option3');
   const option4 = document.getElementById('option4');
-  console.log("options", option1.value, option2.value, option3.value, option4.value);
-  option1.value = allvariables[optionvariable.option1];
-  console.log("option1.valuePPPPP", optionvariables);
-  console.log(optnum); // always 2
-  console.log("optionvariable", optdbvalues);
+  // console.log("options", option1.value, option2.value, option3.value, option4.value);
+  const option1ans = document.getElementById('option1ans');
+  const option2ans = document.getElementById('option2ans');
+  const option3ans = document.getElementById('option3ans');
+  const option4ans = document.getElementById('option4ans');
+
+  option1ans.innerHTML = allvariables[optionvariable.option1];
+  // console.log("option1.valuePPPPP", optionvariables);
+  // console.log(optnum); // always 2
+  // console.log("optionvariable", optdbvalues);
   const option = optionvariable[`option${optnum}`];
-  console.log('option', option);
+  // console.log('option', option);
   // var arrayValue = option[0];
   // console.log("arrayvalue",arrayValue);
   const firstvalue = allvariables[option[0]];
   optionvalues.option1 = firstvalue;
-  console.log('firstvalue', firstvalue);
-  if (option[1] == '+') option2.value = Number(firstvalue) + Number(option[2]);
+  // console.log('firstvalue', firstvalue);
+  if (option[1] == '+') option2ans.innerHTML = Number(firstvalue) + Number(option[2]);
 
-  if (option[1] == '-') option2.value = Number(firstvalue) - Number(option[2]);
+  if (option[1] == '-') option2ans.innerHTML = Number(firstvalue) - Number(option[2]);
 
-  if (option[1] == '*') option2.value = Number(firstvalue) * Number(option[2]);
+  if (option[1] == '*') option2ans.innerHTML = Number(firstvalue) * Number(option[2]);
 
-  if (option[1] == '^') option2.value = Number(firstvalue) * Number(firstvalue);
+  if (option[1] == '^') option2ans.innerHTML = Number(firstvalue) * Number(firstvalue);
   optnum++;
-  optionvalues.option2 = option2.value;
+  optionvalues.option2 = option2ans.innerText;
 
   const option3v = optionvariable.option3;
   const option3val = allvariables[option3v[0]];
-  if (option3v[1] == '+') option3.value = Number(option3val) + Number(option3v[2]);
+  if (option3v[1] == '+') option3ans.innerHTML = Number(option3val) + Number(option3v[2]);
   if (option3v[1] == '-') {
-    option3.value = Number(option3val) - Number(option3v[2]);
-    console.log('option3value', option3.value);
+    option3ans.innerHTML = Number(option3val) - Number(option3v[2]);
+    // console.log('option3value', option3.value);
   }
-  if (option3v[1] == '*') option3.value = Number(option3val) * Number(option3v[2]);
-  if (option3v[1] == '^') option3.value = Number(option3val) * Number(option3val);
-  optionvalues.option3 = option3.value;
+  if (option3v[1] == '*') option3ans.innerHTML = Number(option3val) * Number(option3v[2]);
+  if (option3v[1] == '^') option3ans.innerHTML = Number(option3val) * Number(option3val);
+  optionvalues.option3 = option3ans.innerText;
 
   const option4v = optionvariable.option4;
-  console.log("option4v", option4v);
+  // console.log("option4v", option4v);
   const option4val = allvariables[option4v[0]];
-  if (option4v[1] == '+') option4.value = Number(option4val) + Number(option4v[2]);
-  if (option4v[1] == '-') option4.value = Number(option4val) - Number(option4v[2]);
-  if (option4v[1] == '*') option4.value = Number(option4val) * Number(option4v[2]);
-  if (option4v[1] == '^') option4.value = Number(option4val) * Number(option4val);
-  console.log("option4", option4.value);
-  optionvalues.option4 = option4.value;
-  console.log("optionvalues", optionvalues);
+  if (option4v[1] == '+') option4ans.innerHTML = Number(option4val) + Number(option4v[2]);
+  if (option4v[1] == '-') option4ans.innerHTML = Number(option4val) - Number(option4v[2]);
+  if (option4v[1] == '*') option4ans.innerHTML = Number(option4val) * Number(option4v[2]);
+  if (option4v[1] == '^') option4ans.innerHTML = Number(option4val) * Number(option4val);
+  optionvalues.option4 = option4ans.innerText;
   const len1 = Object.keys(changevariables)[0];
-  console.log('len1', len1);
 }
 
 function editlabel(e) {
-  console.log('edit label', e.target);
-  console.log('edit', e.target.myParam);
-  console.log(e.target.id);
-  console.log(e.currentTarget.previousElementSibling.getAttribute('for'));
   const labelElement = e.currentTarget.previousElementSibling;
   const labelname = e.currentTarget.previousElementSibling.innerHTML;
   const inputElement = document.createElement('input');
@@ -527,29 +552,20 @@ function editlabel(e) {
     inputElement.replaceWith(labelElement);
 
     if (e.target.myParam == 'dvar') {
-      console.log('after input');
       const editnum = e.target.id.slice(-1);
-      console.log(e.target);
       const checkboxlabel = document.querySelector(`[data-name="dvardiv${editnum}"] label`);
-      console.log('checkboxlabel', checkboxlabel);
       checkboxlabel.innerHTML = `${inputElement.value}(${labelname})`;
     }
 
     if (e.target.myParam == 'chvar') {
-      console.log('after input');
       const editnum = e.target.id.slice(-1);
-      console.log('editnum', editnum);
       const checkboxlabel = document.querySelector(`[data-name="chvardiv${editnum}"] label`);
-      console.log('checkboxlabel', checkboxlabel);
       checkboxlabel.innerHTML = `${inputElement.value}(${labelname})`;
     }
 
     if (e.target.myParam == 'const') {
-      console.log('after input');
       const editnum = e.target.id.slice(-1);
-      console.log('editnum', editnum);
       const checkboxlabel = document.querySelector(`[data-name="constdiv${editnum}"] label`);
-      console.log('checkboxlabel', checkboxlabel);
       checkboxlabel.innerHTML = `${inputElement.value}(${labelname})`;
     }
   });
@@ -560,7 +576,6 @@ function editlabel(e) {
   // change dvardiv_ label
 }
 function modifysolution(e) {
-  console.log("dvar0 clicked");
   // var solution = document.getElementById("solution");
   // var newsolution = solution.value+" "+e.target.innerHTML
   // console.log("solution ",solution)
@@ -620,7 +635,7 @@ function modifysolutionchange(e) {
 
 function deletebut(e) {
   const parentDiv = e.currentTarget.parentNode.parentNode;
-  console.log(parentDiv, '||', e.currentTarget.previousElementSibling.id);
+  // console.log(parentDiv, '||', e.currentTarget.previousElementSibling.id);
   const key = e.currentTarget.previousElementSibling.id;
   // const question = document.getElementById('question');
   // const newstring = (question.value).replace(e.currentTarget.previousElementSibling.id, '');
@@ -640,7 +655,7 @@ function deletebut(e) {
   const solution = document.getElementById('solution');
   solution.value = (solution.value).replace(e.currentTarget.previousElementSibling.id, '');
   delete changevariables[key];
-  console.log(changevariables);
+  // console.log(changevariables);
   const dcheck = document.querySelectorAll(`div[data-name="${parentDiv.id}"]`);
   dcheck.forEach((div) => {
     div.remove();
@@ -747,7 +762,7 @@ function addvar(act) {
 
   function handleButtonClick(e) {
     const clickedButton = e.target;
-    console.log('uio', clickedButton.id);
+    // console.log('uio', clickedButton.id);
     togglebutton();
     changevardivvalue = clickedButton.id;
     assignname = document.getElementById('calcassign');
@@ -921,9 +936,8 @@ var percheckedvariable = [];
 var logcheckedvariable = [];
 var fraccheckedvariable = [];
 function selectvariables(e) {
-  console.log("select variables e", e.target);
+  // console.log("select variables e", e.target);
   const element = document.getElementById(e.currentTarget.myParam);
-  console.log("element ", element);
   element.style.backgroundColor = '#0dba4b';
   const checkboxes = document.querySelectorAll('input[name="allvariables"]:checked');
   checkboxes.forEach((checkbox) => {
@@ -931,9 +945,6 @@ function selectvariables(e) {
   });
   const checkedvalues = tempFlowValue.filter((el) => el !== undefined).map(Number);
   const checkedvariables = tempFlow.filter((el) => el !== undefined);
-  console.log('checkedvariables', checkedvariables);
-  console.log('default', changevariables);
-  console.log('changeing', cvariables);
   tempFlowValue.length = 0;
   tempFlow.length = 0;
 
@@ -1017,14 +1028,12 @@ function selectvariables(e) {
   if (action == 14) {
     mathaction = 'Log';
     lcm = calculatelog(checkedvalues);
-    console.log('inside action==14', lcm);
     logcheckedvariable.push(...checkedvariables);
     logcheckedvariable.push('end');
   }
   if (action == 15) {
     mathaction = 'Fraction';
     lcm = calculatefrac(checkedvalues);
-    console.log('inside action==15', lcm);
     fraccheckedvariable.push(...checkedvariables);
     fraccheckedvariable.push('end');
   }
@@ -1139,7 +1148,6 @@ const calculateper = (...[arr]) => {
 
 const calculatelog = (...[arr]) => {
   n = Math.log(arr[0]) / Math.log(arr[1]);
-  console.log('log value', n);
   return n;
 };
 
@@ -1155,7 +1163,7 @@ const calculatefrac = (...[arr]) => {
   }
   const simplifiedFraction = simplifyFraction(arr[0], arr[1]);
   const fracvalue = simplifiedFraction.numerator + "/" + simplifiedFraction.denominator;
-  console.log(simplifiedFraction.numerator + "/" + simplifiedFraction.denominator);
+  // console.log(simplifiedFraction.numerator + "/" + simplifiedFraction.denominator);
   return fracvalue;
 };
 
@@ -1180,7 +1188,7 @@ function changevarinput(act, lcm, mathaction, divnum) {
 
   cvariables[chvarinput.name] = chvarinput.value;
   actions[chvarinput.name] = mathaction;
-  console.log("chvardivval", chvardivval);
+  // console.log("chvardivval", chvardivval);
   // console.log("changevardivvalue", changevardivvalue);
   // const chvardivvalnumber = changevardivvalue.replace(/\D+/g, '');
   // console.log("chvardivvalnumber", chvardivvalnumber);
@@ -1284,7 +1292,7 @@ function splitarray(lcmcheckedvariable) {
 function formatRichText(text) {
   const formattedText = [];
   const modifiedText = text.replace(/<\/?p>/g, '');
-  console.log(modifiedText);
+  // console.log(modifiedText);
   const parts = modifiedText.split(/(<sup>.*?<\/sup>|<sub>.*?<\/sub>|<em>.*?<\/em>|<u>.*?<\/u>|<strong>.*?<\/strong>)/);
 
   for (const part of parts) {
@@ -1448,9 +1456,6 @@ function generatevariabledisplay(act) {
     dispgenvar.appendChild(cover);
     if (act == 'edit') {
       const generateaction = document.getElementById(`generateaction${i}`);
-      console.log(generateactions);
-      console.log(generateactionvalue);
-      console.log(loopnumber);
       // const optionToSelect = generateaction.querySelector(`option[value="${dataFromDatabase}"]`);
       const actionval = generateactions[label.innerHTML];
       const optionToSelect = generateaction.querySelector(`option[value="${actionval}"]`);
@@ -1490,7 +1495,6 @@ function generatevariabledisplay(act) {
   loop.placeholder = 'Enter No. of question';
   loop.addEventListener('change', () => {
     loopnum = loop.value;
-    console.log('loopnum', loopnum);
   });
   if (act == 'edit') {
     loop.value = loopnumber;
@@ -1513,10 +1517,8 @@ function generatevariabledisplay(act) {
 
     // URL.revokeObjectURL(url);
     // console.log('downloaded');
-    console.log(worksheet);
     const values = worksheet.getSheetValues();
     console.log(values);
-    console.log(workbook);
     workbook.xlsx.writeBuffer()
       .then(buffer => {
         const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -1559,9 +1561,12 @@ function generatevariabledisplay(act) {
   outer.appendChild(gendownloadbutdiv);
   dispgenvar2.appendChild(outer);
 }
+
 function genbutfunction(act, optionval = optionvalues, optionvariable = optionvariables, changevars = changevariables, constantvars = constantvariables, changedvar = changed, lcmcheckedvariables = lcmcheckedvariable, addcheckedvariables = addcheckedvariable, subcheckedvariables = subcheckedvariable, mulcheckedvariables = mulcheckedvariable, divcheckedvariables = divcheckedvariable, sqcheckedvariables = sqcheckedvariable, sqrootcheckedvariables = sqrootcheckedvariable, cubecheckedvariables = cubecheckedvariable, curootcheckedvariables = curootcheckedvariable, factcheckedvariables = factcheckedvariable, diffcheckedvariables = diffcheckedvariable, percheckedvariables = percheckedvariable, logcheckedvariables = logcheckedvariable, fraccheckedvariables = fraccheckedvariable) {
   // console.log("chnage variables inside genbut", changevariables);
   // const ques = document.getElementById('question').value;
+
+  const correctoptionnum = Object.keys(checkedValuesPerEditor[0])[0];
   worksheet.columns = [
     { header: 'Question', key: 'ques', width: 35 },
     { header: 'Option1', key: 'opt1', width: 15 },
@@ -1571,54 +1576,50 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     { header: 'Correct Ans', key: 'ans', width: 15 },
     { header: 'Solution', key: 'soln', width: 35 },
   ];
-  const ques = document.getElementById('editorvalue').innerHTML;
+  const ques = quill.root.innerHTML;
   const replacedfirstquestion = ques.replace(/dvar\d+/g, (match) => {
     const res = Number(changevars[match]);
     return res;
   });
-  console.log("final first question", replacedfirstquestion);
-  const solution = document.getElementById('editorvaluesoln').innerHTML;
-  console.log("solution", solution);
+  // console.log("final first question", replacedfirstquestion);
+  const solution = quillsoln.root.innerHTML;
+  // console.log("solution", solution);
   const replacedfirstSolution = solution.replace(/dvar\d+/g, (match) => {
     const res = Number(changevars[match]);
     return res;
   });
-  console.log("replacedfirstsolution", replacedfirstSolution);
+  // console.log("replacedfirstsolution", replacedfirstSolution);
   const firstSoln = replacedfirstSolution.replace(/cvar\d+/g, (match) => {
     const res = Number(changevars[match]);
-    console.log("Hiii");
-    console.log(constantvars);
-    console.log(changevars);
-    console.log("first soln res", res, changevars[match]);
     return res;
   });
-  console.log("firstSoln", firstSoln);
+  // console.log("firstSoln", firstSoln);
   const finalfirstSoln = firstSoln.replace(/Cvar\d+/g, (match) => {
     // eslint-disable-next-line radix
     const extractedNumber = parseInt(match.match(/\d+/)[0]);
     const res = Number(changevars['cvar' + extractedNumber]);
     return res;
   });
-  console.log("finalfirstsoln", finalfirstSoln);
+  // console.log("finalfirstsoln", finalfirstSoln);
   const finalfirstSolution = finalfirstSoln.replace(/const\d+/g, (match) => {
     const res = Number(changevars[match]);
     return res;
   });
-  console.log("finalfirstSoltuion", finalfirstSolution);
+  // console.log("finalfirstSoltuion", finalfirstSolution);
   // console.log("options", optionvalues);
   const firstquestion = formatRichText(replacedfirstquestion);
   const firstquestionarray = [];
   for (let i = 0; i < firstquestion.length; i++) {
     firstquestionarray.push({ text: firstquestion[i].text, font: firstquestion[i].font });
   }
-  console.log("finalfirstsolution", finalfirstSolution);
+  // console.log("finalfirstsolution", finalfirstSolution);
   const firstsolution = formatRichText(finalfirstSolution);
-  console.log("formatted first solution", firstsolution);
+  // console.log("formatted first solution", firstsolution);
   const firstsolutionarray = [];
   for (let i = 0; i < firstsolution.length; i++) {
     firstsolutionarray.push({ text: firstsolution[i].text, font: firstsolution[i].font });
   }
-  console.log("firstsolutionarray", firstsolutionarray);
+  // console.log("firstsolutionarray", firstsolutionarray);
   worksheet.getCell('A2').value = {
     richText: [
       ...firstquestionarray,
@@ -1646,7 +1647,7 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
   };
   worksheet.getCell('F2').value = {
     richText: [
-      { text: optionval.option1 },
+      { text: optionval["option" + correctoptionnum] },
     ],
   };
   worksheet.getCell('G2').value = {
@@ -1654,23 +1655,20 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
       ...firstsolutionarray,
     ],
   };
-  if (act == "create") {
-    console.log("genbutfunction create");
-  } else {
-    console.log("genbut function edit");
-  }
-  const questioneditorvalue = document.getElementById('editorvalue');
-  // const questioneditorvalue = quill.root.innerHTML;
-  const spanelement = questioneditorvalue.querySelector('span');
-  if (spanelement) {
-    spanelement.parentNode.removeChild(spanelement);
-  }
-  const solneditorvalue = document.getElementById('editorvaluesoln');
-  // const solneditorvalue = quillsoln.root.innerHTML;
-  const spanelementsoln = solneditorvalue.querySelector('span');
-  if (spanelementsoln) {
-    spanelementsoln.parentNode.removeChild(spanelementsoln);
-  }
+  // const questioneditorvalue = document.getElementById('editorvalue');
+  const questioneditorvalue = quill.root.innerHTML;
+  console.log(questioneditorvalue);
+  // const spanelement = questioneditorvalue.querySelector('span');
+  // if (spanelement) {
+  //   spanelement.parentNode.removeChild(spanelement);
+  // }
+  // const solneditorvalue = document.getElementById('editorvaluesoln');
+  const solneditorvalue = quillsoln.root.innerHTML;
+  console.log(solneditorvalue);
+  // const spanelementsoln = solneditorvalue.querySelector('span');
+  // if (spanelementsoln) {
+  //   spanelementsoln.parentNode.removeChild(spanelementsoln);
+  // }
   // const ques = document.getElementById('editorvalue').innerHTML;
   const loop = document.getElementById('loop').value;
   // const solution = document.getElementById('solution').value;
@@ -1694,7 +1692,8 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     // const replacespan = replacedSentence.replace('ql-cursor', '');
     // console.log(questioneditorvalue.innerHTML);
     // const solution = document.getElementById('solution').value;
-    const solution = document.getElementById('editorvaluesoln').innerHTML;
+    // const solution = document.getElementById('editorvaluesoln').innerHTML;
+    const solution = quillsoln.root.innerHTML;
 
     const replacedSolution = solution.replace(/dvar\d+/g, (match) => {
       const res = Number(newvalues[match]);
@@ -1807,7 +1806,7 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     const option1 = newvalues[Object.values(optionvariable)[0]];
     newoptions.option1 = option1;
     const optionlen = Object.keys(optionvariable).length;
-
+    // const correctoptionnum = checkedValuesPerEditor[0];
     for (let i = 1; i < optionlen; i++) {
       const opt = `option${Number(i + 1)}`;
       const op = optionvariable[opt];
@@ -1871,14 +1870,15 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     const anscell = worksheet.getCell('F' + (i + 3));
     const solncell = worksheet.getCell('G' + (i + 3));
 
-    const editorvalue = document.getElementById("editorvalue");
-    editorvalue.innerHTML = quill.root.innerHTML;
-    const originalText = document.getElementById('editorvalue').innerHTML;
+    // const editorvalue = document.getElementById("editorvalue");
+    // editorvalue.innerHTML = quill.root.innerHTML;
+    // const originalText = document.getElementById('editorvalue').innerHTML;
     const richText = formatRichText(replacedSentence);
     const solnrichText = formatRichText(finalSolution);
     // console.log("richText", richText);
     const accumulatedRichText = [];
     const solnrichTextarray = [];
+    console.log(checkedValuesPerEditor);
     // worksheet.columns = [
     //   { header: 'Question', key: 'ques', width: 35 },
     //   { header: 'Option1', key: 'opt1', width: 15 },
@@ -1898,14 +1898,14 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     for (let i = 0; i < solnrichText.length; i++) {
       solnrichTextarray.push({ text: solnrichText[i].text, font: solnrichText[i].font });
     }
-    console.log("change variables*********************", changevars);
-    console.log("accumulatesrichtext......", accumulatedRichText);
-    console.log("acumulatedsolntext.......", solnrichTextarray);
-    console.log("option1.....", newoptions.option1);
-    console.log("option2.....", newoptions.option2);
-    console.log("option3.....", newoptions.option3);
-    console.log("option4.....", newoptions.option4);
-    console.log("option1.....", newoptions.option1);
+    // console.log("change variables*********************", changevars);
+    // console.log("accumulatesrichtext......", accumulatedRichText);
+    // console.log("acumulatedsolntext.......", solnrichTextarray);
+    // console.log("option1.....", newoptions.option1);
+    // console.log("option2.....", newoptions.option2);
+    // console.log("option3.....", newoptions.option3);
+    // console.log("option4.....", newoptions.option4);
+    // console.log("option1.....", newoptions.option1);
     questioncell.value = {
       richText: [
         ...accumulatedRichText,
@@ -1938,7 +1938,7 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     };
     anscell.value = {
       richText: [
-        { text: newoptions.option1 },
+        { text: newoptions["option" + correctoptionnum] },
       ],
     };
     const dlabel = document.getElementById('dlabel');
@@ -1946,7 +1946,6 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
 
     // ========================================
   }
-  console.log("change variables******************", changevars);
   // console.log("chnage variables inside genbut last", changevariables);
 }
 var optionvariables = {};
@@ -1967,16 +1966,17 @@ optlabel4.addEventListener('click', otheroptions);
 optlabel4.myParam = optlabel4.getAttribute('name');
 let actionnum = 0;
 function otheroptions(e) {
+  console.log("clicked otheroptions");
   if (e.target.myParam == 'option1') {
     $('#optionfunc').toggle('slide');
-    console.log('cvariables', cvariables);
-    console.log('dvariables', changevariables);
-    console.log('const variables', constantvariables);
+    // console.log('cvariables', cvariables);
+    // console.log('dvariables', changevariables);
+    // console.log('const variables', constantvariables);
     // console.log("allvariables",allvariables);
     const allvariables = Object.assign(changevariables, cvariables, alldbvariables);
-    console.log('allvaribles in options', allvariables);
+    // console.log('allvaribles in options', allvariables);
     const len = Object.keys(allvariables).length;
-    const alloptionvar1 = document.getElementById('alloptionvar1');
+    const alloptionvarinnerdiv = document.getElementById('alloptionvarinnerdiv');
     let optionbut;
 
     if (actionnum == 0) {
@@ -1986,22 +1986,20 @@ function otheroptions(e) {
         optionbut.className = 'btn btn-success';
         optionbut.style.marginRight = '15px';
         optionbut.innerHTML = Object.keys(allvariables)[i];
-        alloptionvar1.append(optionbut);
+        alloptionvarinnerdiv.append(optionbut);
         optionbut.addEventListener('click', selectoption1);
       }
       actionnum++;
     }
     $('#alloptionvar1').toggle('slide');
     function selectoption1(e) {
-      console.log('option1', e.currentTarget.innerHTML);
       const option1val = allvariables[e.currentTarget.innerHTML];
-      console.log('optionval1', option1val);
-      const option1input = document.getElementById('option1');
-      option1input.value = option1val;
+      // const option1input = document.getElementById('option1');
+      // option1input.value = option1val;
       optionvalues.option1 = option1val;
       optionvariables.option1 = e.currentTarget.innerHTML;
+      quillInstances.quilloption1.root.innerHTML = option1val;
       $('#alloptionvar1').toggle('slide');
-      console.log('optionvalues', optionvalues);
     }
     // const opinput = document.getElementById("option1");
     // const keys = Object.keys(cvariables);
@@ -2035,19 +2033,21 @@ function optaddnum(e) {
   optinput.myParam = e.currentTarget.myParam;
 }
 function updateoptinputadd(e) {
-  // console.log(e.currentTarget.value);
-  const option1value = document.getElementById('option1').value;
+  const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
+  const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
+  const quillvalue = 'quilloption' + extractedNumber;
   if (!Number(option1value)) {
-    opinput.value = format(add(fraction(option1value), fraction(e.currentTarget.value)));
+    quillInstances[quillvalue].root.innerHTML = format(add(fraction(option1value), fraction(e.currentTarget.value)));
   } else {
-    opinput.value = Number(option1value) + Number(e.currentTarget.value);
+    console.log(quillvalue);
+    quillInstances[quillvalue].root.innerHTML = Number(option1value) + Number(e.currentTarget.value);
   }
-  optionvalues[opinput.id] = opinput.value;
-  console.log('optionvalues', optionvalues);
+  const quillinnerText = quillInstances[quillvalue].root.innerText;
+  // optionvalues[opinput.id] = opinput.value;
+  optionvalues['option' + extractedNumber] = quillinnerText;
   const keys = Object.keys(cvariables);
   optionvariables[e.currentTarget.myParam] = [keys[keys.length - 1], '+', e.currentTarget.value];
-  console.log('optionvariables', optionvariables);
   $('#optnum').toggle('slide');
   $('#optionfunc').toggle('slide');
 }
@@ -2059,15 +2059,19 @@ function optsubnum(e) {
   optinput.myParam = e.currentTarget.myParam;
 }
 function updateoptinputsub(e) {
-  const option1value = document.getElementById('option1').value;
+  const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
+  const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
+  const quillvalue = 'quilloption' + extractedNumber;
   if (!Number(option1value)) {
-    opinput.value = format(subtract(fraction(option1value), fraction(e.currentTarget.value)));
+    quillInstances[quillvalue].root.innerHTML = format(subtract(fraction(option1value), fraction(e.currentTarget.value)));
   } else {
-    opinput.value = Number(option1value) - Number(e.currentTarget.value);
+    quillInstances[quillvalue].root.innerHTML = Number(option1value) - Number(e.currentTarget.value);
   }
-  optionvalues[opinput.id] = opinput.value;
-  console.log('optionvalues', optionvalues);
+  const quillinnerText = quillInstances[quillvalue].root.innerText;
+  // optionvalues[opinput.id] = opinput.value;
+  console.log(quillinnerText);
+  optionvalues['option' + extractedNumber] = quillinnerText;
   const keys = Object.keys(cvariables);
   optionvariables[e.currentTarget.myParam] = [keys[keys.length - 1], '-', e.currentTarget.value];
   // $("#optnum").toggle("slide");
@@ -2082,16 +2086,18 @@ function optmulnum(e) {
   optinput.myParam = e.currentTarget.myParam;
 }
 function updateoptinputmul(e) {
-  // console.log(e.currentTarget.value);
-  const option1value = document.getElementById('option1').value;
+  const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
+  const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
+  const quillvalue = 'quilloption' + extractedNumber;
   if (!Number(option1value)) {
-    opinput.value = format(multiply(fraction(option1value), fraction(e.currentTarget.value)));
+    quillInstances[quillvalue].root.innerHTML = format(multiply(fraction(option1value), fraction(e.currentTarget.value)));
   } else {
-    opinput.value = Number(option1value) * Number(e.currentTarget.value);
+    quillInstances[quillvalue].root.innerHTML = Number(option1value) * Number(e.currentTarget.value);
   }
-  optionvalues[opinput.id] = opinput.value;
-  console.log('optionvalues', optionvalues);
+  const quillinnerText = quillInstances[quillvalue].root.innerText;
+  // optionvalues[opinput.id] = opinput.value;
+  optionvalues['option' + extractedNumber] = quillinnerText;
   const keys = Object.keys(cvariables);
   optionvariables[e.currentTarget.myParam] = [keys[keys.length - 1], '*', e.currentTarget.value];
   // console.log("optionvariables",optionvariables)
@@ -2108,17 +2114,18 @@ function optsqnum(e) {
 }
 function updateoptinputsq(e) {
   // console.log(e.currentTarget.value);
-  const option1value = document.getElementById('option1').value;
+  const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
-  console.log('updatsquare', e.currentTarget.myParam);
-  console.log('opinput', opinput);
+  const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
+  const quillvalue = 'quilloption' + extractedNumber;
   if (!Number(option1value)) {
-    opinput.value = format(square(fraction(option1value)));
+    quillInstances[quillvalue].root.innerHTML = format(square(fraction(option1value)));
   } else {
-    opinput.value = Number(option1value) * 2;
+    quillInstances[quillvalue].root.innerHTML = Number(option1value) * Number(option1value);
   }
-  optionvalues[opinput.id] = opinput.value;
-  console.log('optionvalues', optionvalues);
+  const quillinnerText = quillInstances[quillvalue].root.innerText;
+  // optionvalues[opinput.id] = opinput.value;
+  optionvalues['option' + extractedNumber] = quillinnerText;
   const keys = Object.keys(cvariables);
   optionvariables[e.currentTarget.myParam] = [keys[keys.length - 1], '^', 2];
   // console.log("optionvariables",optionvariables)
@@ -2189,7 +2196,7 @@ function addconstantvar() {
       }
     }
     getvalueconst++;
-    console.log('constantvariables', constantvariables);
+    // console.log('constantvariables', constantvariables);
   });
 
   const deliconspan = document.createElement('span');
@@ -2220,17 +2227,12 @@ $(document).ready(() => {
 });
 const tagsarray = [];
 function save() {
-  console.log('hi');
-  // const loop = document.getElementById('loop').value;
-  console.log("dvaractions", dvaractions);
-  console.log("dvaractionvalues", dvaractionvalue);
-  console.log("loop", loopnum);
   const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
   const tags = $('#tags').select2('data');
   for (let i = 0; i < tags.length; i++) {
     tagsarray.push(tags[i].text);
   }
-  console.log("tags", tagsarray);
+  // console.log("tags", tagsarray);
   const questype = document.getElementById("type").value;
   const quessubtype = document.getElementById("subtype").value;
   // var question = document.getElementById('editor-container').innerHTML;
@@ -2254,9 +2256,9 @@ function save() {
   // console.log("/save/optionvariables", optdbvariables);
   // console.log("/save/optionvariables 2nd", optionvariables);
   // var allvariables = Object.assign(changevariables, cvariables, constantvariables);**
-  console.log("change variables on save", changevariables);
-  console.log("change variables on svae c variables", cvariables);
-  console.log("change variables on save const var", constantvariables);
+  // console.log("change variables on save", changevariables);
+  // console.log("change variables on svae c variables", cvariables);
+  // console.log("change variables on save const var", constantvariables);
   const constProperties = {};
   // eslint-disable-next-line no-restricted-syntax
   for (const key in constantvariables) {
@@ -2264,9 +2266,9 @@ function save() {
       constProperties[key] = constantvariables[key];
     }
   }
-  console.log("change variables on save const var", constProperties);
+  // console.log("change variables on save const var", constProperties);
   var allvariables = Object.assign(changevariables, cvariables, constProperties);
-  console.log("/save/allvariables", allvariables);
+  // console.log("/save/allvariables", allvariables);
   if (Object.keys(optionvalues).length === 0) {
     var optionvars = Object.assign(optdbvalues);
     var newoptionvariables = Object.assign(optdbvariables);
@@ -2275,10 +2277,10 @@ function save() {
     var newoptionvariables = Object.assign(optionvariables);
   }
   if (Object.keys(optionvariables).length === 0) {
-    console.log("optdbvariables excecuted");
+    // console.log("optdbvariables excecuted");
     var newoptionvariables = Object.assign(optdbvariables);
   } else {
-    console.log("optionvariables excecuted");
+    // console.log("optionvariables excecuted");
     var newoptionvariables = Object.assign(optionvariables);
   }
   console.log("optionvars", optionvars);
@@ -2299,7 +2301,7 @@ function save() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, fracvariables: fraccheckedvariable, optionvariable: newoptionvariables, type: questype, subtype: quessubtype, difficulty: selectedDifficulty, tags: tagsarray, editorval: editorvalue, quescode: code, dvaractionsval: dvaractions, dvaractionvalues: dvaractionvalue, loop: loopnum,
+      ques: question, soln: solution, variables: allvariables, options: optionvars, quesname: questionname, unique_id: idValue, actions: actionobj, lcmvariables: lcmcheckedvariable, addvariables: addcheckedvariable, subvariables: subcheckedvariable, mulvariables: mulcheckedvariable, divvariables: divcheckedvariable, sqvariables: sqcheckedvariable, sqrootvariables: sqrootcheckedvariable, cubevariables: cubecheckedvariable, curootvariables: curootcheckedvariable, factvariables: factcheckedvariable, diffvariables: diffcheckedvariable, pervariables: percheckedvariable, logvariables: logcheckedvariable, fracvariables: fraccheckedvariable, optionvariable: newoptionvariables, type: questype, subtype: quessubtype, difficulty: selectedDifficulty, tags: tagsarray, quescode: code, dvaractionsval: dvaractions, dvaractionvalues: dvaractionvalue, loop: loopnum, correctoption: checkedValuesPerEditor,
     }),
   })
     .then(response => response.json())
@@ -2331,8 +2333,10 @@ if (urlParams.has('id')) {
     .then(data => {
       // eslint-disable-next-line prefer-const
       let options = [];
-      console.log("dvaractions", data.Generate_actions, data.Generate_action_val, data.Loop_num);
-      console.log("retrived data", data.Question, data.Solution);
+      // console.log("dvaractions", data.Generate_actions, data.Generate_action_val, data.Loop_num);
+      // console.log("retrived data", data.Question, data.Solution);
+      console.log(data.Correct_option);
+      const correctcheckbox = Object.keys(data.Correct_option[0])[0];
       generateactions = data.Generate_actions;
       generateactionvalue = data.Generate_action_val;
       loopnumber = data.Loop_num;
@@ -2349,11 +2353,11 @@ if (urlParams.has('id')) {
       const optionsArray = Array.from(tags.options);
 
       // Now you have an array of all the option elements
-      console.log(optionsArray);
+      // console.log(optionsArray);
       optionsArray.forEach((option) => {
         options.push(option.text);
       });
-      console.log(options);
+      // console.log(options);
       data.Tags.forEach((tag) => {
         const option = document.createElement("option");
         option.value = tag;
@@ -2361,14 +2365,14 @@ if (urlParams.has('id')) {
         option.selected = true;
         if (options.includes(tag)) {
           const defoption = tags.querySelector(`option[value="${tag}"]`);
-          console.log(defoption);
+          // console.log(defoption);
           if (defoption) {
             defoption.selected = true;
           }
-          console.log("tag", tag);
+          // console.log("tag", tag);
         } else {
           tags.appendChild(option);
-          console.log("else tag", tag);
+          // console.log("else tag", tag);
         }
       });
       const radioValues = ["easy", "medium", "hard"];
@@ -2388,26 +2392,43 @@ if (urlParams.has('id')) {
       // const solution = document.getElementById('solution');
       // solution.value = data.Solution;
       quillsoln.root.innerHTML = data.Solution;
-      const option1 = document.getElementById('option1');
-      option1.value = data.Options.option1;
-      const option2 = document.getElementById('option2');
-      option2.value = data.Options.option2;
-      const option3 = document.getElementById('option3');
-      option3.value = data.Options.option3;
-      const option4 = document.getElementById('option4');
-      option4.value = data.Options.option4;
-      console.log("variables", data.Variables);
+
+      // const option1 = document.getElementById('option1');
+      // option1.value = data.Options.option1;
+      // const option2 = document.getElementById('option2');
+      // option2.value = data.Options.option2;
+      // const option3 = document.getElementById('option3');
+      // option3.value = data.Options.option3;
+      // const option4 = document.getElementById('option4');
+      // option4.value = data.Options.option4;
+      createOptions();
+      const option1ans = document.getElementById('option1ans');
+      option1ans.innerHTML = data.Options.option1;
+      quillInstances.quilloption1.root.innerHTML = data.Options.option1;
+      const option2ans = document.getElementById('option2ans');
+      option2ans.innerHTML = data.Options.option2;
+      quillInstances.quilloption2.root.innerHTML = data.Options.option2;
+      const option3ans = document.getElementById('option3ans');
+      option3ans.innerHTML = data.Options.option3;
+      quillInstances.quilloption3.root.innerHTML = data.Options.option3;
+      const option4ans = document.getElementById('option4ans');
+      option4ans.innerHTML = data.Options.option4;
+      quillInstances.quilloption4.root.innerHTML = data.Options.option4;
+      // console.log("variables", data.Variables);
+      console.log(correctcheckbox, `checkbox-containeroption${correctcheckbox}`);
+      $(`#checkbox-option${correctcheckbox}`).prop('checked', true);
+      checkedValuesPerEditor = data.Correct_option;
       const variablelen = Object.keys(data.Variables).length;
       for (let i = 0; i < variablelen; i++) {
-        console.log("var", Object.keys(data.Variables)[i]);
+        // console.log("var", Object.keys(data.Variables)[i]);
         if (Object.keys(data.Variables)[i].includes("dvar")) {
           dvarcount++;
-          console.log("data variables", data.Variables);
+          // console.log("data variables", data.Variables);
           addText("edit", data.Variables);
           const newinput = document.getElementById(Object.keys(data.Variables)[i]);
           newinput.value = data.Variables[Object.keys(data.Variables)[i]];
           // console.log("oooo", Object.keys(data.Variables)[i], newinput.value);
-          console.log("option variable", data.optionvariables);
+          // console.log("option variable", data.optionvariables);
           newinput.addEventListener("change", (e) => {
             getvalue1(e, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.Variables, data.optionvariables, data.frac);
           });
@@ -2442,13 +2463,14 @@ if (urlParams.has('id')) {
           fracdbarray = data.frac;
           optdbarray = data.optionvariables;
           newinput.addEventListener("change", (e) => {
-            getvalue1(e, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.Variables, data.optionvariables);
+            console.log("newinput", data.add);
+            getvalue1(e, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.frac, data.Variables, data.optionvariables);
           });
           createcheckboxes(Object.keys(data.Variables)[i], data.Variables[Object.keys(data.Variables)[i]], 'const');
         }
       }
-      console.log("dballvariables", dballvariables);
-      console.log("dvarcount", dvarcount);
+      // console.log("dballvariables", dballvariables);
+      // console.log("dvarcount", dvarcount);
       generatevariabledisplay("edit");
       genbut.addEventListener("click", () => {
         const constantsdb = {};
@@ -2479,6 +2501,77 @@ customButtonsoln.addEventListener('click', () => {
   addvar("create");
 });
 
+function createOptions() {
+  // console.log("clicked");
+  const option1div = document.createElement("div");
+  option1div.className = "option";
+  const option1label = document.createElement("label");
+  option1label.textContent = 'Option1';
+  const option1ans = document.createElement("div");
+  option1ans.id = "option1ans";
+  option1ans.innerHTML = quillInstances.quilloption1.root.innerHTML;
+  const option2div = document.createElement("div");
+  option2div.className = "option";
+  const option2label = document.createElement("label");
+  option2label.textContent = 'Option2';
+  const option2ans = document.createElement("div");
+  option2ans.id = 'option2ans';
+  option2ans.innerHTML = quillInstances.quilloption2.root.innerHTML;
+  const option3div = document.createElement("div");
+  option3div.className = "option";
+  const option3label = document.createElement("label");
+  option3label.textContent = 'Option3';
+  const option3ans = document.createElement("div");
+  option3ans.id = 'option3ans';
+  option3ans.innerHTML = quillInstances.quilloption3.root.innerHTML;
+  const option4div = document.createElement("div");
+  option4div.className = "option";
+  const option4label = document.createElement("label");
+  option4label.textContent = 'Option4';
+  const option4ans = document.createElement("div");
+  option4ans.id = 'option4ans';
+  option4ans.innerHTML = quillInstances.quilloption4.root.innerHTML;
+  option1div.appendChild(option1label);
+  option1div.appendChild(option1ans);
+  option2div.appendChild(option2label);
+  option2div.appendChild(option2ans);
+  option3div.appendChild(option3label);
+  option3div.appendChild(option3ans);
+  option4div.appendChild(option4label);
+  option4div.appendChild(option4ans);
+  const alloptiondiv = document.getElementById("alloptiondiv");
+  alloptiondiv.appendChild(option1div);
+  alloptiondiv.appendChild(option2div);
+  alloptiondiv.appendChild(option3div);
+  alloptiondiv.appendChild(option4div);
+  document.getElementById("popup").style.display = "none";
+
+  const checkboxoption1 = document.getElementById('checkbox-option1');
+  checkboxoption1.value = quillInstances.quilloption1.root.innerText;
+  const checkboxoption2 = document.getElementById('checkbox-option2');
+  checkboxoption2.value = quillInstances.quilloption2.root.innerText;
+  const checkboxoption3 = document.getElementById('checkbox-option3');
+  checkboxoption3.value = quillInstances.quilloption3.root.innerText;
+  const checkboxoption4 = document.getElementById('checkbox-option4');
+  checkboxoption4.value = quillInstances.quilloption4.root.innerText;
+  // Loop through each editor and its toolbar
+  for (let editorNumber = 1; editorNumber <= 4; editorNumber++) {
+    const toolbarId = `toolbaroption${editorNumber}`;
+
+    const toolbar = document.querySelector(`#${toolbarId}`);
+    const checkbox = toolbar.querySelector('.quill-checkbox');
+
+    if (checkbox.checked) {
+      checkedValuesPerEditor.push({ [editorNumber]: checkbox.value });
+    }
+    // console.log(optionvalues);
+    // console.log(optionvariables);
+    // checkedValuesPerEditor.push(checkedValues);
+  }
+
+  // Now 'checkedValuesPerEditor' array contains the checked checkbox values for each editor
+  console.log(checkedValuesPerEditor);
+}
 // eslint-disable-next-line prefer-arrow-callback, func-names
 $(document).ready(function () {
   $(".progLang").select2({
@@ -2486,13 +2579,18 @@ $(document).ready(function () {
   });
 });
 
-document.getElementById("quill-trigger").addEventListener("click", () => {
+document.getElementById("addoptionsbut").addEventListener("click", () => {
+  console.log("clicked");
   document.getElementById("popup").style.display = "block";
 });
 
-// document.getElementById("closePopup").addEventListener("click", () => {
-//   document.getElementById("popup").style.display = "none";
-// });
+document.getElementById("closePopup").addEventListener("click", () => {
+  document.getElementById("popup").style.display = "none";
+});
+
+document.getElementById("addalloptions").addEventListener("click", () => {
+  createOptions();
+});
 // A can do a peice of job in dvar0 days. B can do a peice of jon in dvar1 days. how many days does a and b takes together to complete a job?
 
 // Let's find lcm of 10 and 15 = 30
