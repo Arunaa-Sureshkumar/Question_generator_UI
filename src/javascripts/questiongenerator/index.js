@@ -499,6 +499,7 @@ function changerefresh(allvariables, editnum, clickedinput, variable, lcmchecked
   const option4ans = document.getElementById('option4ans');
 
   option1ans.innerHTML = allvariables[optionvariable.option1];
+  quillInstances.quilloption1.root.innerHTML = allvariables[optionvariable.option1];
   // console.log("option1.valuePPPPP", optionvariables);
   // console.log(optnum); // always 2
   // console.log("optionvariable", optdbvalues);
@@ -518,6 +519,7 @@ function changerefresh(allvariables, editnum, clickedinput, variable, lcmchecked
   if (option[1] == '^') option2ans.innerHTML = Number(firstvalue) * Number(firstvalue);
   optnum++;
   optionvalues.option2 = option2ans.innerText;
+  quillInstances.quilloption2.root.innerHTML = option2ans.innerText;
 
   const option3v = optionvariable.option3;
   const option3val = allvariables[option3v[0]];
@@ -529,6 +531,7 @@ function changerefresh(allvariables, editnum, clickedinput, variable, lcmchecked
   if (option3v[1] == '*') option3ans.innerHTML = Number(option3val) * Number(option3v[2]);
   if (option3v[1] == '^') option3ans.innerHTML = Number(option3val) * Number(option3val);
   optionvalues.option3 = option3ans.innerText;
+  quillInstances.quilloption3.root.innerHTML = option3ans.innerText;
 
   const option4v = optionvariable.option4;
   // console.log("option4v", option4v);
@@ -538,6 +541,7 @@ function changerefresh(allvariables, editnum, clickedinput, variable, lcmchecked
   if (option4v[1] == '*') option4ans.innerHTML = Number(option4val) * Number(option4v[2]);
   if (option4v[1] == '^') option4ans.innerHTML = Number(option4val) * Number(option4val);
   optionvalues.option4 = option4ans.innerText;
+  quillInstances.quilloption4.root.innerHTML = option4ans.innerText;
   const len1 = Object.keys(changevariables)[0];
 }
 
@@ -1384,8 +1388,8 @@ function formatRichText(text) {
 //   return formattedText;
 // }
 
-const dvaractions = {};
-const dvaractionvalue = {};
+let dvaractions = {};
+let dvaractionvalue = {};
 const workbook = new ExcelJS.Workbook();
 const worksheet = workbook.addWorksheet('Sheet1');
 let defProperties; let defObject;
@@ -1565,7 +1569,8 @@ function generatevariabledisplay(act) {
 function genbutfunction(act, optionval = optionvalues, optionvariable = optionvariables, changevars = changevariables, constantvars = constantvariables, changedvar = changed, lcmcheckedvariables = lcmcheckedvariable, addcheckedvariables = addcheckedvariable, subcheckedvariables = subcheckedvariable, mulcheckedvariables = mulcheckedvariable, divcheckedvariables = divcheckedvariable, sqcheckedvariables = sqcheckedvariable, sqrootcheckedvariables = sqrootcheckedvariable, cubecheckedvariables = cubecheckedvariable, curootcheckedvariables = curootcheckedvariable, factcheckedvariables = factcheckedvariable, diffcheckedvariables = diffcheckedvariable, percheckedvariables = percheckedvariable, logcheckedvariables = logcheckedvariable, fraccheckedvariables = fraccheckedvariable) {
   // console.log("chnage variables inside genbut", changevariables);
   // const ques = document.getElementById('question').value;
-
+  console.log(act);
+  console.log("first row option", optionvalues);
   const correctoptionnum = Object.keys(checkedValuesPerEditor[0])[0];
   worksheet.columns = [
     { header: 'Question', key: 'ques', width: 35 },
@@ -1625,31 +1630,60 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
       ...firstquestionarray,
     ],
   };
-  worksheet.getCell('B2').value = {
-    richText: [
-      { text: optionval.option1 },
-    ],
-  };
-  worksheet.getCell('C2').value = {
-    richText: [
-      { text: optionval.option2 },
-    ],
-  };
-  worksheet.getCell('D2').value = {
-    richText: [
-      { text: optionval.option3 },
-    ],
-  };
-  worksheet.getCell('E2').value = {
-    richText: [
-      { text: optionval.option4 },
-    ],
-  };
-  worksheet.getCell('F2').value = {
-    richText: [
-      { text: optionval["option" + correctoptionnum] },
-    ],
-  };
+  if (act == "create") {
+    worksheet.getCell('B2').value = {
+      richText: [
+        { text: optionval.option1 },
+      ],
+    };
+    worksheet.getCell('C2').value = {
+      richText: [
+        { text: optionval.option2 },
+      ],
+    };
+    worksheet.getCell('D2').value = {
+      richText: [
+        { text: optionval.option3 },
+      ],
+    };
+    worksheet.getCell('E2').value = {
+      richText: [
+        { text: optionval.option4 },
+      ],
+    };
+    worksheet.getCell('F2').value = {
+      richText: [
+        { text: optionval["option" + correctoptionnum] },
+      ],
+    };
+  }
+  if (act == "edit") {
+    worksheet.getCell('B2').value = {
+      richText: [
+        { text: optionvalues.option1 },
+      ],
+    };
+    worksheet.getCell('C2').value = {
+      richText: [
+        { text: optionvalues.option2 },
+      ],
+    };
+    worksheet.getCell('D2').value = {
+      richText: [
+        { text: optionvalues.option3 },
+      ],
+    };
+    worksheet.getCell('E2').value = {
+      richText: [
+        { text: optionvalues.option4 },
+      ],
+    };
+    worksheet.getCell('F2').value = {
+      richText: [
+        { text: optionvalues["option" + correctoptionnum] },
+      ],
+    };
+  }
   worksheet.getCell('G2').value = {
     richText: [
       ...firstsolutionarray,
@@ -2014,6 +2048,7 @@ function otheroptions(e) {
   const optsq = document.getElementById('optsq');
   const optnuminp = document.getElementById('optnum');
   optnuminp.value = 0;
+
   optadd.addEventListener('click', optaddnum);
   optadd.myParam = e.target.myParam;
   optsub.addEventListener('click', optsubnum);
@@ -2024,6 +2059,9 @@ function otheroptions(e) {
   optsq.myParam = e.target.myParam;
 }
 function optaddnum(e) {
+  e.preventDefault();
+  console.log(e.currentTarget.myParam);
+  console.log("add function clicked");
   // console.log("name",e.currentTarget.myParam);
   // console.log("optadd");
   $('#optnum').toggle('slide');
@@ -2033,6 +2071,8 @@ function optaddnum(e) {
   optinput.myParam = e.currentTarget.myParam;
 }
 function updateoptinputadd(e) {
+  e.preventDefault();
+  console.log("add function clicked");
   const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
   const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
@@ -2053,12 +2093,16 @@ function updateoptinputadd(e) {
 }
 
 function optsubnum(e) {
+  e.preventDefault();
+  console.log("sub function clicked");
   $('#optnum').toggle('slide');
   const optinput = document.getElementById('optnum');
   optinput.addEventListener('change', updateoptinputsub);
   optinput.myParam = e.currentTarget.myParam;
 }
 function updateoptinputsub(e) {
+  e.preventDefault();
+  console.log("sub function clicked");
   const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
   const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
@@ -2070,7 +2114,7 @@ function updateoptinputsub(e) {
   }
   const quillinnerText = quillInstances[quillvalue].root.innerText;
   // optionvalues[opinput.id] = opinput.value;
-  console.log(quillinnerText);
+  // console.log(quillinnerText);
   optionvalues['option' + extractedNumber] = quillinnerText;
   const keys = Object.keys(cvariables);
   optionvariables[e.currentTarget.myParam] = [keys[keys.length - 1], '-', e.currentTarget.value];
@@ -2078,14 +2122,18 @@ function updateoptinputsub(e) {
   // $("#optionfunc").toggle("slide");
 }
 function optmulnum(e) {
+  e.preventDefault();
   // console.log("name",e.currentTarget.myParam);
   // console.log("optadd");
+  console.log("mul function clicked");
   $('#optnum').toggle('slide');
   const optinput = document.getElementById('optnum');
   optinput.addEventListener('change', updateoptinputmul);
   optinput.myParam = e.currentTarget.myParam;
 }
 function updateoptinputmul(e) {
+  e.preventDefault();
+  console.log("mul function clicked");
   const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
   const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
@@ -2113,6 +2161,8 @@ function optsqnum(e) {
   optinput.myParam = e.currentTarget.myParam;
 }
 function updateoptinputsq(e) {
+  e.preventDefault();
+  console.log("square func clicked");
   // console.log(e.currentTarget.value);
   const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
@@ -2240,25 +2290,6 @@ function save() {
   // var solution = document.getElementById('editor-containersoln').innerHTML;
   var solution = quillsoln.root.innerHTML;
   var code = document.getElementById('code').value;
-  // var editorvalue = document.getElementById('editorvalue').innerHTML;
-  // console.log(editorvalue);
-  // console.log("/save/chnagevariables", changevariables);
-  // console.log("cvariables", cvariables);
-  // console.log("/save/sub", subcheckedvariable);
-  // console.log("/save/add", addcheckedvariable);
-  // console.log("/save/lcm", lcmcheckedvariable);
-  // console.log("/save/mul", mulcheckedvariable);
-  // console.log("/save/sq", sqcheckedvariable);
-  // console.log("/save/allnewvariables", newallvariables);
-
-  // console.log("/save/action", actions);
-  // console.log("/save/optionvalue", optdbvalues);
-  // console.log("/save/optionvariables", optdbvariables);
-  // console.log("/save/optionvariables 2nd", optionvariables);
-  // var allvariables = Object.assign(changevariables, cvariables, constantvariables);**
-  // console.log("change variables on save", changevariables);
-  // console.log("change variables on svae c variables", cvariables);
-  // console.log("change variables on save const var", constantvariables);
   const constProperties = {};
   // eslint-disable-next-line no-restricted-syntax
   for (const key in constantvariables) {
@@ -2267,7 +2298,26 @@ function save() {
     }
   }
   // console.log("change variables on save const var", constProperties);
-  var allvariables = Object.assign(changevariables, cvariables, constProperties);
+  // console.log("second save", changevariables);
+  // console.log("second save", cvariables);
+  // console.log("second save", constProperties);
+  // console.log("second save", dballvariables);
+  console.log("second save", dvaractions);
+  console.log("second save", dvaractionvalue);
+  console.log("second save", loopnum);
+  console.log("generate actions", generateactions);
+  console.log("generate actionval", generateactionvalue);
+  console.log("loopnum", loopnumber);
+  if (Object.keys(dvaractions).length === 0) {
+    dvaractions = generateactions;
+    dvaractionvalue = generateactionvalue;
+    loopnum = loopnumber;
+  }
+  if (Object.keys(changevariables).length === 0) {
+    var allvariables = Object.assign(dballvariables);
+  } else {
+    var allvariables = Object.assign(changevariables, cvariables, constProperties);
+  }
   // console.log("/save/allvariables", allvariables);
   if (Object.keys(optionvalues).length === 0) {
     var optionvars = Object.assign(optdbvalues);
@@ -2295,6 +2345,7 @@ function save() {
   // console.log("newoptionvariables", newoptionvariables);
   // console.log("all variables", allvariables);
   // console.log('inside save', optionvalues);
+  console.log("second save", allvariables);
   fetch(`${api_path}/save`, {
     method: 'POST',
     headers: {
@@ -2430,7 +2481,7 @@ if (urlParams.has('id')) {
           // console.log("oooo", Object.keys(data.Variables)[i], newinput.value);
           // console.log("option variable", data.optionvariables);
           newinput.addEventListener("change", (e) => {
-            getvalue1(e, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.Variables, data.optionvariables, data.frac);
+            getvalue1(e, data.lcm, data.add, data.sub, data.mul, data.div, data.square, data.sqroot, data.cube, data.curoot, data.fact, data.difference, data.percentage, data.log, data.frac, data.Variables, data.optionvariables, data.frac);
           });
           createcheckboxes(Object.keys(data.Variables)[i], data.Variables[Object.keys(data.Variables)[i]], 'quesvar');
         }
@@ -2500,50 +2551,58 @@ customButtonsoln.addEventListener('click', () => {
   quillsoln.setSelection(contentLength, contentLength);
   addvar("create");
 });
-
+let divsCreated = false;
 function createOptions() {
   // console.log("clicked");
-  const option1div = document.createElement("div");
-  option1div.className = "option";
-  const option1label = document.createElement("label");
-  option1label.textContent = 'Option1';
-  const option1ans = document.createElement("div");
-  option1ans.id = "option1ans";
-  option1ans.innerHTML = quillInstances.quilloption1.root.innerHTML;
-  const option2div = document.createElement("div");
-  option2div.className = "option";
-  const option2label = document.createElement("label");
-  option2label.textContent = 'Option2';
-  const option2ans = document.createElement("div");
-  option2ans.id = 'option2ans';
-  option2ans.innerHTML = quillInstances.quilloption2.root.innerHTML;
-  const option3div = document.createElement("div");
-  option3div.className = "option";
-  const option3label = document.createElement("label");
-  option3label.textContent = 'Option3';
-  const option3ans = document.createElement("div");
-  option3ans.id = 'option3ans';
-  option3ans.innerHTML = quillInstances.quilloption3.root.innerHTML;
-  const option4div = document.createElement("div");
-  option4div.className = "option";
-  const option4label = document.createElement("label");
-  option4label.textContent = 'Option4';
-  const option4ans = document.createElement("div");
-  option4ans.id = 'option4ans';
-  option4ans.innerHTML = quillInstances.quilloption4.root.innerHTML;
-  option1div.appendChild(option1label);
-  option1div.appendChild(option1ans);
-  option2div.appendChild(option2label);
-  option2div.appendChild(option2ans);
-  option3div.appendChild(option3label);
-  option3div.appendChild(option3ans);
-  option4div.appendChild(option4label);
-  option4div.appendChild(option4ans);
-  const alloptiondiv = document.getElementById("alloptiondiv");
-  alloptiondiv.appendChild(option1div);
-  alloptiondiv.appendChild(option2div);
-  alloptiondiv.appendChild(option3div);
-  alloptiondiv.appendChild(option4div);
+  if (!divsCreated) {
+    const option1div = document.createElement("div");
+    option1div.className = "option";
+    const option1label = document.createElement("label");
+    option1label.textContent = 'Option1';
+    const option1ans = document.createElement("div");
+    option1ans.id = "option1ans";
+    option1ans.innerHTML = quillInstances.quilloption1.root.innerHTML;
+    const option2div = document.createElement("div");
+    option2div.className = "option";
+    const option2label = document.createElement("label");
+    option2label.textContent = 'Option2';
+    const option2ans = document.createElement("div");
+    option2ans.id = 'option2ans';
+    option2ans.innerHTML = quillInstances.quilloption2.root.innerHTML;
+    const option3div = document.createElement("div");
+    option3div.className = "option";
+    const option3label = document.createElement("label");
+    option3label.textContent = 'Option3';
+    const option3ans = document.createElement("div");
+    option3ans.id = 'option3ans';
+    option3ans.innerHTML = quillInstances.quilloption3.root.innerHTML;
+    const option4div = document.createElement("div");
+    option4div.className = "option";
+    const option4label = document.createElement("label");
+    option4label.textContent = 'Option4';
+    const option4ans = document.createElement("div");
+    option4ans.id = 'option4ans';
+    option4ans.innerHTML = quillInstances.quilloption4.root.innerHTML;
+    option1div.appendChild(option1label);
+    option1div.appendChild(option1ans);
+    option2div.appendChild(option2label);
+    option2div.appendChild(option2ans);
+    option3div.appendChild(option3label);
+    option3div.appendChild(option3ans);
+    option4div.appendChild(option4label);
+    option4div.appendChild(option4ans);
+    const alloptiondiv = document.getElementById("alloptiondiv");
+    alloptiondiv.appendChild(option1div);
+    alloptiondiv.appendChild(option2div);
+    alloptiondiv.appendChild(option3div);
+    alloptiondiv.appendChild(option4div);
+    divsCreated = true;
+  } else {
+    document.getElementById('option1ans').innerHTML = quillInstances.quilloption1.root.innerHTML;
+    document.getElementById('option2ans').innerHTML = quillInstances.quilloption2.root.innerHTML;
+    document.getElementById('option3ans').innerHTML = quillInstances.quilloption3.root.innerHTML;
+    document.getElementById('option4ans').innerHTML = quillInstances.quilloption4.root.innerHTML;
+  }
   document.getElementById("popup").style.display = "none";
 
   const checkboxoption1 = document.getElementById('checkbox-option1');
@@ -2554,7 +2613,6 @@ function createOptions() {
   checkboxoption3.value = quillInstances.quilloption3.root.innerText;
   const checkboxoption4 = document.getElementById('checkbox-option4');
   checkboxoption4.value = quillInstances.quilloption4.root.innerText;
-  // Loop through each editor and its toolbar
   for (let editorNumber = 1; editorNumber <= 4; editorNumber++) {
     const toolbarId = `toolbaroption${editorNumber}`;
 
@@ -2564,13 +2622,7 @@ function createOptions() {
     if (checkbox.checked) {
       checkedValuesPerEditor.push({ [editorNumber]: checkbox.value });
     }
-    // console.log(optionvalues);
-    // console.log(optionvariables);
-    // checkedValuesPerEditor.push(checkedValues);
   }
-
-  // Now 'checkedValuesPerEditor' array contains the checked checkbox values for each editor
-  console.log(checkedValuesPerEditor);
 }
 // eslint-disable-next-line prefer-arrow-callback, func-names
 $(document).ready(function () {
