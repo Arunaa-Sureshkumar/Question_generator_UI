@@ -1,23 +1,23 @@
-/* eslint-disable max-len */
-import 'bootstrap';
-// import $ from 'jquery';
-import '../../stylesheets/common/importers/_bootstrap.scss';
-import '../../stylesheets/common/importers/_fontawesome.scss';
-import '../common/steroid';
+// /* eslint-disable max-len */
+// import 'bootstrap';
+// // import $ from 'jquery';
+// import '../../stylesheets/common/importers/_bootstrap.scss';
+// import '../../stylesheets/common/importers/_fontawesome.scss';
+// import '../common/steroid';
 
-// chat gpt
+// // chat gpt
 // const OPENAI_API_KEY = process.env.OPENAI_API;
-// const bTextToSpeechSupported = false;
-// const bSpeechInProgress = false;
-// const oSpeechRecognizer = null;
-// const oSpeechSynthesisUtterance = null;
-// const oVoices = null;
+// // const bTextToSpeechSupported = false;
+// // const bSpeechInProgress = false;
+// // const oSpeechRecognizer = null;
+// // const oSpeechSynthesisUtterance = null;
+// // const oVoices = null;
 // const txtArray = [];
 // // var be = txtOutput.value;
 // let res;
 
-// document.getElementById('txtOutput').addEventListener('change', () => {
-//   if (be.length <= 0) {
+// document.getElementById('txtOutput').addEventListener('change', (e) => {
+//   if (e.length <= 0) {
 //     console.log('loading');
 //     res = document.getElementById('txtOutput').innerHTML = 'Loading';
 //   } else {
@@ -25,17 +25,17 @@ import '../common/steroid';
 //   }
 // });
 
-// // function Send() {
-// //   load();
-// //   const question = document.getElementById('generateQuestion').value;
-// //   let SQuestion;
-// //   if (paraphraser.value === 'paraphraser') {
-// //     SQuestion = `rewrite this question with different situation for 50 times without changing input values,${question}`;
-// //     console.log(typeof (SQuestion));
-// //   } else {
-// //     SQuestion = `create 50 similar question like this with answer,options and formula used,${question}`;
-// //     console.log(SQuestion);
-// //   }
+// function Send() {
+//   load();
+//   const question = document.getElementById('generateQuestion').value;
+//   let SQuestion;
+//   if (paraphraser.value === 'paraphraser') {
+//     SQuestion=`rewritequewithdifferentsituationfor50timeswithoutchanginginputvalues,${question}`;
+//     console.log(typeof (SQuestion));
+//   } else {
+//     SQuestion = `create 50 similar ques with answer,options and formula used,${question}`;
+//     console.log(SQuestion);
+//   }
 
 //   const oHttp = new XMLHttpRequest();
 //   oHttp.open('POST', 'https://api.openai.com/v1/completions');
@@ -50,13 +50,11 @@ import '../common/steroid';
 //       // if (txtOutput.value != "") txtOutput.value += "\n";
 //       const roots = document.getElementById('root');
 //       roots.style.display = 'none';
-
 //       try {
 //         oJson = JSON.parse(oHttp.responseText);
 //       } catch (ex) {
 //         txtOutput.value += `Error: ${ex.message}`;
 //       }
-
 //       if (oJson.error && oJson.error.message) {
 //         txtOutput.value += `Error: ${oJson.error.message}`;
 //       } else if (oJson.choices && oJson.choices[0].text) {
@@ -66,7 +64,6 @@ import '../common/steroid';
 //         txtArray.push(s);
 //         console.log('hiiiii', txtArray);
 //         let csvContent = 'data:text/csv;charset=utf-8,';
-
 //         txtArray.forEach((rowArray) => {
 //           csvContent += `${rowArray}\r\n`;
 //         });
@@ -87,9 +84,9 @@ import '../common/steroid';
 //     max_tokens: iMaxTokens,
 //     user: sUserId,
 //     temperature: dTemperature,
-//     frequency_penalty: 0.0, // Number between -2.0 and 2.0 //Positive values decrease the model's likelihood //to repeat the same line verbatim.
-//     presence_penalty: 0.0, // Number between -2.0 and 2.0. //Positive values increase the model's likelihood //to talk about new topics.
-//     stop: ['#', ';'], // Up to 4 sequences where the API will stop //generating further tokens. The returned text //will not contain the stop sequence.
+//     frequency_penalty: 0.0,
+//     presence_penalty: 0.0,
+//     stop: ['#', ';'],
 //   };
 
 //   oHttp.send(JSON.stringify(data));

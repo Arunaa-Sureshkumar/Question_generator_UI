@@ -2019,6 +2019,7 @@ function otheroptions(e) {
         optionbut.id = `option1${Object.keys(allvariables)[i]}`;
         optionbut.className = 'btn btn-success';
         optionbut.style.marginRight = '15px';
+        optionbut.style.marginTop = '15px';
         optionbut.innerHTML = Object.keys(allvariables)[i];
         alloptionvarinnerdiv.append(optionbut);
         optionbut.addEventListener('click', selectoption1);

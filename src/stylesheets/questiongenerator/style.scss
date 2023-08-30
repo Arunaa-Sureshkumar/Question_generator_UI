@@ -1648,6 +1648,7 @@ table {
   top: 50%;
   left: 50%;
   overflow-y: scroll;
+  overflow-x: hidden;
   transform: translate(-50%, -50%);
   text-align: center;
 }
@@ -1686,4 +1687,8 @@ table {
 .optactions{
   margin: 20px;
   width: 100px;
+}
+
+#alloptionvarinnerdiv {
+  width: 500px;
 }
