@@ -13,7 +13,10 @@ import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import '../common/steroid';
 // import { apply } from 'mathjs';
-
+const addquesbtn = document.getElementById("addquesbtn");
+addquesbtn.addEventListener("click", () => {
+  window.location.href = 'questiongenerator.html';
+});
 const api_path = process.env.API_PATH;
 function show() {
   // const cardContainer = document.getElementById('card-container');
@@ -22,65 +25,10 @@ function show() {
     .then((response) => response.json())
     .then((data) => {
       console.log('get variable api', data);
-      // for (let i = 0; i < Object.keys(data).length; i++) {
-      //   console.log('ques data', data[i].Question);
-      //   const card = document.createElement("div");
-      //   card.className = "cardouterdiv card" + i;
-      //   const h5 = document.createElement("h6");
-      //   h5.className = 'card-header';
-      //   h5.innerText = data[i].Ques_name;
-      //   const cardbody = document.createElement('div');
-      //   cardbody.className = 'card-body';
-      //   const p = document.createElement("p");
-      //   p.className = "card-title";
-      //   p.innerText = data[i].Question;
-      //   const a = document.createElement("a");
-      //   a.className = "btn btn-primary edit1";
-      //   a.id = "edit1";
-      //   a.setAttribute("data-name", data[i].Unique_id);
-      //   a.innerText = "Edit";
-      //   a.addEventListener("click", (e) => {
-      //     const uid = e.target.getAttribute('data-name');
-      //     window.location.href = `questiongenerator.html?id=${uid}`;
-      //   });
-      //   const but = document.createElement('button');
-      //   but.className = 'btn btn-danger';
-      //   but.id = "delques";
-      //   but.innerText = "Delete";
-      //   but.setAttribute("data-name", data[i].Unique_id);
-      //   but.addEventListener("click", (e) => {
-      //     const uid = e.target.getAttribute('data-name');
-      //     fetch(`${api_path}/delete`, {
-      //       method: "DELETE",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify({ Unique_id: uid }),
-      //     })
-      //       .then((response) => response.json())
-      //       .then((data1) => {
-      //         console.log(data1.message);
-      //         // eslint-disable-next-line no-restricted-globals
-      //         location.reload();
-      //       })
-      //       .catch((error) => {
-      //         console.error("Error:", error);
-      //       });
-      //   });
-      //   cardbody.append(p);
-      //   cardbody.append(a);
-      //   cardbody.append(but);
-      //   card.append(h5);
-      //   card.append(cardbody);
-      //   cardContainer.append(card);
-      // }
       const tableBody = document.getElementById("table-body");
 
       data.forEach((record) => {
         const newRow = document.createElement("tr");
-        // newRow.addEventListener("click", () => {
-        //   window.location.href = `questiongenerator.html?id=${record.Unique_id}`;
-        // });
         const ques_code = document.createElement("td");
         ques_code.textContent = record.Code;
         const ques_type = document.createElement("td");
@@ -93,9 +41,6 @@ function show() {
         ques_tag.textContent = record.Tags;
         const question = document.createElement("td");
         question.innerHTML = record.Question;
-        // const actions = document.createElement("td");
-        // actions.className = "actions";
-        // actions.style.width = "50px";
         const editcell = document.createElement("td");
         editcell.style.width = "30px";
         const edit = document.createElement("button");
@@ -110,17 +55,6 @@ function show() {
           window.location.href = `questiongenerator.html?id=${record.Unique_id}`;
         });
         editcell.appendChild(edit);
-        // const edit = document.createElement("button");
-        // edit.className = "fa fa-edit edit-btn";
-        // edit.style.color = "green";
-        // edit.style.border = "none";
-        // edit.id = "edit1";
-        // edit.setAttribute("data-name", record.Unique_id);
-        // edit.style.backgroundColor = "transparent";
-        // edit.addEventListener("click", () => {
-        //   // const uid = e.target.getAttribute('data-name');
-        //   // window.location.href = `questiongenerator.html?id=${uid}`;
-        // });
         const delcell = document.createElement("td");
         delcell.style.width = "30px";
         const del = document.createElement("button");
@@ -151,9 +85,6 @@ function show() {
             });
         });
         delcell.appendChild(del);
-        // actions.appendChild(edit);
-        // actions.appendChild(del);
-        // newRow.appendChild(ques_name);
         newRow.appendChild(ques_code);
         newRow.appendChild(ques_type);
         newRow.appendChild(ques_subtype);
