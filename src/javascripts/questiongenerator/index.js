@@ -1,3 +1,5 @@
+/* eslint-disable prefer-object-spread */
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable radix */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable prefer-template */
@@ -169,6 +171,7 @@ let generateactions = {};
 let generateactionvalue = {};
 let loopnumber = 0;
 let checkedValuesPerEditor = [];
+let optiondb = {};
 function addText(act, dbvariables) {
   const urlParams = new URLSearchParams(window.location.search);
   if (act == "edit") {
@@ -781,6 +784,8 @@ function addvar(act) {
   // e.preventDefault();
   // document.getElementById('solution').value = solution;
   change_var_number++;
+  // console.log("addvar working");
+  // console.log("changevariables in edit", changevariables);
 }
 
 // ##################
@@ -1174,6 +1179,7 @@ const calculatefrac = (...[arr]) => {
 let newvariable = 0;
 var actions = {};
 function changevarinput(act, lcm, mathaction, divnum) {
+  // console.log(act);
   const cinpspandiv = document.createElement('div');
   const chvarinput = document.createElement('input');
   const actionvar = document.createElement('small');
@@ -1189,7 +1195,7 @@ function changevarinput(act, lcm, mathaction, divnum) {
   newvariable++;
 
   // cvariables[chvarinput.name] = chvarinput.value;
-
+  changevariables[chvarinput.name] = chvarinput.value;
   cvariables[chvarinput.name] = chvarinput.value;
   actions[chvarinput.name] = mathaction;
   // console.log("chvardivval", chvardivval);
@@ -1226,6 +1232,8 @@ function changevarinput(act, lcm, mathaction, divnum) {
   createcheckboxes(button.innerHTML, lcm, 'solvar');
   // updatechangevarinput(lcm,calclcm.name)
   cvarspan.addEventListener('click', deletebut);
+
+  // console.log("change var", changevariables);
 }
 function updatechangevarinput(lcm, id) {
   const updatechvarinput = document.getElementById(id);
@@ -1490,7 +1498,12 @@ function generatevariabledisplay(act) {
   // console.log("workbook", workbook);
   if (act == 'create') {
     genbut.addEventListener('click', () => {
-      genbutfunction("create");
+      // console.log("optionvalues", optionvalues);
+      const newoptionvalues = { ...optionvalues, ...optiondb };
+      // console.log(newoptionvalues);
+      console.log("changevariables", changevariables);
+      addcheckedvariable = adddbarray.concat(addcheckedvariable);
+      genbutfunction("create", newoptionvalues, optionvariables, changevariables, constantvariables, changed, lcmcheckedvariable, addcheckedvariable, subcheckedvariable, mulcheckedvariable, divcheckedvariable, sqcheckedvariable, sqrootcheckedvariable, cubecheckedvariable, curootcheckedvariable, factcheckedvariable, diffcheckedvariable, percheckedvariable, logcheckedvariable, fraccheckedvariable);
     });
   }
   const loop = document.createElement('input');
@@ -1569,8 +1582,20 @@ function generatevariabledisplay(act) {
 function genbutfunction(act, optionval = optionvalues, optionvariable = optionvariables, changevars = changevariables, constantvars = constantvariables, changedvar = changed, lcmcheckedvariables = lcmcheckedvariable, addcheckedvariables = addcheckedvariable, subcheckedvariables = subcheckedvariable, mulcheckedvariables = mulcheckedvariable, divcheckedvariables = divcheckedvariable, sqcheckedvariables = sqcheckedvariable, sqrootcheckedvariables = sqrootcheckedvariable, cubecheckedvariables = cubecheckedvariable, curootcheckedvariables = curootcheckedvariable, factcheckedvariables = factcheckedvariable, diffcheckedvariables = diffcheckedvariable, percheckedvariables = percheckedvariable, logcheckedvariables = logcheckedvariable, fraccheckedvariables = fraccheckedvariable) {
   // console.log("chnage variables inside genbut", changevariables);
   // const ques = document.getElementById('question').value;
-  console.log(act);
-  console.log("first row option", optionvalues);
+  // console.log(act);
+  // console.log("genbutfunction change", changevars);
+  // console.log("genbutfunction cons", constantvars);
+  // console.log("genbutfunction optionval", optionval);
+  // console.log("optionvalue", optionvalues);
+  // const constantvarsedit = {};
+  // if (Object.keys(constantvars).length == 0) {
+  //   for (const key in changevariables) {
+  //     if (key.startsWith('const')) {
+  //       constantvarsedit[key] = changevariables[key];
+  //     }
+  //   }
+  //   constantvars = Object.assign(constantvarsedit);
+  // }
   const correctoptionnum = Object.keys(checkedValuesPerEditor[0])[0];
   worksheet.columns = [
     { header: 'Question', key: 'ques', width: 35 },
@@ -1630,60 +1655,35 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
       ...firstquestionarray,
     ],
   };
-  if (act == "create") {
-    worksheet.getCell('B2').value = {
-      richText: [
-        { text: optionval.option1 },
-      ],
-    };
-    worksheet.getCell('C2').value = {
-      richText: [
-        { text: optionval.option2 },
-      ],
-    };
-    worksheet.getCell('D2').value = {
-      richText: [
-        { text: optionval.option3 },
-      ],
-    };
-    worksheet.getCell('E2').value = {
-      richText: [
-        { text: optionval.option4 },
-      ],
-    };
-    worksheet.getCell('F2').value = {
-      richText: [
-        { text: optionval["option" + correctoptionnum] },
-      ],
-    };
-  }
-  if (act == "edit") {
-    worksheet.getCell('B2').value = {
-      richText: [
-        { text: optionvalues.option1 },
-      ],
-    };
-    worksheet.getCell('C2').value = {
-      richText: [
-        { text: optionvalues.option2 },
-      ],
-    };
-    worksheet.getCell('D2').value = {
-      richText: [
-        { text: optionvalues.option3 },
-      ],
-    };
-    worksheet.getCell('E2').value = {
-      richText: [
-        { text: optionvalues.option4 },
-      ],
-    };
-    worksheet.getCell('F2').value = {
-      richText: [
-        { text: optionvalues["option" + correctoptionnum] },
-      ],
-    };
-  }
+  worksheet.getCell('B2').value = {
+    richText: [
+      { text: quillInstances.quilloption1.root.innerText },
+    ],
+  };
+  worksheet.getCell('C2').value = {
+    richText: [
+      // { text: optionval.option2 },
+      { text: quillInstances.quilloption2.root.innerText },
+    ],
+  };
+  worksheet.getCell('D2').value = {
+    richText: [
+      // { text: optionval.option3 },
+      { text: quillInstances.quilloption3.root.innerText },
+    ],
+  };
+  worksheet.getCell('E2').value = {
+    richText: [
+      // { text: optionval.option4 },
+      { text: quillInstances.quilloption4.root.innerText },
+    ],
+  };
+  worksheet.getCell('F2').value = {
+    richText: [
+      // { text: optionval["option" + correctoptionnum] },
+      { text: quillInstances['quilloption' + correctoptionnum].root.innerText },
+    ],
+  };
   worksheet.getCell('G2').value = {
     richText: [
       ...firstsolutionarray,
@@ -1710,15 +1710,31 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
   // console.log(solution);
   // console.log("cvariables",cvariables);
   // console.log("actions",actions);
+  // constantvars = Object.assign(changevariables);
+  // console.log("constant vars before loop", constantvars);
+  // console.log("changevariables vars before loop", changevariables);
+  // console.log("changevariables vars before loop", cvariables);
+  // for (const key in cvariables) {
+  //   if (!constantvars.hasOwnProperty(key)) {
+  //     constantvars[key] = cvariables[key];
+  //   }
+  // }
+  // console.log("new constantvars", constantvars);
+  console.log(constantvars);
   for (let i = 0; i < loop; i++) {
     let newvalues = {};
-    // newvalues = Number(constantvariables);=
-    newvalues = constantvars;
+    // newvalues = Number(constantvariables);
+    // console.log("change", changevariables);
+    // console.log("cvars", cvariables);
+    // console.log(i, "+++++++++++++++constantvars+++++++++++++++", changevariables);
+    newvalues = Object.assign({}, changevariables);
+    // newvalues = changevariables;
     const replacedSentence = ques.replace(/dvar\d+/g, (match) => {
       const res = Number(changevars[match]) + (Number(changedvar[match]) + Number(changedvar[match]) * i);
       // console.log(newvalues);
 
       newvalues[match] = res;
+      // console.log("constant var inside question replacing", newvalues);
       // console.log("i res", res);
       return res;
     });
@@ -1737,6 +1753,10 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     var num = 0; var anum = 0; var snum = 0; var mnum = 0; var dnum = 0; var sqnum = 0; var srnum = 0; var cnum = 0; var curnum = 0; var fnum = 0; var dinum = 0; var pernum = 0; var lognum = 0; var fracnum = 0;
 
     const crtSolution = replacedSolution.replace(/cvar\d+/g, (match) => {
+      // console.log(addcheckedvariables);
+      // console.log(actions);
+      // console.log("Check newvalue", newvalues);
+      // console.log("constant var inside solution repalcing", newvalues);
       const action = actions[match];
       if (action === 'LCM') {
         var splitArrays = splitarray(lcmcheckedvariables);
@@ -1747,7 +1767,10 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
         splitArrays = splitarray(addcheckedvariables);
         // var array = addcheckedvariable.map(key => newvalues[key]);
         var array = splitArrays[anum++].map((key) => newvalues[key]);
+        // console.log("addcheckvariables", addcheckedvariables);
+        console.log(array);
         var res = calculateADD(array);
+        console.log("res valueeee for ", i, res);
       }
       if (action === 'Sub') {
         splitArrays = splitarray(subcheckedvariables);
@@ -1822,6 +1845,7 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
       const capvar = match.charAt(0).toUpperCase() + match.slice(1);
       newvalues[match] = res;
       newvalues[capvar] = res;
+      console.log("at last all vars::::::::::::::", capvar, match, res);
       return res;
     });
     const finalSoln = crtSolution.replace(/Cvar\d+/g, (match) => {
@@ -1841,15 +1865,27 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     newoptions.option1 = option1;
     const optionlen = Object.keys(optionvariable).length;
     // const correctoptionnum = checkedValuesPerEditor[0];
+    // console.log("option", optionvariable);
+    // console.log("newvalues opt", newvalues);
+    // console.log("newoptions", newoptions);
+
     for (let i = 1; i < optionlen; i++) {
       const opt = `option${Number(i + 1)}`;
       const op = optionvariable[opt];
-
+      console.log("optionvariables", optionvariable);
+      console.log("optionvariable[opt]", optionvariable[opt]);
       const opvalue = newvalues[op[0]];
+      // if (act == 'create') {
+      //   opvalue = newvalues[op[0]];
+      // }
+      console.log(newvalues);
+      console.log("OPVALUE****************", opvalue);
       if (op[1] == '+') {
         if (!Number(opvalue)) {
           newoptions[opt] = format(add(fraction(opvalue), fraction(op[2])));
         } else {
+          console.log(Number(opvalue));
+          console.log(Number(op[2]));
           newoptions[opt] = Number(opvalue) + Number(op[2]);
         }
       }
@@ -1857,6 +1893,8 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
         if (!Number(opvalue)) {
           newoptions[opt] = format(subtract(fraction(opvalue), fraction(op[2])));
         } else {
+          console.log(Number(opvalue));
+          console.log(Number(op[2]));
           newoptions[opt] = Number(opvalue) - Number(op[2]);
         }
       }
@@ -1871,10 +1909,13 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
         if (!Number(opvalue)) {
           newoptions[opt] = format(square(fraction(opvalue)));
         } else {
+          console.log(Number(opvalue));
+          console.log(Number(op[2]));
           newoptions[opt] = Number(opvalue) * Number(opvalue);
         }
       }
     }
+    console.log("newoptions after ", newoptions);
     // console.log('optionvariables', optionvariables);
     // console.log('newoptions', newoptions);
     // const editorvalue = document.getElementById("editorvalue");
@@ -1912,7 +1953,7 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     // console.log("richText", richText);
     const accumulatedRichText = [];
     const solnrichTextarray = [];
-    console.log(checkedValuesPerEditor);
+    // console.log(checkedValuesPerEditor);
     // worksheet.columns = [
     //   { header: 'Question', key: 'ques', width: 35 },
     //   { header: 'Option1', key: 'opt1', width: 15 },
@@ -1940,6 +1981,7 @@ function genbutfunction(act, optionval = optionvalues, optionvariable = optionva
     // console.log("option3.....", newoptions.option3);
     // console.log("option4.....", newoptions.option4);
     // console.log("option1.....", newoptions.option1);
+    console.log("newoptions", newoptions);
     questioncell.value = {
       richText: [
         ...accumulatedRichText,
@@ -2062,7 +2104,7 @@ function otheroptions(e) {
 function optaddnum(e) {
   e.preventDefault();
   console.log(e.currentTarget.myParam);
-  console.log("add function clicked");
+  // console.log("add function clicked");
   // console.log("name",e.currentTarget.myParam);
   // console.log("optadd");
   $('#optnum').toggle('slide');
@@ -2073,7 +2115,7 @@ function optaddnum(e) {
 }
 function updateoptinputadd(e) {
   e.preventDefault();
-  console.log("add function clicked");
+  // console.log("add function clicked");
   const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
   const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
@@ -2095,7 +2137,7 @@ function updateoptinputadd(e) {
 
 function optsubnum(e) {
   e.preventDefault();
-  console.log("sub function clicked");
+  // console.log("sub function clicked");
   $('#optnum').toggle('slide');
   const optinput = document.getElementById('optnum');
   optinput.addEventListener('change', updateoptinputsub);
@@ -2103,7 +2145,7 @@ function optsubnum(e) {
 }
 function updateoptinputsub(e) {
   e.preventDefault();
-  console.log("sub function clicked");
+  // console.log("sub function clicked");
   const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
   const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
@@ -2126,7 +2168,7 @@ function optmulnum(e) {
   e.preventDefault();
   // console.log("name",e.currentTarget.myParam);
   // console.log("optadd");
-  console.log("mul function clicked");
+  // console.log("mul function clicked");
   $('#optnum').toggle('slide');
   const optinput = document.getElementById('optnum');
   optinput.addEventListener('change', updateoptinputmul);
@@ -2134,7 +2176,7 @@ function optmulnum(e) {
 }
 function updateoptinputmul(e) {
   e.preventDefault();
-  console.log("mul function clicked");
+  // console.log("mul function clicked");
   const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
   const extractedNumber = parseInt(e.currentTarget.myParam.match(/\d+/)[0]);
@@ -2163,7 +2205,7 @@ function optsqnum(e) {
 }
 function updateoptinputsq(e) {
   e.preventDefault();
-  console.log("square func clicked");
+  // console.log("square func clicked");
   // console.log(e.currentTarget.value);
   const option1value = quillInstances.quilloption1.root.innerText;
   const opinput = document.getElementById(e.currentTarget.myParam);
@@ -2303,12 +2345,12 @@ function save() {
   // console.log("second save", cvariables);
   // console.log("second save", constProperties);
   // console.log("second save", dballvariables);
-  console.log("second save", dvaractions);
-  console.log("second save", dvaractionvalue);
-  console.log("second save", loopnum);
-  console.log("generate actions", generateactions);
-  console.log("generate actionval", generateactionvalue);
-  console.log("loopnum", loopnumber);
+  // console.log("second save", dvaractions);
+  // console.log("second save", dvaractionvalue);
+  // console.log("second save", loopnum);
+  // console.log("generate actions", generateactions);
+  // console.log("generate actionval", generateactionvalue);
+  // console.log("loopnum", loopnumber);
   if (Object.keys(dvaractions).length === 0) {
     dvaractions = generateactions;
     dvaractionvalue = generateactionvalue;
@@ -2387,7 +2429,8 @@ if (urlParams.has('id')) {
       let options = [];
       // console.log("dvaractions", data.Generate_actions, data.Generate_action_val, data.Loop_num);
       // console.log("retrived data", data.Question, data.Solution);
-      console.log(data.Correct_option);
+      // console.log(data.Correct_option);
+      optiondb = data.Options;
       const correctcheckbox = Object.keys(data.Correct_option[0])[0];
       generateactions = data.Generate_actions;
       generateactionvalue = data.Generate_action_val;
@@ -2467,7 +2510,7 @@ if (urlParams.has('id')) {
       option4ans.innerHTML = data.Options.option4;
       quillInstances.quilloption4.root.innerHTML = data.Options.option4;
       // console.log("variables", data.Variables);
-      console.log(correctcheckbox, `checkbox-containeroption${correctcheckbox}`);
+      // console.log(correctcheckbox, `checkbox-containeroption${correctcheckbox}`);
       $(`#checkbox-option${correctcheckbox}`).prop('checked', true);
       checkedValuesPerEditor = data.Correct_option;
       const variablelen = Object.keys(data.Variables).length;
