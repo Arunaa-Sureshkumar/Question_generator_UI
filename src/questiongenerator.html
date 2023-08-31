@@ -79,7 +79,7 @@
                     <label  class="mr-2 form-label typelabel heading" id="basic-addon1">SubTopic</label>
                     <!-- <input type="text" id="subtype" class="type form-control"> -->
 
-                    <input type="text" list="courses" name="course" id="subtype" class="type form-control">
+                    <input type="text" list="courses" name="course" id="subtype" class="subtopic type form-control">
                     <datalist id="courses">
                         <option value="Java">
                         <option value="C++">
@@ -89,21 +89,23 @@
                     </datalist>
                   </div>
                 </div>
-                <div>
-                  <label  class="ml-2 form-label heading" id="basic-addon1">Difficulty</label>
-                  <form id="difficultyForm" class="d-flex flex-row difficultyform">
-                    <label class="difficultylabel">
-                        <input type="radio" name="difficulty" value="easy" class="difficultyinput" checked>
-                        Easy
-                    </label>
-                    <label class="difficultylabel">
-                        <input type="radio" name="difficulty" class="difficultyinput" value="medium">
-                        Medium
-                    </label>
-                    <label class="difficultylabel">
-                        <input type="radio" name="difficulty" class="difficultyinput" value="hard">
-                        Hard
-                    </label>
+                <div class="difficultydiv">
+                  <form class="d-flex flex-row difficultyform" id="difficultyForm">
+                    <label  class="form-label heading difficulty" id="basic-addon1">Difficulty</label>
+                    <div class="d-flex flex-row difficultylabel-container">
+                      <label class="difficultylabel">
+                          <input type="radio" name="difficulty" value="easy" class="difficultyinput" checked>
+                          Easy
+                      </label>
+                      <label class="difficultylabel">
+                          <input type="radio" name="difficulty" class="difficultyinput" value="medium">
+                          Medium
+                      </label>
+                      <label class="difficultylabel">
+                          <input type="radio" name="difficulty" class="difficultyinput" value="hard">
+                          Hard
+                      </label>
+                    </div>
                   </form>
                 </div>
                 <!-- <div class="tagsdiv d-flex flex-row">
@@ -120,14 +122,11 @@
                 <div class="tagsdiv">
                   <label for="skills" class="form-label heading" id="basic-addon1">Tags</label>
                   <select class="progLang form-control tagclass" multiple="true" id="tags">
-                    <option value="Python">Python</option>
-                    <option value="Java">Java</option>
-                    <option value="HTML">HTML</option>
+                    
                   </select>
                 </div>
               </div>
-              <div class="mb-3" id="step-one" data-bs-toggle="tooltip"
-                title="Enter the Question">
+              <div class="mb-3" id="step-one">
                 <div class="d-flex flex-row">
                   <label  class="form-label heading" id="quill-trigger">Question</label>
                   <!-- <button type="button" id="defvar" class="plusbtn btn btn-success">+</button> -->
@@ -165,30 +164,17 @@
                     </div>
                   </div> -->
                   <div id="toolbar">
-                    <!-- <select class="ql-size">
-                      <option value="small"></option>
-                      <option selected></option>
-                      <option value="large"></option>
-                      <option value="huge"></option>
-                    </select> -->
-                    <button class="ql-bold"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-underline"></button>
-                    <button class="ql-script" value="sub"></button>
-                    <button class="ql-script" value="super"></button>
-                    <!-- <button class="ql-align" value=""></button> -->
-                    <!-- <button class="ql-header" value="1"></button>
-                    <button class="ql-header" value="2"></button> -->
-                    <button class="ql-list" value="ordered"></button>
-                    <button class="ql-list" value="bullet"></button>
-                    <!-- <button class="ql-link"></button> -->
+                    <button class="ql-bold" data-bs-toggle="tooltip" title="Bold"></button>
+                    <button class="ql-italic" data-bs-toggle="tooltip" title="Italic"></button>
+                    <button class="ql-underline" data-bs-toggle="tooltip" title="Underline"></button>
+                    <button class="ql-script" value="sub" data-bs-toggle="tooltip" title="Subscript"></button>
+                    <button class="ql-script" value="super" data-bs-toggle="tooltip" title="Superscript"></button>
+                    <button class="ql-list" value="ordered" data-bs-toggle="tooltip" title="Ordered"></button>
+                    <button class="ql-list" value="bullet" data-bs-toggle="tooltip" title="Bullet"></button>
                     <button class="ql-image"></button>
-                    <!-- <button class="ql-blockquote"></button>
-                    <button class="ql-code-block"></button> -->
-                    <!-- <button class="ql-clean"></button> -->
-                    <button id="custom-button">+</button>
+                    <button id="custom-button" data-bs-toggle="tooltip" title="Add Var">+</button>
                   </div>
-                  <div id="editor-container"></div>
+                  <div id="editor-container" data-bs-toggle="tooltip" title="Enter the Question"></div>
                   <!-- <button type="button" id="editorbut" class="editorbutton btn btn-success">Add ques</button> -->
                   <!-- <div id="editorvalue"></div> -->
                  
@@ -251,22 +237,15 @@
                     <option value="large"></option>
                     <option value="huge"></option>
                   </select> -->
-                  <button class="ql-bold"></button>
-                  <button class="ql-italic"></button>
-                  <button class="ql-underline"></button>
-                  <button class="ql-script" value="sub"></button>
-                  <button class="ql-script" value="super"></button>
-                  <!-- <button class="ql-align" value=""></button>
-                  <button class="ql-header" value="1"></button>
-                  <button class="ql-header" value="2"></button> -->
-                  <button class="ql-list" value="ordered"></button>
-                  <button class="ql-list" value="bullet"></button>
-                  <!-- <button class="ql-link"></button> -->
+                  <button class="ql-bold" data-bs-toggle="tooltip" title="Bold"></button>
+                  <button class="ql-italic" data-bs-toggle="tooltip" title="Italic"></button>
+                  <button class="ql-underline" data-bs-toggle="tooltip" title="Underline"></button>
+                  <button class="ql-script" value="sub" data-bs-toggle="tooltip" title="Subscript"></button>
+                  <button class="ql-script" value="super" data-bs-toggle="tooltip" title="Superscript"></button>
+                  <button class="ql-list" value="ordered" data-bs-toggle="tooltip" title="Ordered"></button>
+                  <button class="ql-list" value="bullet" data-bs-toggle="tooltip" title="Bullet"></button>
                   <button class="ql-image"></button>
-                  <!-- <button class="ql-blockquote"></button>
-                  <button class="ql-code-block"></button>
-                  <button class="ql-clean"></button> -->
-                  <button id="custom-buttonsoln">+</button>
+                  <button id="custom-buttonsoln" data-bs-toggle="tooltip" title="Add var">+</button>
                 </div>
                 <div id="editor-containersoln"></div>
                 <!-- <button type="button" id="editorbutsoln" class="editorbuttonsoln btn btn-success">Add Soln</button> -->
@@ -341,15 +320,15 @@
                         <!-- <input type="text" id="option1" class="optinp"> -->
                       </div>
                       <div id="toolbaroption1">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-script" value="sub"></button>
-                        <button class="ql-script" value="super"></button>
-                        <button class="ql-list" value="ordered"></button>
-                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-bold" data-bs-toggle="tooltip" title="Bold"></button>
+                        <button class="ql-italic" data-bs-toggle="tooltip" title="Italic"></button>
+                        <button class="ql-underline" data-bs-toggle="tooltip" title="Underline"></button>
+                        <button class="ql-script" value="sub" data-bs-toggle="tooltip" title="Subscript"></button>
+                        <button class="ql-script" value="super" data-bs-toggle="tooltip" title="Superscript"></button>
+                        <button class="ql-list" value="ordered" data-bs-toggle="tooltip" title="Ordered"></button>
+                        <button class="ql-list" value="bullet" data-bs-toggle="tooltip" title="Bullet"></button>
                         <button class="ql-image"></button>
-                        <button id="custom-buttonoption1">+</button>
+                        <!-- <button id="custom-buttonoption1">+</button> -->
                         <label class="checkbox-containeroption1">
                           <input type="checkbox" class="quill-checkbox" id="checkbox-option1">
                           <span class="checkmark"></span>
@@ -368,15 +347,15 @@
                         <!-- <input type="text" id="option2" class="optinp"> -->
                       </div>
                       <div id="toolbaroption2">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-script" value="sub"></button>
-                        <button class="ql-script" value="super"></button>
-                        <button class="ql-list" value="ordered"></button>
-                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-bold" data-bs-toggle="tooltip" title="Bold"></button>
+                        <button class="ql-italic" data-bs-toggle="tooltip" title="Italic"></button>
+                        <button class="ql-underline" data-bs-toggle="tooltip" title="Underline"></button>
+                        <button class="ql-script" value="sub" data-bs-toggle="tooltip" title="Subscript"></button>
+                        <button class="ql-script" value="super" data-bs-toggle="tooltip" title="Superscript"></button>
+                        <button class="ql-list" value="ordered" data-bs-toggle="tooltip" title="Ordered"></button>
+                        <button class="ql-list" value="bullet" data-bs-toggle="tooltip" title="Bullet"></button>
                         <button class="ql-image"></button>
-                        <button id="custom-buttonoption2">+</button>
+                        <!-- <button id="custom-buttonoption2">+</button> -->
                         <label class="checkbox-containeroption2">
                             <input type="checkbox" class="quill-checkbox" id="checkbox-option2">
                             <span class="checkmark"></span>
@@ -394,15 +373,15 @@
                         <!-- <input type="text" id="option1" class="optinp"> -->
                       </div>
                       <div id="toolbaroption3">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-script" value="sub"></button>
-                        <button class="ql-script" value="super"></button>
-                        <button class="ql-list" value="ordered"></button>
-                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-bold" data-bs-toggle="tooltip" title="Bold"></button>
+                        <button class="ql-italic" data-bs-toggle="tooltip" title="Italic"></button>
+                        <button class="ql-underline" data-bs-toggle="tooltip" title="Underline"></button>
+                        <button class="ql-script" value="sub" data-bs-toggle="tooltip" title="Subscript"></button>
+                        <button class="ql-script" value="super" data-bs-toggle="tooltip" title="Superscript"></button>
+                        <button class="ql-list" value="ordered" data-bs-toggle="tooltip" title="Ordered"></button>
+                        <button class="ql-list" value="bullet" data-bs-toggle="tooltip" title="Bullet"></button>
                         <button class="ql-image"></button>
-                        <button id="custom-buttonoption1">+</button>
+                        <!-- <button id="custom-buttonoption1">+</button> -->
                         <label class="checkbox-containeroption3">
                           <input type="checkbox" class="quill-checkbox" id="checkbox-option3">
                           <span class="checkmark"></span>
@@ -419,15 +398,15 @@
                         <!-- <input type="text" id="option1" class="optinp"> -->
                       </div>
                       <div id="toolbaroption4">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-script" value="sub"></button>
-                        <button class="ql-script" value="super"></button>
-                        <button class="ql-list" value="ordered"></button>
-                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-bold" data-bs-toggle="tooltip" title="Bold"></button>
+                        <button class="ql-italic" data-bs-toggle="tooltip" title="Italic"></button>
+                        <button class="ql-underline" data-bs-toggle="tooltip" title="Underline"></button>
+                        <button class="ql-script" value="sub" data-bs-toggle="tooltip" title="Subscript"></button>
+                        <button class="ql-script" value="super" data-bs-toggle="tooltip" title="Superscript"></button>
+                        <button class="ql-list" value="ordered" data-bs-toggle="tooltip" title="Ordered"></button>
+                        <button class="ql-list" value="bullet" data-bs-toggle="tooltip" title="Bullet"></button>
                         <button class="ql-image"></button>
-                        <button id="custom-buttonoption1">+</button>
+                        <!-- <button id="custom-buttonoption1">+</button> -->
                         <label class="checkbox-containeroption4">
                           <input type="checkbox" class="quill-checkbox" id="checkbox-option4">
                           <span class="checkmark"></span>
@@ -470,11 +449,12 @@
               </div>
               <div>
                 <button type="button" class="btn btn-success generatebut" id="generatebtn">Generate</button>
+                <h6 id="errormsg"></h6>
                 <div id="dispgenvar" class="d-flex flex-row flex-wrap"></div>
                 <div id="dispgenvar2" class="dispgenvar2"></div>
               </div>
-              <div class="d-flex flex-row justify-content-between" id="questionbank">
-                <button type="button" class="ml-2 btn btn-success btmsave" id="save">Save</button>
+              <div id="questionbank">
+                <button type="button" class="btn btn-success btmsave" id="save">Save</button>
                 <a id="show" class="mr-2"> <button type="button" class="btn btn-success btmshow" id="show">Question Bank</button></a>
               </div>
               <div id="questionsaved"></div>

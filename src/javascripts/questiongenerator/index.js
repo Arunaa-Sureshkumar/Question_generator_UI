@@ -1268,6 +1268,19 @@ function changesolnvar(id, lcm) {
 const generatebtn = document.getElementById('generatebtn');
 const dispgenvar = document.getElementById('dispgenvar');
 generatebtn.addEventListener('click', () => {
+  console.log(checkedValuesPerEditor);
+  if (Object.keys(checkedValuesPerEditor).length == 0) {
+    const errormsg = document.getElementById("errormsg");
+    errormsg.innerText = "Add the correct option";
+  } else {
+    const errormsg = document.getElementById("errormsg");
+    errormsg.innerText = '';
+    const dispgenvar = document.getElementById('dispgenvar');
+    const dispgenvar2 = document.getElementById('dispgenvar2');
+    dispgenvar.innerHTML = '';
+    dispgenvar2.innerHTML = '';
+    generatevariabledisplay("create");
+  }
   // const defProperties = Object.keys(changevariables).filter((key) => key.startsWith('dvar'));
 
   // const defObject = {};
@@ -1277,11 +1290,6 @@ generatebtn.addEventListener('click', () => {
   // });
   // console.log('defarray', defObject);
   // const len = Object.keys(defObject).length;
-  const dispgenvar = document.getElementById('dispgenvar');
-  const dispgenvar2 = document.getElementById('dispgenvar2');
-  dispgenvar.innerHTML = '';
-  dispgenvar2.innerHTML = '';
-  generatevariabledisplay("create");
 });
 let loopnum;
 const changed = {};

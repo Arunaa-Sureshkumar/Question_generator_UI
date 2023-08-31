@@ -1574,15 +1574,24 @@ table {
 
 .difficultylabel {
   display: block;
-  margin: 0 0 0 30px;
+  margin: 5px; 
 }
 
 .difficultyinput {
   margin-right: 5px;
 }
 
-.difficultyform {
-  justify-content: space-evenly;
+.difficultylabel-container{
+  margin: 0 0 0 30px;
+  border: 1px solid #ced4da; /* Add the desired border styles */
+  padding: 5px; /* Add padding to create space around the text */
+  display: inline-block;
+  width: 100vw;
+  justify-content: space-around;
+  border-radius: 0.25rem;
+}
+.difficultydiv {
+  margin: 20px 0 10px 0;
 }
 
 .metadata {
@@ -1612,6 +1621,10 @@ table {
 
 .subtopicclass {
   width: max-content;
+}
+
+.subtopic {
+  margin-left: 20px;
 }
 // #dee2e6
 #editorvalue .content-added {
@@ -1678,10 +1691,10 @@ table {
 #alloptionvar1,
 #optionfunc,
 #addoptionsbut,
-#generatebtn,
-#save {
+#generatebtn {
   margin: 20px;
-  width: 100px;
+  margin-left: 0;
+  width: 140px;
 }
 
 .optactions {
@@ -1692,3 +1705,35 @@ table {
 #alloptionvarinnerdiv {
   width: 500px;
 }
+
+#save {
+  // margin: 20px;
+  margin-left: 0;
+  width: 140px;
+}
+
+#show {
+  width: 140px;
+  float: right;
+}
+
+.difficulty {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+// #toolbar button[title]::after {
+//   content: attr(title);
+//   position: absolute;
+//   visibility: hidden;
+//   background-color: rgba(0, 0, 0, 0.8);
+//   color: white;
+//   padding: 5px;
+//   border-radius: 4px;
+//   font-size: 12px;
+//   z-index: 1;
+// }
+
+// #toolbar button:hover[title]::after {
+//   visibility: visible;
+// }
