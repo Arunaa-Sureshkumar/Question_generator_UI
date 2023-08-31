@@ -1502,7 +1502,19 @@ function generatevariabledisplay(act) {
       const newoptionvalues = { ...optionvalues, ...optiondb };
       // console.log(newoptionvalues);
       console.log("changevariables", changevariables);
+      lcmcheckedvariable = lcmdbarray.concat(lcmcheckedvariable);
       addcheckedvariable = adddbarray.concat(addcheckedvariable);
+      subcheckedvariable = subdbarray.concat(subcheckedvariable);
+      mulcheckedvariable = muldbarray.concat(mulcheckedvariable);
+      divcheckedvariable = divdbarray.concat(divcheckedvariable);
+      sqcheckedvariable = sqdbarray.concat(sqcheckedvariable);
+      sqrootcheckedvariable = sqrootdbarray.concat(sqrootcheckedvariable);
+      cubecheckedvariable = cubedbarray.concat(cubecheckedvariable);
+      factcheckedvariable = factdbarray.concat(factcheckedvariable);
+      diffcheckedvariable = diffdbarray.concat(diffcheckedvariable);
+      percheckedvariable = perdbarray.concat(percheckedvariable);
+      logcheckedvariable = logdbarray.concat(logcheckedvariable);
+      factcheckedvariable = fracdbarray.concat(fraccheckedvariable);
       genbutfunction("create", newoptionvalues, optionvariables, changevariables, constantvariables, changed, lcmcheckedvariable, addcheckedvariable, subcheckedvariable, mulcheckedvariable, divcheckedvariable, sqcheckedvariable, sqrootcheckedvariable, cubecheckedvariable, curootcheckedvariable, factcheckedvariable, diffcheckedvariable, percheckedvariable, logcheckedvariable, fraccheckedvariable);
     });
   }
